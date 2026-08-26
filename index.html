@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAKYIM PAYROLL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#132A3A;
+  --ink-2:#1c3a4f;
+  --paper:#F5F2EA;
+  --paper-2:#ffffff;
+  --gold:#D9A441;
+  --gold-dark:#B9832A;
+  --green:#3F7A5C;
+  --green-bg:#E7F1EA;
+  --red:#B8452F;
+  --red-bg:#FBEAE5;
+  --line:#DCD5C4;
+  --text:#232323;
+  --muted:#6b6558;
+  --radius:10px;
+  --shadow: 0 2px 10px rgba(19,42,58,0.08);
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.display{font-family:'Fraunces',serif;}
+.mono{font-family:'IBM Plex Mono',monospace;}
+button{font-family:inherit;cursor:pointer;}
+input,select{font-family:inherit;}
+
+.app{display:flex;min-height:100vh;}
+
+/* ---------- Sidebar ---------- */
+.sidebar{
+  width:236px;flex:0 0 236px;
+  background:var(--ink);
+  color:#EDEBE3;
+  display:flex;flex-direction:column;
+  padding:22px 16px;
+  position:sticky;top:0;height:100vh;
+}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:6px;padding:0 4px;}
+.brand-mark{
+  width:34px;height:34px;border-radius:8px;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-weight:700;color:var(--ink);font-size:17px;
+  flex:0 0 auto;
+}
+.brand-text{line-height:1.15;}
+.brand-text .t1{font-family:'Fraunces',serif;font-weight:600;font-size:16.5px;letter-spacing:.2px;}
+.brand-text .t2{font-size:10.5px;color:#A9B7C1;letter-spacing:1.4px;text-transform:uppercase;}
+.sidebar-sub{font-size:11px;color:#8FA0AC;margin:14px 4px 8px;text-transform:uppercase;letter-spacing:1.1px;}
+.lang-switch{display:flex;gap:4px;margin:4px 4px 2px;background:rgba(255,255,255,0.06);border-radius:8px;padding:3px;}
+.lang-btn{flex:1;border:none;background:transparent;color:#A9B7C1;font-size:12px;font-weight:600;padding:6px 0;border-radius:6px;}
+.lang-btn.active{background:var(--gold);color:var(--ink);}
+.lang-btn:hover:not(.active){background:rgba(255,255,255,0.08);color:#fff;}
+
+.branch-picker{display:flex;flex-direction:column;gap:4px;margin-bottom:8px;}
+.branch-chip{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:9px 10px;border-radius:8px;border:1px solid transparent;
+  color:#D7DEE3;font-size:13.5px;font-weight:500;
+  background:transparent;text-align:left;
+}
+.branch-chip:hover{background:rgba(255,255,255,0.06);}
+.branch-chip.active{background:rgba(217,164,65,0.16);border-color:rgba(217,164,65,0.5);color:#fff;}
+.branch-chip .dot{width:7px;height:7px;border-radius:50%;background:#5C7080;flex:0 0 auto;}
+.branch-chip.active .dot{background:var(--gold);}
+.branch-chip .cnt{font-size:11px;color:#8FA0AC;font-family:'IBM Plex Mono',monospace;}
+
+.nav{display:flex;flex-direction:column;gap:2px;margin-top:6px;}
+.nav-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 10px;border-radius:8px;border:none;background:transparent;
+  color:#C7D0D6;font-size:14px;font-weight:500;text-align:left;width:100%;
+}
+.nav-btn:hover{background:rgba(255,255,255,0.06);color:#fff;}
+.nav-btn.active{background:#fff;color:var(--ink);}
+.nav-btn .ic{width:18px;text-align:center;flex:0 0 auto;font-size:15px;}
+
+.sidebar-foot{margin-top:auto;padding:10px 4px 0;font-size:11px;color:#748792;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px;}
+
+/* ---------- Main ---------- */
+main{flex:1;min-width:0;padding:26px 34px 60px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:22px;}
+.view-title{font-size:24px;font-weight:600;letter-spacing:-.2px;}
+.view-sub{color:var(--muted);font-size:13.5px;margin-top:2px;}
+
+.month-picker{display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:9px;padding:5px 6px;box-shadow:var(--shadow);}
+.month-picker button{border:none;background:transparent;width:26px;height:26px;border-radius:6px;color:var(--ink);font-size:14px;}
+.month-picker button:hover{background:var(--paper);}
+.month-picker select{border:none;background:transparent;font-weight:600;font-size:14px;color:var(--ink);padding:2px 4px;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:26px;}
+.card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);}
+.card .k{font-size:11.5px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600;}
+.card .v{font-family:'Fraunces',serif;font-size:26px;font-weight:600;margin-top:6px;color:var(--ink);}
+.card .v.pos{color:var(--green);}
+.card .v.neg{color:var(--red);}
+.card .foot{font-size:12px;color:var(--muted);margin-top:4px;}
+
+.section{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:20px;overflow:hidden;}
+.section-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);gap:10px;flex-wrap:wrap;}
+.section-head h3{margin:0;font-size:15.5px;font-weight:600;}
+.section-body{padding:16px 18px;}
+
+.btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:8px;border:1px solid var(--line);
+  background:var(--paper-2);color:var(--ink);font-size:13px;font-weight:600;
+  transition:background .12s;
+}
+.btn:hover{background:var(--paper);}
+.btn.primary{background:var(--ink);border-color:var(--ink);color:#fff;}
+.btn.primary:hover{background:var(--ink-2);}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--ink);}
+.btn.gold:hover{background:var(--gold-dark);}
+.btn.sm{padding:5px 10px;font-size:12px;}
+.btn.danger{color:var(--red);border-color:#E7C9C0;}
+.btn.danger:hover{background:var(--red-bg);}
+
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{
+  text-align:left;font-size:10.8px;text-transform:uppercase;letter-spacing:.5px;
+  color:var(--muted);font-weight:700;padding:8px 8px;border-bottom:2px solid var(--line);
+  white-space:nowrap;position:sticky;top:0;background:var(--paper-2);
+}
+td{padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+tr.total-row td{font-weight:700;background:var(--paper);border-top:2px solid var(--ink);}
+.tbl-wrap{overflow-x:auto;}
+.num{text-align:right;font-family:'IBM Plex Mono',monospace;}
+.cell-input{
+  width:78px;padding:5px 6px;border:1px solid var(--line);border-radius:6px;
+  text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12.5px;background:#fff;
+}
+.cell-input:focus{outline:2px solid var(--gold);outline-offset:1px;border-color:var(--gold);}
+.cell-input.readonly{background:var(--paper);color:var(--muted);border-color:transparent;}
+.name-cell{font-weight:600;color:var(--ink);}
+.pos-cell{color:var(--muted);font-size:12px;}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;}
+.tag.ok{background:var(--green-bg);color:var(--green);}
+.tag.warn{background:#FCF2DC;color:var(--gold-dark);}
+.tag.bad{background:var(--red-bg);color:var(--red);}
+.tag.muted{background:var(--paper);color:var(--muted);}
+
+.branch-pill{display:inline-block;padding:2px 9px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.3px;}
+.branch-pill.Lite{background:#E4EEF3;color:#2A5E77;}
+.branch-pill.TMP{background:#EFE7F5;color:#6A4C93;}
+.branch-pill.YYKJ{background:#F5EBDD;color:#8A5A20;}
+
+.alert-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+.alert-row:last-child{border-bottom:none;}
+.alert-row .ic{font-size:16px;flex:0 0 auto;}
+.alert-row .txt{font-size:13px;}
+.alert-row .txt b{color:var(--ink);}
+.alert-row .txt span{color:var(--muted);font-size:12px;}
+.empty-state{padding:34px 18px;text-align:center;color:var(--muted);font-size:13.5px;}
+.empty-state .big{font-size:30px;margin-bottom:8px;}
+
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(19,42,58,0.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 20px;z-index:50;overflow:auto;}
+.modal{background:#fff;border-radius:14px;max-width:640px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);}
+.modal-head h3{margin:0;font-size:17px;}
+.modal-close{border:none;background:var(--paper);width:28px;height:28px;border-radius:50%;font-size:15px;color:var(--muted);}
+.modal-body{padding:20px 22px;max-height:70vh;overflow:auto;}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--line);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 14px;}
+.form-grid.full{grid-template-columns:1fr;}
+.field label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+.field input,.field select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:7px;font-size:13.5px;background:#fff;}
+.field input:focus,.field select:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold);}
+
+/* payslip */
+.payslip{background:#fff;border:1px solid var(--line);border-radius:12px;padding:30px 34px;max-width:640px;margin:0 auto;}
+.payslip-top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:16px;}
+.payslip-top h2{margin:0;font-size:20px;}
+.payslip-top .sub{color:var(--muted);font-size:12.5px;margin-top:3px;}
+.payslip-meta{text-align:right;font-size:12.5px;color:var(--muted);}
+.payslip-meta b{color:var(--ink);font-size:14px;}
+.payslip-emp{display:flex;justify-content:space-between;margin-bottom:18px;font-size:13px;}
+.payslip-emp div span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.4px;}
+.payslip-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.payslip-cols h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.6px;margin:0 0 8px;padding-bottom:6px;border-bottom:1px solid var(--line);}
+.payslip-cols.income h4{color:var(--green);}
+.payslip-cols.deduct h4{color:var(--red);}
+.pl-row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;}
+.pl-row span:last-child{font-family:'IBM Plex Mono',monospace;}
+.pl-row.sum{border-top:1px solid var(--line);margin-top:6px;padding-top:8px;font-weight:700;}
+.payslip-net{margin-top:20px;background:var(--ink);color:#fff;border-radius:10px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;}
+.payslip-net .l{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#B8C4CC;}
+.payslip-net .n{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:var(--gold);}
+.payslip-sign{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:34px;}
+.payslip-sign .line{border-top:1px solid var(--muted);margin-top:34px;padding-top:6px;font-size:11.5px;color:var(--muted);text-align:center;}
+
+@media print{
+  .sidebar,.topbar,.no-print{display:none !important;}
+  main{padding:0;}
+  body{background:#fff;}
+  .payslip{border:none;max-width:100%;}
+}
+
+.toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,0.25);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:100;}
+.toast.show{opacity:1;transform:translateY(0);}
+
+select.branch-select-inline{border:1px solid var(--line);border-radius:7px;padding:6px 10px;font-size:13px;font-weight:600;background:#fff;}
+
+.settings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;}
+.rate-field{margin-bottom:10px;}
+.rate-field label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
+.rate-field input{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:7px;font-family:'IBM Plex Mono',monospace;}
+
+.search-box{display:flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:#fff;}
+.search-box input{border:none;outline:none;font-size:13px;width:180px;}
+
+.adv-link{border:none;background:none;color:var(--ink);text-decoration:underline;font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:0;cursor:pointer;}
+.adv-link:hover{color:var(--gold-dark);}
+.adv-table{width:100%;border-collapse:collapse;margin-top:4px;}
+.adv-table th{font-size:10.5px;position:static;background:none;border-bottom:1px solid var(--line);}
+.adv-table td{padding:8px 6px;}
+.adv-table input[type=date]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-size:12.5px;}
+.adv-table input[type=number]{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:6px;font-family:'IBM Plex Mono',monospace;text-align:right;font-size:12.5px;}
+.adv-total-row{font-weight:700;border-top:2px solid var(--ink);}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div id="toast" class="toast"></div>
+<script id="app-data" type="application/json">{"employees": [{"id": "E001", "branch": "Lite", "name": "Hein Htet Zar (Heng)", "position": "Kitchen Helper", "status": "active", "resignMonth": null, "baseSalary": 1900.0, "allowance": 0.0, "profile": null}, {"id": "E002", "branch": "Lite", "name": "Khai Sain Mang (khai)", "position": "Waiter", "status": "active", "resignMonth": null, "baseSalary": 1800.0, "allowance": 0.0, "profile": {"nickname": "Khai", "passportNo": "MI224074", "dob": "1997-06-20", "startDate": "2025-10-23", "lengthOfService": "0 Year 10 Month", "passportExpiry": "2028-11-14", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2026-02-04", "vaccineExpiry": "2029-02-04", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 140952183310.0, "bankName": "T&G"}}, {"id": "E003", "branch": "Lite", "name": "Natthaphong Aiamsaart (Markky)", "position": "Kitchen Helper", "status": "active", "resignMonth": null, "baseSalary": 1700.0, "allowance": 0.0, "profile": {"nickname": "Markky", "passportNo": "AD3197151", "dob": "2000-01-23", "startDate": "2026-04-11", "lengthOfService": "0 Year 4 Month", "passportExpiry": "2026-08-03", "passportStatus": "Expired", "visaExpiry": "2026-11-04", "visaStatus": "Monitor (<90 Days)", "vaccinationDate": "ok", "vaccineExpiry": "ok", "vaccinationStatus": "#VALUE!", "foodCourse": "✅ ", "bankAccount": 121978649465.0, "bankName": "T&G"}}, {"id": "E004", "branch": "Lite", "name": "Kwanjai Pinthasoot", "position": "Head Chef", "status": "ลาออก (Resigned)", "resignMonth": "Jun", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E005", "branch": "Lite", "name": "Tanyaphon Chinsee", "position": "Chef Assistant", "status": "ลาออก (Resigned)", "resignMonth": "Jun", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E006", "branch": "Lite", "name": "Aung Paing Soe (Alex)", "position": "Waiter", "status": "active", "resignMonth": null, "baseSalary": 1700.0, "allowance": 0.0, "profile": {"nickname": "Alex", "passportNo": "M1471789", "dob": "2004-06-16", "startDate": "2026-05-15", "lengthOfService": "0 Year 3 Month", "passportExpiry": "2029-06-06", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": 140544300799.0, "bankName": "T&G"}}, {"id": "E007", "branch": "Lite", "name": "Komsak Saeaung (P Sak)", "position": "Kitchen Helper", "status": "active", "resignMonth": null, "baseSalary": 2800.0, "allowance": 0.0, "profile": {"nickname": "Sak", "passportNo": "AD2449485", "dob": "1978-04-05", "startDate": "2026-06-30", "lengthOfService": "0 Year 1 Month", "passportExpiry": "2030-10-05", "passportStatus": "✅ Normal", "visaExpiry": "2026-09-18", "visaStatus": "Expiring Soon (<30 Days)", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": 170032474506.0, "bankName": "T&G"}}, {"id": "E008", "branch": "TMP", "name": "Nittaya Maungsri (Mai)", "position": "Cashier", "status": "Active", "resignMonth": null, "baseSalary": 2800.0, "allowance": 0.0, "profile": {"nickname": "Mai", "passportNo": "AC5948202", "dob": "1994-12-29", "startDate": "2023-11-06", "lengthOfService": "2 Year 9 Month", "passportExpiry": "2029-12-08", "passportStatus": "✅ Normal", "visaExpiry": "2026-11-15", "visaStatus": "Monitor (<90 Days)", "vaccinationDate": "2024-07-01", "vaccineExpiry": "2027-07-01", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 1050655087.0, "bankName": "HLB"}}, {"id": "E009", "branch": "TMP", "name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "status": "Active", "resignMonth": null, "baseSalary": 2000.0, "allowance": 0.0, "profile": {"nickname": "Kan", "passportNo": "AC7234249", "dob": "1983-09-19", "startDate": "2023-02-02", "lengthOfService": "3 Year 6 Month", "passportExpiry": "2029-12-08", "passportStatus": "✅ Normal", "visaExpiry": "2026-12-02", "visaStatus": "Normal", "vaccinationDate": "2026-04-06", "vaccineExpiry": "2029-04-06", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 131665690576.0, "bankName": "T&G"}}, {"id": "E010", "branch": "TMP", "name": "Molchai Bunchim (Moon)", "position": "Head Chef", "status": "Active", "resignMonth": null, "baseSalary": 4000.0, "allowance": 0.0, "profile": {"nickname": "Moon", "passportNo": "AC5695454", "dob": "1980-11-08", "startDate": "2023-09-22", "lengthOfService": "2 Year 11 Month", "passportExpiry": "2028-09-12", "passportStatus": "✅ Normal", "visaExpiry": "2026-12-19", "visaStatus": "Normal", "vaccinationDate": "2026-04-05", "vaccineExpiry": "2029-04-05", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 181597269243.0, "bankName": "T&G"}}, {"id": "E011", "branch": "TMP", "name": "Aung Zaw Myo (Song)", "position": "Waiter", "status": "Active", "resignMonth": null, "baseSalary": 1500.0, "allowance": 0.0, "profile": {"nickname": "Song", "passportNo": "NLD/OCI/MLS25-37776", "dob": "2002-12-12", "startDate": "2025-10-14", "lengthOfService": "0 Year 10 Month", "passportExpiry": null, "passportStatus": "—", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2025-11-10", "vaccineExpiry": "2028-11-10", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E012", "branch": "TMP", "name": "Pwint zar chi win (Puye)", "position": "Waitress", "status": "Active", "resignMonth": null, "baseSalary": 1600.0, "allowance": 0.0, "profile": {"nickname": "Puye", "passportNo": "MI774152", "dob": "2003-07-22", "startDate": "2024-06-01", "lengthOfService": "2 Year 2 Month", "passportExpiry": "2029-06-10", "passportStatus": "✅ Normal", "visaExpiry": "2029-03-10", "visaStatus": "Normal", "vaccinationDate": "2024-08-19", "vaccineExpiry": "2027-08-19", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E013", "branch": "TMP", "name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "status": "Active", "resignMonth": null, "baseSalary": 2800.0, "allowance": 0.0, "profile": {"nickname": "Aum", "passportNo": "AD3309897", "dob": "1993-07-10", "startDate": "2026-03-25", "lengthOfService": "0 Year 5 Month", "passportExpiry": "2031-03-15", "passportStatus": "✅ Normal", "visaExpiry": "2026-09-24", "visaStatus": "Expiring Soon (<30 Days)", "vaccinationDate": "2026-04-02", "vaccineExpiry": "2029-04-02", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 130311541935.0, "bankName": "T&G"}}, {"id": "E014", "branch": "TMP", "name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 2000.0, "allowance": 0.0, "profile": {"nickname": "Cherry", "passportNo": "AD2745844", "dob": "1978-10-23", "startDate": "2026-03-25", "lengthOfService": "0 Year 5 Month", "passportExpiry": "2031-03-15", "passportStatus": "✅ Normal", "visaExpiry": "2026-09-24", "visaStatus": "Expiring Soon (<30 Days)", "vaccinationDate": "2026-04-02", "vaccineExpiry": "2029-04-02", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": 121510016125.0, "bankName": "T&G"}}, {"id": "E015", "branch": "TMP", "name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 1800.0, "allowance": 0.0, "profile": {"nickname": "Naiing", "passportNo": "ME230611", "dob": "1992-06-03", "startDate": "2025-12-07", "lengthOfService": "0 Year 8 Month", "passportExpiry": null, "passportStatus": "—", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2024-01-15", "vaccineExpiry": "2027-01-15", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E016", "branch": "TMP", "name": "AungThan Oo (Aong)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E017", "branch": "TMP", "name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 1500.0, "allowance": 0.0, "profile": {"nickname": "Ma mo chey", "passportNo": "25/ARK/002089", "dob": "2006-10-08", "startDate": "2025-06-10", "lengthOfService": "1 Year 2 Month", "passportExpiry": null, "passportStatus": "—", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2026-04-15", "vaccineExpiry": "2029-04-15", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E018", "branch": "TMP", "name": "Than Hlaing", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E019", "branch": "TMP", "name": "Panthazin", "position": "Waitress", "status": "ลาออก (Resigned)", "resignMonth": "Jul", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E020", "branch": "TMP", "name": "Moe malar Aung", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 1500.0, "allowance": 0.0, "profile": {"nickname": "Mala", "passportNo": "MK608989", "dob": "2026-09-20", "startDate": "2026-07-01", "lengthOfService": "0 Year 1 Month", "passportExpiry": "2030-12-16", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": null, "bankName": null}}, {"id": "E021", "branch": "TMP", "name": "Zin min Naing", "position": "Waiter", "status": "Active", "resignMonth": null, "baseSalary": 1500.0, "allowance": 0.0, "profile": {"nickname": "Zei zei", "passportNo": "​RM02V03-25-903B92C", "dob": "2005-11-15", "startDate": "2026-06-05", "lengthOfService": "0 Year 2 Month", "passportExpiry": null, "passportStatus": "—", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": null, "bankName": null}}, {"id": "E022", "branch": "TMP", "name": "Mi Aye Myint", "position": "Part Time", "status": "Active", "resignMonth": null, "baseSalary": 0.0, "allowance": 0.0, "profile": {"nickname": "Cham", "passportNo": "MH026420", "dob": "2004-04-04", "startDate": "2026-05-16", "lengthOfService": "0 Year 3 Month", "passportExpiry": "2027-12-26", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2025-06-09", "vaccineExpiry": "2028-06-09", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E023", "branch": "YYKJ", "name": "Wanthana Sutthison (Mork)", "position": "Head Chef", "status": "Active", "resignMonth": null, "baseSalary": 3500.0, "allowance": 0.0, "profile": {"nickname": "Mork", "passportNo": "AD2136377", "dob": "1997-06-29", "startDate": "2025-05-18", "lengthOfService": "1 Year 3 Month", "passportExpiry": "2030-04-22", "passportStatus": "✅ Normal", "visaExpiry": "2027-01-15", "visaStatus": "Normal", "vaccinationDate": "2026-02-04", "vaccineExpiry": "2029-02-04", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E024", "branch": "YYKJ", "name": "Mi Win Thet Khaing (Winn)", "position": "Waitress", "status": "Active", "resignMonth": null, "baseSalary": 1800.0, "allowance": 0.0, "profile": {"nickname": "Win", "passportNo": "MH063205", "dob": "2002-07-17", "startDate": "2026-05-16", "lengthOfService": "0 Year 3 Month", "passportExpiry": "2028-03-05", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2023-08-30", "vaccineExpiry": "2026-08-29", "vaccinationStatus": "Expiring soon (<30 Days)", "foodCourse": "✅ ", "bankAccount": 100797477556.0, "bankName": "T&G"}}, {"id": "E025", "branch": "YYKJ", "name": "Mi Aie Htaw (Aie)", "position": "Waitress", "status": "Active", "resignMonth": null, "baseSalary": 2000.0, "allowance": 0.0, "profile": {"nickname": "Eye", "passportNo": "MH329389", "dob": "1998-07-12", "startDate": "2026-05-16", "lengthOfService": "0 Year 3 Month", "passportExpiry": "2028-04-26", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2025-06-09", "vaccineExpiry": "2028-06-09", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E026", "branch": "YYKJ", "name": "Mi Aye Myint (Cham)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 1800.0, "allowance": 0.0, "profile": {"nickname": "Cham", "passportNo": "MH026420", "dob": "2004-04-04", "startDate": "2026-05-16", "lengthOfService": "0 Year 3 Month", "passportExpiry": "2027-12-26", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": "2025-06-09", "vaccineExpiry": "2028-06-09", "vaccinationStatus": "Normal", "foodCourse": "✅ ", "bankAccount": null, "bankName": null}}, {"id": "E027", "branch": "YYKJ", "name": "Kittiphat Takhiew (P Jiap)", "position": "Kitchen Helper", "status": "Active", "resignMonth": "Jul", "baseSalary": 2500.0, "allowance": 0.0, "profile": {"nickname": "Jeab", "passportNo": "AD3481148", "dob": "1979-02-07", "startDate": "2026-07-16", "lengthOfService": "0 Year 1 Month", "passportExpiry": "2031-05-17", "passportStatus": "✅ Normal", "visaExpiry": "2026-10-02", "visaStatus": "Monitor (<90 Days)", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": null, "bankName": null}}, {"id": "E028", "branch": "YYKJ", "name": "Kawinthep Butchan (Don)", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E029", "branch": "YYKJ", "name": "Hlaing (Ta Lai)", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul", "baseSalary": 0, "allowance": 0, "profile": null}, {"id": "E030", "branch": "YYKJ", "name": "Natthaphong Aiamsaart (Markky)", "position": "Kitchen Helper", "status": "active", "resignMonth": null, "baseSalary": 0, "allowance": 0, "profile": {"nickname": "Markky", "passportNo": "AD3197151", "dob": "2000-01-23", "startDate": "2026-04-11", "lengthOfService": "0 Year 4 Month", "passportExpiry": "2026-08-03", "passportStatus": "Expired", "visaExpiry": "2026-11-04", "visaStatus": "Monitor (<90 Days)", "vaccinationDate": "ok", "vaccineExpiry": "ok", "vaccinationStatus": "#VALUE!", "foodCourse": "✅ ", "bankAccount": 121978649465.0, "bankName": "T&G"}}, {"id": "E031", "branch": "YYKJ", "name": "Nai Wi Khit (Wei Wei)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null, "baseSalary": 2300.0, "allowance": 0.0, "profile": {"nickname": "Wei Wei", "passportNo": 41329.0, "dob": "1987-10-05", "startDate": "2026-07-31", "lengthOfService": "0 Year 0 Month", "passportExpiry": "2027-05-15", "passportStatus": "✅ Normal", "visaExpiry": null, "visaStatus": "—", "vaccinationDate": null, "vaccineExpiry": null, "vaccinationStatus": "—", "foodCourse": null, "bankAccount": null, "bankName": null}}], "rates": {"Lite": {"otRateHr": 8, "otRateDay": 0, "scRate": 5, "lateRate": 5}, "TMP": {"otRateHr": 8, "otRateDay": 0, "scRate": 5, "lateRate": 5}, "YYKJ": {"otRateHr": 8, "otRateDay": 0, "scRate": 5, "lateRate": 5}}, "seedMonth": {"Lite": "Aug", "TMP": "Jul", "YYKJ": "Aug"}, "seedRows": {"Lite": [{"name": "Hein Htet Zar (Heng)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 200.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Khai Sain Mang (khai)", "position": "Waiter", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Natthaphong Aiamsaart (Markky)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1700.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 1.0, "staffCardTimes": 6.0, "lateMinutes": 0.0, "advance": 348.0, "visaFee": 90.0, "loan": 500.0, "epfSocso": 0.0}, {"name": "Aung Paing Soe (Alex)", "position": "Waiter", "allowance": 0.0, "baseSalary": 1700.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 2.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 400.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Komsak Saeaung (P Sak)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 1541.2, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}], "TMP": [{"name": "Nittaya Maungsri (Mai)", "position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 4.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 700.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 95.4}, {"name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 2.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 200.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 68.1}, {"name": "Molchai Bunchim (Moon)", "position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 3.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 2400.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 134.4}, {"name": "Aung Zaw Myo (Song)", "position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Pwint zar chi win (Puye)", "position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 3.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 500.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 94.1}, {"name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 1.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 900.0, "visaFee": 210.0, "loan": 149.0, "epfSocso": 68.1}, {"name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 2.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Aung Than Oo (Aong)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 2.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 50.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otDays": 0.0, "commission": 280.0, "leaveDays": 0.0, "staffCardTimes": 1.0, "lateMinutes": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Moe malar Aung (Mala)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Zin min Naing (Zei Zei)", "position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Mi Aye Myint (Cham)", "position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 8.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}], "YYKJ": [{"name": "Wanthana Sutthison (Mork)", "position": "Head Chef", "allowance": 0.0, "baseSalary": 3500.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 1600.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Mi Win Thet Khaing (Winn)", "position": "Waitress", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Mi Aie Htaw (Aie)", "position": "Waitress", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Mi Aye Myint (Cham)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Kittiphat Takhiew (P Jiap)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2500.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 900.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}, {"name": "Nai Wi Khit (Wei Wei)", "position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2300.0, "otHours": 0.0, "otDays": 0.0, "commission": 0.0, "leaveDays": 0.0, "staffCardTimes": 0.0, "lateMinutes": 0.0, "advance": 600.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0}]}, "advSeed": {"Lite": {"hein htet zar": [0, 200.0, 0, 0, 0], "khai sain mang": [0, 0, 0, 0, 0], "natthaphong aiamsaart": [248.0, 0, 100.0, 0, 0], "aung paing soe": [0, 0, 200.0, 200.0, 0], "komsak saeaung": [100.0, 480.4, 480.4, 480.4, 0]}, "TMP": {"nittaya maungsri": [0, 0, 400.0, 200.0, 100.0], "kannaphat sroemsombun": [0, 0, 0, 0, 200.0], "molchai bunchim": [200.0, 100.0, 2000.0, 50.0, 50.0], "pwint zar chi win": [0, 300.0, 0, 0, 0], "kyaw soe naing": [100.0, 0, 0, 100.0, 100.0], "aung than oo": [0, 0, 0, 0, 50.0], "aye naing": [200.0, 0, 0, 50.0, 100.0], "aung zaw myo": [0, 0, 0, 0, 0], "thongchai pattakhan": [200.0, 200.0, 0, 0, 100.0], "piyavadee pramote": [200.0, 200.0, 200.0, 200.0, 100.0], "zin min naing": [0, 0, 0, 0, 0], "moe malar aung": [0, 0, 0, 0, 0], "natthaphong aiamsaart": [0, 0, 0, 0, 0], "wanthana sutthison": [0, 0, 0, 0, 0], "mi win thet khaing": [0, 0, 0, 0, 0], "mi aie htaw": [0, 0, 0, 0, 0], "mi aye myint": [0, 0, 0, 0, 0], "kawinthep butchan": [0, 0, 0, 0, 0], "hein htet zaw": [0, 0, 0, 0, 0], "khai sain mang": [0, 0, 0, 0, 0], "aung paing soe": [0, 0, 0, 0, 0], "komsak saeaung": [0, 0, 0, 0, 0], "kittiphat takhiew": [0, 0, 0, 0, 0]}, "YYKJ": {"kittiphat takhiew": [500.0, 200.0, 200.0, 0, 0], "wanthana sutthison": [1000.0, 600.0, 0, 0, 0], "mi win thet khaing": [0, 0, 0, 0, 0], "mi aie htaw": [0, 0, 0, 0, 0], "mi aye myint": [0, 0, 0, 0, 0], "nai wi khit": [200.0, 200.0, 200.0, 0, 0]}}}</script>
+<script>
+/* ===================== YAKYIM PAYROLL WEB APP ===================== */
+
+const SEED = JSON.parse(document.getElementById('app-data').textContent);
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const BRANCH_LABEL = {Lite:'Yakyim Lite', TMP:'Yakyim TMP', YYKJ:'Yakyim YYKJ'};
+const TODAY = new Date('2026-08-26T00:00:00');
+
+const EMPTY_ROW = {
+  allowance:0, baseSalary:0, otHours:0, otDays:0, commission:0,
+  leaveDays:0, staffCardTimes:0, lateMinutes:0,
+  advance:0, visaFee:0, loan:0, epfSocso:0
+};
+
+let state = {
+  branch: 'All',
+  view: 'dashboard',
+  month: SEED.seedMonth.TMP || 'Jul',
+  employees: [],
+  rates: {},
+  payroll: {}, // key `${branch}:${month}` -> {empId: row}
+  editingEmp: null,   // employee object being edited in modal, or 'new'
+  payslipEmpId: null,
+  staffSearch: '',
+  advanceModal: null,  // {branch, empId} or null
+  lang: 'en',
+  sync: { url:'', secret:'', enabled:false, lastSyncAt:null, status:'idle' } // Google Sheets real-time sync config
+};
+
+/* ---------------- i18n ---------------- */
+const I18N = {
+  en: {
+    brandSub: '2026 · Multi-branch',
+    branchLabel: 'Branch', menuLabel: 'Menu', allBranches: 'All branches',
+    dataSavedNote: 'Data is saved in this browser',
+    dataSavedLocalNote: 'Data is saved on this device only (browser local storage). Use Google Sheets sync in Settings to share across devices.',
+    nav_dashboard: 'Dashboard', nav_staff: 'Staff', nav_payroll: 'Payroll', nav_payslip: 'Payslip', nav_settings: 'Settings',
+    title_dashboard: 'Dashboard', sub_dashboard: 'Staff and payroll summary across all branches',
+    title_staff: 'Staff', sub_staff: 'Employee details, visa/passport status, and employment status',
+    title_payroll: 'Payroll', sub_payroll: 'Enter OT hours / leave / advances — NET pay is calculated automatically',
+    title_payslip: 'Payslip', sub_payslip: 'Select an employee to view and print their payslip',
+    title_settings: 'Settings', sub_settings: 'OT / Staff Card / Late rates per branch',
+    staffUnit: 'staff',
+    totalStaff: 'Total staff', totalIncome: 'Total income', totalDeductions: 'Total deductions', netPay: 'Net pay',
+    netPayFor: 'Net pay for', advanceVisaLoan: 'Advance / visa / loan combined', actualAmountToPay: 'Actual amount to pay out',
+    alertsTitle: '⚠ Visa / passport alerts', items: 'item(s)', noAlerts: 'No visas or passports expiring soon',
+    visaWorkPermit: 'Visa / work permit', passport: 'Passport',
+    expiredAgo: (n)=>`expired ${n} day(s) ago`, daysLeft: (n)=>`${n} day(s) left`,
+    employeeList: 'Employee list', searchPlaceholder: 'Search name / position', addEmployee: '+ Add employee',
+    col_name: 'Name', col_branch: 'Branch', col_position: 'Position', col_baseSalary: 'Base salary', col_status: 'Status', col_visa: 'Visa',
+    noEmployeesFound: 'No employees found',
+    resigned: 'Resigned', active: 'Active', visaExpired: 'Visa expired', expiringIn: (n)=>`Expiring in ${n}d`, ok: 'OK', noData: 'No data', edit: 'Edit',
+    addNewEmployee: 'Add new employee', editEmployee: 'Edit employee',
+    fullName: 'Full name', branch: 'Branch', position: 'Position', baseSalaryRM: 'Base salary (RM)', allowanceRM: 'Allowance (RM)',
+    status: 'Status', activeOpt: 'Active', resignedOpt: 'Resigned', resignMonth: 'Resign month', resignPlaceholder: 'e.g. Jun',
+    visaPassportSection: 'Visa / passport (Staff profile)',
+    nickname: 'Nickname', passportNo: 'Passport no.', passportExpiry: 'Passport expiry', visaExpiry: 'Visa / work permit expiry',
+    startDate: 'Start date', bankAccount: 'Bank / account no.', bankPlaceholder: 'Bank name / account number',
+    deleteEmployee: 'Delete employee', cancel: 'Cancel', save: 'Save',
+    pleaseEnterName: 'Please enter the employee name', employeeSaved: 'Employee saved', employeeDeleted: 'Employee deleted',
+    deleteConfirm: 'Delete this employee? This cannot be undone.',
+    payrollHeading: (b,m)=>`${b} — Payroll ${m} 2026`,
+    rateTag: (r)=>`OT/hr RM${r.otRateHr} · OT/day RM${r.otRateDay} · Staff Card RM${r.scRate} · Late RM${r.lateRate}/min`,
+    col_employee: 'Employee', col_allowance: 'Allowance', col_otHrs: 'OT (hrs)', col_otAmt: 'OT amt', col_otDays: 'OT (days)',
+    col_commission: 'Commission', col_totalIncome: 'Total income', col_leaveDays: 'Leave (days)', col_leaveAmt: 'Leave amt',
+    col_staffCard: 'Staff Card', col_scAmt: 'SC amt', col_lateMin: 'Late (min)', col_lateAmt: 'Late amt', col_advance: 'Advance',
+    col_visaFee: 'Visa fee', col_loan: 'Loan', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'Total deduct', col_net: 'NET',
+    noEmployeesInBranch: 'No employees in this branch', total: 'TOTAL', saved: 'Saved',
+    weeklyAdvanceTitle: (name)=>`Weekly advance — ${name}`, oneRowPerSunday: 'one row per Sunday of the month',
+    week: 'Week', date: 'Date', amountRM: 'Amount (RM)', totalAdvance: 'Total advance', advanceSaved: 'Advance saved', sun: 'Sun',
+    selectEmployee: 'Select employee', printPayslip: '🖨 Print payslip', noEmployees: 'No employees',
+    payslipLabel: 'Payslip', employeeLabel: 'Employee', positionLabel: 'Position', branchLabel: 'Branch',
+    income: 'Income', baseSalary: 'Base salary', allowance: 'Allowance', commissionService: 'Commission / Service charge',
+    totalIncomeLabel: 'Total income', deductions: 'Deductions', leaveLabel: (n)=>`Leave (${n} days)`,
+    staffCardLabel: (n)=>`Staff Card (${n}×)`, lateLabel: (n)=>`Late (${n} min)`, advanceLabel: 'Advance',
+    visaFeeLabel: 'Visa fee', loanLabel: 'Loan', epfSocsoLabel: 'EPF + Socso', totalDeductLabel: 'Total deductions',
+    netPayLabel: 'Net pay', employeeSignature: 'Employee signature', authorizedSignature: 'Authorized signature',
+    otRateHour: 'OT rate / hour (RM)', otRateDay: 'OT rate / day (RM)', scRateTime: 'Staff Card rate / time (RM)', lateRateMinute: 'Late rate / minute (RM)',
+    rateSaved: 'Rate saved',
+    noteFormulas: `Note on formulas — Leave deduction = base salary ÷ 26 × leave days · OT (hrs) = hours × OT/hr rate · OT (days) = days × OT/day rate · Staff Card deduction = times × rate · Late deduction = minutes × rate/min.
+    EPF+Socso is entered manually per employee on the Payroll page (based on Malaysia's statutory contribution tables).`,
+    kitchen: 'Thai Kitchen — Payroll Slip',
+    exportToDrive: '📤 Export to Google Drive',
+    preparingFile: 'Preparing spreadsheet…',
+    uploadingToDrive: 'Uploading to Google Drive…',
+    exportedSuccess: 'Exported to Google Drive ✓',
+    exportFailed: 'Export failed — please try again',
+    exportNote: (m)=>`This will export all branches' payroll for ${m} 2026, plus the staff list, as a Google Sheet.`,
+    syncTitle: 'Real-time Sync (Google Sheets)',
+    syncStatusOn: 'Sync on', syncStatusOff: 'Sync off', syncStatusError: 'Sync error',
+    syncUrlLabel: 'Apps Script Web App URL', syncSecretLabel: 'Secret',
+    syncEnableLabel: 'Enable real-time sync', syncPullNow: 'Pull now',
+    syncSaved: 'Sync settings saved', syncDisabled: 'Sync disabled',
+    syncHelp: 'Writes push to Google Sheets instantly on every edit; the app checks the sheet for changes every 15 seconds. See the setup guide for how to get the URL and secret.',
+  },
+  th: {
+    brandSub: '2026 · หลายสาขา',
+    branchLabel: 'สาขา', menuLabel: 'เมนู', allBranches: 'ทุกสาขา',
+    dataSavedNote: 'ข้อมูลบันทึกในเบราว์เซอร์นี้',
+    dataSavedLocalNote: 'ข้อมูลบันทึกเฉพาะในเครื่องนี้ (browser local storage) ถ้าต้องการให้ข้อมูลตรงกันทุกเครื่อง ให้เปิดใช้ Google Sheets Sync ในหน้า Settings',
+    nav_dashboard: 'ภาพรวม', nav_staff: 'พนักงาน', nav_payroll: 'เงินเดือน', nav_payslip: 'สลิปเงินเดือน', nav_settings: 'ตั้งค่า',
+    title_dashboard: 'ภาพรวม', sub_dashboard: 'สรุปพนักงานและเงินเดือนทุกสาขา',
+    title_staff: 'พนักงาน', sub_staff: 'ข้อมูลพนักงาน วีซ่า พาสปอร์ต และสถานะการทำงาน',
+    title_payroll: 'เงินเดือน', sub_payroll: 'กรอกชั่วโมง OT / ลา / เบิกล่วงหน้า ระบบคำนวณ NET ให้อัตโนมัติ',
+    title_payslip: 'สลิปเงินเดือน', sub_payslip: 'เลือกพนักงานเพื่อดูและพิมพ์สลิป',
+    title_settings: 'ตั้งค่า', sub_settings: 'อัตรา OT / Staff Card / Late ต่อสาขา',
+    staffUnit: 'คน',
+    totalStaff: 'พนักงานทั้งหมด', totalIncome: 'รายได้รวม', totalDeductions: 'รายการหักรวม', netPay: 'ยอดสุทธิ (Net Pay)',
+    netPayFor: 'ยอดสุทธิเดือน', advanceVisaLoan: 'รวมเบิกล่วงหน้า/วีซ่า/เงินกู้', actualAmountToPay: 'ยอดที่ต้องจ่ายจริง',
+    alertsTitle: '⚠ แจ้งเตือนวีซ่า / พาสปอร์ต', items: 'รายการ', noAlerts: 'ไม่มีวีซ่าหรือพาสปอร์ตใกล้หมดอายุ',
+    visaWorkPermit: 'วีซ่า/เวิร์คเพอร์มิต', passport: 'พาสปอร์ต',
+    expiredAgo: (n)=>`หมดอายุแล้ว ${n} วันก่อน`, daysLeft: (n)=>`เหลือ ${n} วัน`,
+    employeeList: 'รายชื่อพนักงาน', searchPlaceholder: 'ค้นหาชื่อ / ตำแหน่ง', addEmployee: '+ เพิ่มพนักงาน',
+    col_name: 'ชื่อ', col_branch: 'สาขา', col_position: 'ตำแหน่ง', col_baseSalary: 'เงินเดือนฐาน', col_status: 'สถานะ', col_visa: 'วีซ่า',
+    noEmployeesFound: 'ไม่พบพนักงาน',
+    resigned: 'ลาออก', active: 'ทำงานอยู่', visaExpired: 'วีซ่าหมดอายุ', expiringIn: (n)=>`ใกล้หมดอายุ ${n} วัน`, ok: 'ปกติ', noData: 'ไม่มีข้อมูล', edit: 'แก้ไข',
+    addNewEmployee: 'เพิ่มพนักงานใหม่', editEmployee: 'แก้ไขข้อมูลพนักงาน',
+    fullName: 'ชื่อ-นามสกุล', branch: 'สาขา', position: 'ตำแหน่ง', baseSalaryRM: 'เงินเดือนฐาน (RM)', allowanceRM: 'ค่าตอบแทนอื่น (RM)',
+    status: 'สถานะ', activeOpt: 'ทำงานอยู่', resignedOpt: 'ลาออก', resignMonth: 'เดือนที่ลาออก', resignPlaceholder: 'เช่น Jun',
+    visaPassportSection: 'ข้อมูลวีซ่า / พาสปอร์ต (Staff Profile)',
+    nickname: 'ชื่อเล่น', passportNo: 'เลขพาสปอร์ต', passportExpiry: 'วันหมดอายุพาสปอร์ต', visaExpiry: 'วันหมดอายุวีซ่า/เวิร์คเพอร์มิต',
+    startDate: 'วันเริ่มงาน', bankAccount: 'ธนาคาร / เลขบัญชี', bankPlaceholder: 'ชื่อธนาคาร / เลขบัญชี',
+    deleteEmployee: 'ลบพนักงาน', cancel: 'ยกเลิก', save: 'บันทึก',
+    pleaseEnterName: 'กรุณากรอกชื่อพนักงาน', employeeSaved: 'บันทึกข้อมูลพนักงานแล้ว', employeeDeleted: 'ลบพนักงานแล้ว',
+    deleteConfirm: 'ยืนยันการลบพนักงานนี้? ไม่สามารถย้อนกลับได้',
+    payrollHeading: (b,m)=>`${b} — เงินเดือน ${m} 2026`,
+    rateTag: (r)=>`OT/ชม. RM${r.otRateHr} · OT/วัน RM${r.otRateDay} · Staff Card RM${r.scRate} · สาย RM${r.lateRate}/นาที`,
+    col_employee: 'ชื่อพนักงาน', col_allowance: 'Allowance', col_otHrs: 'OT(ชม.)', col_otAmt: 'OT Amt', col_otDays: 'OT(วัน)',
+    col_commission: 'Commission', col_totalIncome: 'รวมรายได้', col_leaveDays: 'ลา(วัน)', col_leaveAmt: 'หักลา',
+    col_staffCard: 'Staff Card', col_scAmt: 'หัก SC', col_lateMin: 'สาย(นาที)', col_lateAmt: 'หักสาย', col_advance: 'เบิกล่วงหน้า',
+    col_visaFee: 'ค่าวีซ่า', col_loan: 'เงินกู้', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'รวมหัก', col_net: 'NET',
+    noEmployeesInBranch: 'ไม่มีพนักงานในสาขานี้', total: 'รวม', saved: 'บันทึกแล้ว',
+    weeklyAdvanceTitle: (name)=>`เบิกเงินรายสัปดาห์ — ${name}`, oneRowPerSunday: 'หนึ่งแถวต่อวันอาทิตย์ของเดือน',
+    week: 'สัปดาห์ที่', date: 'วันที่', amountRM: 'จำนวนเงิน (RM)', totalAdvance: 'รวมเบิกล่วงหน้า', advanceSaved: 'บันทึกเงินเบิกแล้ว', sun: 'อา.',
+    selectEmployee: 'เลือกพนักงาน', printPayslip: '🖨 พิมพ์สลิป', noEmployees: 'ไม่มีพนักงาน',
+    payslipLabel: 'สลิปเงินเดือน', employeeLabel: 'ชื่อพนักงาน', positionLabel: 'ตำแหน่ง', branchLabel: 'สาขา',
+    income: 'รายได้ (Income)', baseSalary: 'เงินเดือนฐาน', allowance: 'Allowance', commissionService: 'Commission / Service Charge',
+    totalIncomeLabel: 'รวมรายได้', deductions: 'รายการหัก (Deductions)', leaveLabel: (n)=>`ลา (${n} วัน)`,
+    staffCardLabel: (n)=>`Staff Card (${n} ครั้ง)`, lateLabel: (n)=>`มาสาย (${n} นาที)`, advanceLabel: 'เบิกล่วงหน้า',
+    visaFeeLabel: 'ค่าวีซ่า', loanLabel: 'เงินกู้', epfSocsoLabel: 'EPF + Socso', totalDeductLabel: 'รวมรายการหัก',
+    netPayLabel: 'ยอดสุทธิ', employeeSignature: 'ลายเซ็นพนักงาน', authorizedSignature: 'ลายเซ็นผู้จ่าย',
+    otRateHour: 'อัตรา OT / ชั่วโมง (RM)', otRateDay: 'อัตรา OT / วัน (RM)', scRateTime: 'อัตรา Staff Card / ครั้ง (RM)', lateRateMinute: 'อัตรามาสาย / นาที (RM)',
+    rateSaved: 'บันทึกอัตราแล้ว',
+    noteFormulas: `หมายเหตุสูตรคำนวณ — หักลา = เงินเดือนฐาน ÷ 26 × จำนวนวันลา · OT(ชม.) = ชั่วโมง × อัตรา OT/ชม. · OT(วัน) = วัน × อัตรา OT/วัน · หัก Staff Card = ครั้ง × อัตรา · หักมาสาย = นาที × อัตรา/นาที
+    ค่า EPF+Socso กรอกเองต่อพนักงานในหน้าเงินเดือน (ตามตารางอัตราสมทบของประเทศมาเลเซีย)`,
+    kitchen: 'Thai Kitchen — สลิปเงินเดือน',
+    exportToDrive: '📤 ส่งออกขึ้น Google Drive',
+    preparingFile: 'กำลังสร้างไฟล์…',
+    uploadingToDrive: 'กำลังอัปโหลดขึ้น Google Drive…',
+    exportedSuccess: 'ส่งออกขึ้น Google Drive สำเร็จ ✓',
+    exportFailed: 'ส่งออกไม่สำเร็จ กรุณาลองใหม่',
+    exportNote: (m)=>`จะส่งออกเงินเดือนทุกสาขาของเดือน ${m} 2026 พร้อมรายชื่อพนักงาน เป็น Google Sheet`,
+    syncTitle: 'ซิงค์เรียลไทม์ (Google Sheets)',
+    syncStatusOn: 'ซิงค์เปิดอยู่', syncStatusOff: 'ซิงค์ปิดอยู่', syncStatusError: 'ซิงค์ผิดพลาด',
+    syncUrlLabel: 'URL ของ Apps Script Web App', syncSecretLabel: 'รหัสลับ (Secret)',
+    syncEnableLabel: 'เปิดใช้งานซิงค์เรียลไทม์', syncPullNow: 'ดึงข้อมูลตอนนี้',
+    syncSaved: 'บันทึกการตั้งค่าซิงค์แล้ว', syncDisabled: 'ปิดการซิงค์แล้ว',
+    syncHelp: 'ทุกครั้งที่แก้ข้อมูลในเว็บ จะส่งขึ้น Google Sheets ทันที และเว็บจะเช็คข้อมูลจากชีตทุก 15 วินาที ดูวิธีตั้งค่า URL/Secret ได้ในคู่มือที่แนบให้',
+  }
+};
+function t(key, ...args){
+  const v = I18N[state.lang][key];
+  if(typeof v === 'function') return v(...args);
+  return v!==undefined ? v : key;
+}
+
+/* ---------------- Sunday-of-month helper ---------------- */
+const MONTH_INDEX = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+function getSundays(monthAbbr, year=2026){
+  const mi = MONTH_INDEX[monthAbbr];
+  const sundays = [];
+  const d = new Date(year, mi, 1);
+  while(d.getMonth()===mi){
+    if(d.getDay()===0){
+      const iso = d.toISOString().slice(0,10);
+      sundays.push(iso);
+    }
+    d.setDate(d.getDate()+1);
+  }
+  return sundays;
+}
+function makeAdvanceWeeks(month, seedAmounts){
+  const sundays = getSundays(month);
+  const weeks = sundays.map((date,i)=>({date, amount: (seedAmounts && seedAmounts[i]) || 0}));
+  // fold any seed amounts beyond the number of real Sundays into the last week (preserves original totals)
+  if(seedAmounts && seedAmounts.length > sundays.length && weeks.length){
+    let overflow = 0;
+    for(let i=sundays.length;i<seedAmounts.length;i++) overflow += seedAmounts[i]||0;
+    weeks[weeks.length-1].amount = round2(weeks[weeks.length-1].amount + overflow);
+  }
+  return weeks;
+}
+function advanceTotal(row){
+  if(Array.isArray(row.advanceWeeks)) return round2(row.advanceWeeks.reduce((s,w)=>s+(Number(w.amount)||0),0));
+  return row.advance || 0;
+}
+
+/* ---------------- storage helpers (works both inside Claude artifacts AND standalone, e.g. GitHub Pages) ---------------- */
+const HAS_CLAUDE_STORAGE = typeof window.storage !== 'undefined' && typeof window.storage.get === 'function';
+
+async function storageGet(key, fallback){
+  try{
+    if(HAS_CLAUDE_STORAGE){
+      const r = await window.storage.get(key, false);
+      return r ? JSON.parse(r.value) : fallback;
+    } else {
+      const raw = localStorage.getItem('yakyim:'+key);
+      return raw!==null ? JSON.parse(raw) : fallback;
+    }
+  }catch(e){ return fallback; }
+}
+async function storageSet(key, value){
+  try{
+    if(HAS_CLAUDE_STORAGE){
+      await window.storage.set(key, JSON.stringify(value), false);
+    } else {
+      localStorage.setItem('yakyim:'+key, JSON.stringify(value));
+    }
+  }catch(e){ console.error('storage set failed', key, e); }
+}
+
+function fmtMoney(n){
+  n = Number(n)||0;
+  return n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function round2(n){ return Math.round((Number(n)||0)*100)/100; }
+
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toast._tm);
+  toast._tm = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+
+function daysUntil(dateStr){
+  if(!dateStr) return null;
+  const d = new Date(dateStr+'T00:00:00');
+  if(isNaN(d)) return null;
+  return Math.round((d - TODAY)/86400000);
+}
+
+/* ---------------- init / seed ---------------- */
+async function loadState(){
+  let employees = await storageGet('employees', null);
+  let rates = await storageGet('rates', null);
+  if(!employees){
+    employees = SEED.employees.map(e=>({...e}));
+    await storageSet('employees', employees);
+  }
+  if(!rates){
+    rates = SEED.rates;
+    await storageSet('rates', rates);
+  }
+  state.employees = employees;
+  state.rates = rates;
+
+  // seed payroll for the baseline month per branch if not present
+  for(const b of ['Lite','TMP','YYKJ']){
+    const m = SEED.seedMonth[b];
+    const key = `payroll:${b}:${m}`;
+    let existing = await storageGet(key, null);
+    if(!existing){
+      const rows = SEED.seedRows[b];
+      const map = {};
+      employees.filter(e=>e.branch===b).forEach(emp=>{
+        const seedRow = rows.find(r => normName(r.name) === normName(emp.name));
+        const advSeedAmounts = (SEED.advSeed[b]||{})[normName(emp.name)];
+        map[emp.id] = seedRow ? {
+          allowance: seedRow.allowance||0,
+          baseSalary: seedRow.baseSalary||0,
+          otHours: seedRow.otHours||0,
+          otDays: seedRow.otDays||0,
+          commission: seedRow.commission||0,
+          leaveDays: seedRow.leaveDays||0,
+          staffCardTimes: seedRow.staffCardTimes||0,
+          lateMinutes: seedRow.lateMinutes||0,
+          advanceWeeks: makeAdvanceWeeks(m, advSeedAmounts),
+          visaFee: seedRow.visaFee||0,
+          loan: seedRow.loan||0,
+          epfSocso: seedRow.epfSocso||0,
+        } : {...EMPTY_ROW, baseSalary: emp.baseSalary||0, allowance: emp.allowance||0, advanceWeeks: makeAdvanceWeeks(m, advSeedAmounts)};
+      });
+      await storageSet(key, map);
+      existing = map;
+    }
+    state.payroll[key] = existing;
+  }
+  state.month = SEED.seedMonth.TMP;
+
+  const sync = await storageGet('syncConfig', null);
+  if(sync) state.sync = {...state.sync, ...sync};
+}
+
+function normName(n){
+  return (n||'').replace(/\(.*?\)/g,'').replace(/\s+/g,' ').trim().toLowerCase();
+}
+
+async function getPayrollMap(branch, month){
+  const key = `payroll:${branch}:${month}`;
+  if(state.payroll[key]) return state.payroll[key];
+  let map = await storageGet(key, null);
+  if(!map){
+    map = {};
+    state.employees.filter(e=>e.branch===branch).forEach(emp=>{
+      map[emp.id] = {...EMPTY_ROW, baseSalary: emp.baseSalary||0, allowance: emp.allowance||0, advanceWeeks: makeAdvanceWeeks(month)};
+    });
+    await storageSet(key, map);
+  }
+  state.payroll[key] = map;
+  return map;
+}
+
+function computeRow(row, rates){
+  const otAmtHours = round2((row.otHours||0) * rates.otRateHr);
+  const otAmtDays = round2((row.otDays||0) * rates.otRateDay);
+  const totalIncome = round2((row.allowance||0) + (row.baseSalary||0) + otAmtHours + otAmtDays + (row.commission||0));
+  const leaveAmt = row.baseSalary>0 ? round2((row.leaveDays||0) * (row.baseSalary/26)) : 0;
+  const scAmt = round2((row.staffCardTimes||0) * rates.scRate);
+  const lateAmt = round2((row.lateMinutes||0) * rates.lateRate);
+  const advance = advanceTotal(row);
+  const totalDeduct = round2(leaveAmt + scAmt + lateAmt + advance + (row.visaFee||0) + (row.loan||0) + (row.epfSocso||0));
+  const netSalary = round2(totalIncome - totalDeduct);
+  return {otAmtHours,otAmtDays,totalIncome,leaveAmt,scAmt,lateAmt,advance,totalDeduct,netSalary};
+}
+
+/* ---------------- derived helpers ---------------- */
+function branchList(){ return ['Lite','TMP','YYKJ']; }
+function currentEmployees(){
+  if(state.branch==='All') return state.employees;
+  return state.employees.filter(e=>e.branch===state.branch);
+}
+function isResigned(status){
+  const s = (status||'').toLowerCase();
+  return s.includes('ลาออก') || s.includes('resign');
+}
+
+function visaAlertLevel(days){
+  if(days===null) return null;
+  if(days<0) return 'bad';
+  if(days<=60) return 'warn';
+  return null;
+}
+
+function buildAlerts(){
+  const alerts = [];
+  state.employees.forEach(emp=>{
+    const p = emp.profile;
+    if(!p) return;
+    const vd = daysUntil(p.visaExpiry);
+    const pd = daysUntil(p.passportExpiry);
+    const lvl = visaAlertLevel(vd);
+    if(lvl){
+      alerts.push({emp, type:'visa', days:vd, level:lvl});
+    }
+    const plvl = visaAlertLevel(pd);
+    if(plvl){
+      alerts.push({emp, type:'passport', days:pd, level:plvl});
+    }
+  });
+  alerts.sort((a,b)=> (a.days??999) - (b.days??999));
+  return alerts;
+}
+
+/* ================= RENDER: SHELL ================= */
+function render(){
+  const root = document.getElementById('root');
+  root.innerHTML = `
+    <div class="app">
+      ${renderSidebar()}
+      <main>${renderTopbar()}${renderView()}</main>
+    </div>
+  `;
+  bindGlobalEvents();
+}
+
+function renderSidebar(){
+  const chips = ['All', ...branchList()].map(b=>{
+    const cnt = b==='All' ? state.employees.length : state.employees.filter(e=>e.branch===b).length;
+    const label = b==='All' ? t('allBranches') : BRANCH_LABEL[b];
+    return `<button class="branch-chip ${state.branch===b?'active':''}" data-branch="${b}">
+      <span style="display:flex;align-items:center;gap:8px"><span class="dot"></span>${label}</span>
+      <span class="cnt">${cnt}</span>
+    </button>`;
+  }).join('');
+
+  const navItems = [
+    {id:'dashboard', ic:'◆', label:t('nav_dashboard')},
+    {id:'staff', ic:'☰', label:t('nav_staff')},
+    {id:'payroll', ic:'฿', label:t('nav_payroll')},
+    {id:'payslip', ic:'▤', label:t('nav_payslip')},
+    {id:'settings', ic:'⚙', label:t('nav_settings')},
+  ];
+  const nav = navItems.map(n=>`
+    <button class="nav-btn ${state.view===n.id?'active':''}" data-view="${n.id}">
+      <span class="ic">${n.ic}</span>${n.label}
+    </button>`).join('');
+
+  return `
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">Y</div>
+      <div class="brand-text"><div class="t1">Yakyim Payroll</div><div class="t2">${t('brandSub')}</div></div>
+    </div>
+    <div class="lang-switch">
+      <button class="lang-btn ${state.lang==='en'?'active':''}" data-lang="en">EN</button>
+      <button class="lang-btn ${state.lang==='th'?'active':''}" data-lang="th">ไทย</button>
+    </div>
+    <div class="sidebar-sub">${t('branchLabel')}</div>
+    <div class="branch-picker">${chips}</div>
+    <div class="sidebar-sub">${t('menuLabel')}</div>
+    <div class="nav">${nav}</div>
+    <div class="sidebar-foot">Yakyim Thai Kitchen<br>${HAS_CLAUDE_STORAGE ? t('dataSavedNote') : t('dataSavedLocalNote')}</div>
+  </aside>`;
+}
+
+function renderTopbar(){
+  const titles = {
+    dashboard:[t('title_dashboard'), t('sub_dashboard')],
+    staff:[t('title_staff'), t('sub_staff')],
+    payroll:[t('title_payroll'), t('sub_payroll')],
+    payslip:[t('title_payslip'), t('sub_payslip')],
+    settings:[t('title_settings'), t('sub_settings')],
+  };
+  const [title,sub] = titles[state.view];
+  const needsMonth = ['dashboard','payroll','payslip'].includes(state.view);
+  const showExport = ['dashboard','payroll'].includes(state.view);
+  return `
+  <div class="topbar no-print">
+    <div>
+      <div class="view-title">${title}</div>
+      <div class="view-sub">${sub}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      ${showExport ? `<button class="btn gold" id="exportDriveBtn">${t('exportToDrive')}</button>` : ''}
+      ${needsMonth ? `
+      <div class="month-picker">
+        <button id="prevMonth">‹</button>
+        <select id="monthSelect">
+          ${MONTHS.map(m=>`<option value="${m}" ${m===state.month?'selected':''}>${m} 2026</option>`).join('')}
+        </select>
+        <button id="nextMonth">›</button>
+      </div>` : ''}
+    </div>
+  </div>`;
+}
+
+function renderView(){
+  switch(state.view){
+    case 'dashboard': return renderDashboard();
+    case 'staff': return renderStaff();
+    case 'payroll': return renderPayroll();
+    case 'payslip': return renderPayslip();
+    case 'settings': return renderSettings();
+    default: return '';
+  }
+}
+
+/* ================= DASHBOARD ================= */
+function renderDashboard(){
+  const branches = state.branch==='All' ? branchList() : [state.branch];
+  let totalEmp=0, totalNet=0, totalDeduct=0, totalIncome=0;
+  const branchCards = branches.map(b=>{
+    const map = state.payroll[`payroll:${b}:${state.month}`] || {};
+    const rates = state.rates[b];
+    const emps = state.employees.filter(e=>e.branch===b);
+    let net=0, income=0, deduct=0;
+    emps.forEach(e=>{
+      const row = map[e.id];
+      if(!row) return;
+      const c = computeRow(row, rates);
+      net+=c.netSalary; income+=c.totalIncome; deduct+=c.totalDeduct;
+    });
+    totalEmp+=emps.length; totalNet+=net; totalIncome+=income; totalDeduct+=deduct;
+    return `<div class="card">
+      <div class="k">${BRANCH_LABEL[b]}</div>
+      <div class="v">${emps.length} <span style="font-size:13px;color:var(--muted);font-family:'Inter'">${t('staffUnit')}</span></div>
+      <div class="foot">${t('netPayFor')} ${state.month}: <b class="mono">RM ${fmtMoney(net)}</b></div>
+    </div>`;
+  }).join('');
+
+  const alerts = buildAlerts().filter(a => state.branch==='All' || a.emp.branch===state.branch);
+
+  return `
+  <div class="cards">
+    <div class="card"><div class="k">${t('totalStaff')}</div><div class="v">${totalEmp}</div><div class="foot">${branches.map(b=>BRANCH_LABEL[b]).join(' · ')}</div></div>
+    <div class="card"><div class="k">${t('totalIncome')}</div><div class="v pos">RM ${fmtMoney(totalIncome)}</div><div class="foot">${state.month} 2026</div></div>
+    <div class="card"><div class="k">${t('totalDeductions')}</div><div class="v neg">RM ${fmtMoney(totalDeduct)}</div><div class="foot">${t('advanceVisaLoan')}</div></div>
+    <div class="card"><div class="k">${t('netPay')}</div><div class="v">RM ${fmtMoney(totalNet)}</div><div class="foot">${t('actualAmountToPay')}</div></div>
+  </div>
+  <div class="cards">${branchCards}</div>
+  <div class="section">
+    <div class="section-head"><h3>${t('alertsTitle')}</h3><span class="tag ${alerts.length?'warn':'ok'}">${alerts.length} ${t('items')}</span></div>
+    <div class="section-body">
+      ${alerts.length===0 ? `<div class="empty-state"><div class="big">✅</div>${t('noAlerts')}</div>` :
+        alerts.map(a=>`
+        <div class="alert-row">
+          <div class="ic">${a.level==='bad'?'🔴':'🟠'}</div>
+          <div class="txt">
+            <b>${a.emp.name}</b> <span class="branch-pill ${a.emp.branch}">${a.emp.branch}</span><br>
+            <span>${a.type==='visa'?t('visaWorkPermit'):t('passport')} ${a.days<0?t('expiredAgo',Math.abs(a.days)):t('daysLeft',a.days)}</span>
+          </div>
+        </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+/* ================= STAFF ================= */
+function renderStaff(){
+  let list = currentEmployees();
+  if(state.staffSearch){
+    const q = state.staffSearch.toLowerCase();
+    list = list.filter(e=> e.name.toLowerCase().includes(q) || (e.position||'').toLowerCase().includes(q));
+  }
+  const rows = list.map(e=>{
+    const p = e.profile;
+    const vd = p ? daysUntil(p.visaExpiry) : null;
+    const lvl = visaAlertLevel(vd);
+    const resigned = isResigned(e.status);
+    return `<tr data-emp="${e.id}" class="staff-row" style="cursor:pointer">
+      <td class="name-cell">${e.name}${p&&p.nickname?`<div class="pos-cell">${p.nickname}</div>`:''}</td>
+      <td><span class="branch-pill ${e.branch}">${e.branch}</span></td>
+      <td class="pos-cell">${e.position||'-'}</td>
+      <td class="num">${fmtMoney(e.baseSalary)}</td>
+      <td>${resigned ? `<span class="tag bad">${t('resigned')}${e.resignMonth?' ('+e.resignMonth+')':''}</span>` : `<span class="tag ok">${t('active')}</span>`}</td>
+      <td>${p ? (lvl==='bad'?`<span class="tag bad">${t('visaExpired')}</span>`:lvl==='warn'?`<span class="tag warn">${t('expiringIn',vd)}</span>`:`<span class="tag ok">${t('ok')}</span>`) : `<span class="tag muted">${t('noData')}</span>`}</td>
+      <td class="no-print"><button class="btn sm" data-edit="${e.id}">${t('edit')}</button></td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div class="section">
+    <div class="section-head">
+      <h3>${t('employeeList')} (${list.length})</h3>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="search-box"><span>🔍</span><input id="staffSearch" placeholder="${t('searchPlaceholder')}" value="${state.staffSearch}"></div>
+        <button class="btn primary" id="addEmpBtn">${t('addEmployee')}</button>
+      </div>
+    </div>
+    <div class="section-body tbl-wrap">
+      <table>
+        <thead><tr><th>${t('col_name')}</th><th>${t('col_branch')}</th><th>${t('col_position')}</th><th>${t('col_baseSalary')}</th><th>${t('col_status')}</th><th>${t('col_visa')}</th><th class="no-print"></th></tr></thead>
+        <tbody>${rows || `<tr><td colspan="7"><div class="empty-state">${t('noEmployeesFound')}</div></td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>
+  ${state.editingEmp ? renderEmpModal() : ''}
+  `;
+}
+
+function renderEmpModal(){
+  const isNew = state.editingEmp === 'new';
+  const e = isNew ? {id:null, branch: state.branch!=='All'?state.branch:'Lite', name:'', position:'', status:'', baseSalary:0, allowance:0, profile:null} : state.employees.find(x=>x.id===state.editingEmp);
+  const p = e.profile || {};
+  const branchOpts = branchList().map(b=>`<option value="${b}" ${e.branch===b?'selected':''}>${BRANCH_LABEL[b]}</option>`).join('');
+  return `
+  <div class="modal-bg" id="empModalBg">
+    <div class="modal">
+      <div class="modal-head"><h3>${isNew?t('addNewEmployee'):t('editEmployee')}</h3><button class="modal-close" id="empModalClose">✕</button></div>
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="field"><label>${t('fullName')}</label><input id="f_name" value="${e.name||''}"></div>
+          <div class="field"><label>${t('branch')}</label><select id="f_branch">${branchOpts}</select></div>
+          <div class="field"><label>${t('position')}</label><input id="f_position" value="${e.position||''}"></div>
+          <div class="field"><label>${t('baseSalaryRM')}</label><input id="f_base" type="number" value="${e.baseSalary||0}"></div>
+          <div class="field"><label>${t('allowanceRM')}</label><input id="f_allow" type="number" value="${e.allowance||0}"></div>
+          <div class="field"><label>${t('status')}</label>
+            <select id="f_status">
+              <option value="" ${!e.status?'selected':''}>${t('activeOpt')}</option>
+              <option value="ลาออก (Resigned)" ${e.status==='ลาออก (Resigned)'?'selected':''}>${t('resignedOpt')}</option>
+            </select>
+          </div>
+          <div class="field"><label>${t('resignMonth')}</label><input id="f_resign" value="${e.resignMonth||''}" placeholder="${t('resignPlaceholder')}"></div>
+        </div>
+        <div style="margin:18px 0 8px;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--line);padding-top:14px;">${t('visaPassportSection')}</div>
+        <div class="form-grid">
+          <div class="field"><label>${t('nickname')}</label><input id="p_nick" value="${p.nickname||''}"></div>
+          <div class="field"><label>${t('passportNo')}</label><input id="p_pass" value="${p.passportNo||''}"></div>
+          <div class="field"><label>${t('passportExpiry')}</label><input id="p_passExp" type="date" value="${p.passportExpiry||''}"></div>
+          <div class="field"><label>${t('visaExpiry')}</label><input id="p_visaExp" type="date" value="${p.visaExpiry||''}"></div>
+          <div class="field"><label>${t('startDate')}</label><input id="p_start" type="date" value="${p.startDate||''}"></div>
+          <div class="field"><label>${t('bankAccount')}</label><input id="p_bank" value="${[p.bankName,p.bankAccount].filter(Boolean).join(' / ')||''}" placeholder="${t('bankPlaceholder')}"></div>
+        </div>
+      </div>
+      <div class="modal-foot">
+        ${!isNew?`<button class="btn danger" id="empDelete" style="margin-right:auto">${t('deleteEmployee')}</button>`:''}
+        <button class="btn" id="empCancel">${t('cancel')}</button>
+        <button class="btn primary" id="empSave">${t('save')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= PAYROLL ================= */
+function renderPayroll(){
+  const branches = state.branch==='All' ? branchList() : [state.branch];
+  const sections = branches.map(b=>renderPayrollBranch(b)).join('');
+  return sections + (state.advanceModal ? renderAdvanceModal() : '');
+}
+
+function renderAdvanceModal(){
+  const {branch, empId} = state.advanceModal;
+  const emp = state.employees.find(e=>e.id===empId);
+  const key = `payroll:${branch}:${state.month}`;
+  const map = state.payroll[key] || {};
+  const row = map[empId] || {...EMPTY_ROW};
+  if(!Array.isArray(row.advanceWeeks)) row.advanceWeeks = makeAdvanceWeeks(state.month);
+  const weeks = row.advanceWeeks;
+  const total = advanceTotal(row);
+  const locale = state.lang==='th' ? 'th-TH' : 'en-GB';
+  const dayName = (iso)=> new Date(iso+'T00:00:00').toLocaleDateString(locale,{day:'2-digit',month:'short'});
+
+  const rows = weeks.map((w,i)=>`
+    <tr>
+      <td>${t('week')} ${i+1} <span style="color:var(--muted);font-size:11.5px">(${t('sun')} ${dayName(w.date)})</span></td>
+      <td><input type="date" data-adv-idx="${i}" data-field="date" value="${w.date}"></td>
+      <td><input type="number" step="0.01" data-adv-idx="${i}" data-field="amount" value="${w.amount||0}"></td>
+    </tr>`).join('');
+
+  return `
+  <div class="modal-bg" id="advModalBg">
+    <div class="modal" style="max-width:460px">
+      <div class="modal-head">
+        <h3>${t('weeklyAdvanceTitle', emp?emp.name:'')}</h3>
+        <button class="modal-close" id="advModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${BRANCH_LABEL[branch]} · ${state.month} 2026 · ${t('oneRowPerSunday')}</div>
+        <table class="adv-table">
+          <thead><tr><th>${t('week')}</th><th>${t('date')}</th><th>${t('amountRM')}</th></tr></thead>
+          <tbody id="advRows">${rows}</tbody>
+          <tfoot><tr class="adv-total-row"><td colspan="2">${t('totalAdvance')}</td><td class="num" id="advTotalCell">${fmtMoney(total)}</td></tr></tfoot>
+        </table>
+      </div>
+      <div class="modal-foot">
+        <button class="btn" id="advCancel">${t('cancel')}</button>
+        <button class="btn primary" id="advSave">${t('save')}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPayrollBranch(branch){
+  const key = `payroll:${branch}:${state.month}`;
+  const map = state.payroll[key] || {};
+  const rates = state.rates[branch];
+  const emps = state.employees.filter(e=>e.branch===branch);
+
+  let sums = {allowance:0,baseSalary:0,otAmtHours:0,otAmtDays:0,commission:0,totalIncome:0,leaveAmt:0,scAmt:0,lateAmt:0,advance:0,visaFee:0,loan:0,epfSocso:0,totalDeduct:0,netSalary:0};
+
+  const rows = emps.map(e=>{
+    const row = map[e.id] || {...EMPTY_ROW};
+    const c = computeRow(row, rates);
+    ['allowance','baseSalary','commission','visaFee','loan','epfSocso'].forEach(k=> sums[k]+= (row[k]||0));
+    sums.advance += c.advance;
+    sums.otAmtHours+=c.otAmtHours; sums.otAmtDays+=c.otAmtDays; sums.totalIncome+=c.totalIncome;
+    sums.leaveAmt+=c.leaveAmt; sums.scAmt+=c.scAmt; sums.lateAmt+=c.lateAmt; sums.totalDeduct+=c.totalDeduct; sums.netSalary+=c.netSalary;
+
+    const inp = (field, val, w) => `<input class="cell-input" style="${w?'width:'+w+'px':''}" type="number" step="0.01" data-emp="${e.id}" data-branch="${branch}" data-field="${field}" value="${val}">`;
+
+    return `<tr>
+      <td class="name-cell">${e.name}<div class="pos-cell">${e.position||''}</div></td>
+      <td>${inp('allowance', row.allowance||0)}</td>
+      <td>${inp('baseSalary', row.baseSalary||0)}</td>
+      <td>${inp('otHours', row.otHours||0, 60)}</td>
+      <td class="num readonly-cell">${fmtMoney(c.otAmtHours)}</td>
+      <td>${inp('otDays', row.otDays||0, 60)}</td>
+      <td class="num readonly-cell">${fmtMoney(c.otAmtDays)}</td>
+      <td>${inp('commission', row.commission||0)}</td>
+      <td class="num readonly-cell" style="font-weight:700;color:var(--green)">${fmtMoney(c.totalIncome)}</td>
+      <td>${inp('leaveDays', row.leaveDays||0, 55)}</td>
+      <td class="num readonly-cell">${fmtMoney(c.leaveAmt)}</td>
+      <td>${inp('staffCardTimes', row.staffCardTimes||0, 55)}</td>
+      <td class="num readonly-cell">${fmtMoney(c.scAmt)}</td>
+      <td>${inp('lateMinutes', row.lateMinutes||0, 60)}</td>
+      <td class="num readonly-cell">${fmtMoney(c.lateAmt)}</td>
+      <td class="num"><button class="adv-link" data-adv-branch="${branch}" data-adv-emp="${e.id}">${fmtMoney(c.advance)}</button></td>
+      <td>${inp('visaFee', row.visaFee||0)}</td>
+      <td>${inp('loan', row.loan||0)}</td>
+      <td>${inp('epfSocso', row.epfSocso||0)}</td>
+      <td class="num readonly-cell" style="font-weight:700;color:var(--red)">${fmtMoney(c.totalDeduct)}</td>
+      <td class="num readonly-cell" style="font-weight:700;color:var(--ink);font-size:13.5px">${fmtMoney(c.netSalary)}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div class="section">
+    <div class="section-head">
+      <h3>${t('payrollHeading', BRANCH_LABEL[branch], state.month)}</h3>
+      <span class="tag muted">${t('rateTag', rates)}</span>
+    </div>
+    <div class="section-body tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>${t('col_employee')}</th><th>${t('col_allowance')}</th><th>${t('col_baseSalary')}</th>
+          <th>${t('col_otHrs')}</th><th>${t('col_otAmt')}</th><th>${t('col_otDays')}</th><th>${t('col_otAmt')}</th><th>${t('col_commission')}</th><th>${t('col_totalIncome')}</th>
+          <th>${t('col_leaveDays')}</th><th>${t('col_leaveAmt')}</th><th>${t('col_staffCard')}</th><th>${t('col_scAmt')}</th><th>${t('col_lateMin')}</th><th>${t('col_lateAmt')}</th>
+          <th>${t('col_advance')}</th><th>${t('col_visaFee')}</th><th>${t('col_loan')}</th><th>${t('col_epfSocso')}</th><th>${t('col_totalDeduct')}</th><th>${t('col_net')}</th>
+        </tr></thead>
+        <tbody>${rows || `<tr><td colspan="20"><div class="empty-state">${t('noEmployeesInBranch')}</div></td></tr>`}</tbody>
+        ${emps.length? `<tfoot><tr class="total-row">
+          <td>${t('total')}</td><td class="num">${fmtMoney(sums.allowance)}</td><td class="num">${fmtMoney(sums.baseSalary)}</td>
+          <td></td><td class="num">${fmtMoney(sums.otAmtHours)}</td><td></td><td class="num">${fmtMoney(sums.otAmtDays)}</td>
+          <td class="num">${fmtMoney(sums.commission)}</td><td class="num">${fmtMoney(sums.totalIncome)}</td>
+          <td></td><td class="num">${fmtMoney(sums.leaveAmt)}</td><td></td><td class="num">${fmtMoney(sums.scAmt)}</td>
+          <td></td><td class="num">${fmtMoney(sums.lateAmt)}</td>
+          <td class="num">${fmtMoney(sums.advance)}</td><td class="num">${fmtMoney(sums.visaFee)}</td><td class="num">${fmtMoney(sums.loan)}</td>
+          <td class="num">${fmtMoney(sums.epfSocso)}</td><td class="num">${fmtMoney(sums.totalDeduct)}</td><td class="num">${fmtMoney(sums.netSalary)}</td>
+        </tr></tfoot>`:''}
+      </table>
+    </div>
+  </div>`;
+}
+
+/* ================= PAYSLIP ================= */
+function renderPayslip(){
+  const branches = state.branch==='All' ? branchList() : [state.branch];
+  const emps = state.employees.filter(e=>branches.includes(e.branch));
+  if(!state.payslipEmpId && emps.length) state.payslipEmpId = emps[0].id;
+  const emp = emps.find(e=>e.id===state.payslipEmpId) || emps[0];
+
+  const picker = `
+  <div class="section no-print">
+    <div class="section-body" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+      <div class="field" style="min-width:260px"><label>${t('selectEmployee')}</label>
+        <select id="payslipEmpSelect">
+          ${emps.map(e=>`<option value="${e.id}" ${e.id===emp?.id?'selected':''}>${e.name} (${e.branch})</option>`).join('')}
+        </select>
+      </div>
+      <button class="btn primary" id="printSlip" style="margin-top:18px">${t('printPayslip')}</button>
+    </div>
+  </div>`;
+
+  if(!emp) return picker + `<div class="empty-state">${t('noEmployees')}</div>`;
+
+  const key = `payroll:${emp.branch}:${state.month}`;
+  const map = state.payroll[key] || {};
+  const row = map[emp.id] || {...EMPTY_ROW};
+  const rates = state.rates[emp.branch];
+  const c = computeRow(row, rates);
+
+  return picker + `
+  <div class="payslip">
+    <div class="payslip-top">
+      <div>
+        <h2>${BRANCH_LABEL[emp.branch]}</h2>
+        <div class="sub">${t('kitchen')}</div>
+      </div>
+      <div class="payslip-meta">${t('payslipLabel')}<br><b>${state.month} 2026</b></div>
+    </div>
+    <div class="payslip-emp">
+      <div><span>${t('employeeLabel')}</span><b>${emp.name}</b></div>
+      <div><span>${t('positionLabel')}</span><b>${emp.position||'-'}</b></div>
+      <div><span>${t('branchLabel')}</span><b>${BRANCH_LABEL[emp.branch]}</b></div>
+    </div>
+    <div class="payslip-grid">
+      <div class="payslip-cols income">
+        <h4>${t('income')}</h4>
+        <div class="pl-row"><span>${t('baseSalary')}</span><span>${fmtMoney(row.baseSalary)}</span></div>
+        <div class="pl-row"><span>${t('allowance')}</span><span>${fmtMoney(row.allowance)}</span></div>
+        <div class="pl-row"><span>OT (${row.otHours||0} × RM${rates.otRateHr})</span><span>${fmtMoney(c.otAmtHours)}</span></div>
+        <div class="pl-row"><span>OT (${row.otDays||0} × RM${rates.otRateDay})</span><span>${fmtMoney(c.otAmtDays)}</span></div>
+        <div class="pl-row"><span>${t('commissionService')}</span><span>${fmtMoney(row.commission)}</span></div>
+        <div class="pl-row sum"><span>${t('totalIncomeLabel')}</span><span>${fmtMoney(c.totalIncome)}</span></div>
+      </div>
+      <div class="payslip-cols deduct">
+        <h4>${t('deductions')}</h4>
+        <div class="pl-row"><span>${t('leaveLabel', row.leaveDays||0)}</span><span>${fmtMoney(c.leaveAmt)}</span></div>
+        <div class="pl-row"><span>${t('staffCardLabel', row.staffCardTimes||0)}</span><span>${fmtMoney(c.scAmt)}</span></div>
+        <div class="pl-row"><span>${t('lateLabel', row.lateMinutes||0)}</span><span>${fmtMoney(c.lateAmt)}</span></div>
+        <div class="pl-row"><span>${t('advanceLabel')}</span><span>${fmtMoney(c.advance)}</span></div>
+        <div class="pl-row"><span>${t('visaFeeLabel')}</span><span>${fmtMoney(row.visaFee)}</span></div>
+        <div class="pl-row"><span>${t('loanLabel')}</span><span>${fmtMoney(row.loan)}</span></div>
+        <div class="pl-row"><span>${t('epfSocsoLabel')}</span><span>${fmtMoney(row.epfSocso)}</span></div>
+        <div class="pl-row sum"><span>${t('totalDeductLabel')}</span><span>${fmtMoney(c.totalDeduct)}</span></div>
+      </div>
+    </div>
+    <div class="payslip-net">
+      <div class="l">${t('netPayLabel')}</div>
+      <div class="n">RM ${fmtMoney(c.netSalary)}</div>
+    </div>
+    <div class="payslip-sign">
+      <div class="line">${t('employeeSignature')}</div>
+      <div class="line">${t('authorizedSignature')}</div>
+    </div>
+  </div>`;
+}
+
+/* ================= SETTINGS ================= */
+function renderSettings(){
+  const branches = state.branch==='All' ? branchList() : [state.branch];
+  const cards = branches.map(b=>{
+    const r = state.rates[b];
+    return `<div class="card">
+      <div class="k" style="margin-bottom:10px">${BRANCH_LABEL[b]}</div>
+      <div class="rate-field"><label>${t('otRateHour')}</label><input data-rate-branch="${b}" data-rate-field="otRateHr" type="number" step="0.01" value="${r.otRateHr}"></div>
+      <div class="rate-field"><label>${t('otRateDay')}</label><input data-rate-branch="${b}" data-rate-field="otRateDay" type="number" step="0.01" value="${r.otRateDay}"></div>
+      <div class="rate-field"><label>${t('scRateTime')}</label><input data-rate-branch="${b}" data-rate-field="scRate" type="number" step="0.01" value="${r.scRate}"></div>
+      <div class="rate-field"><label>${t('lateRateMinute')}</label><input data-rate-branch="${b}" data-rate-field="lateRate" type="number" step="0.01" value="${r.lateRate}"></div>
+    </div>`;
+  }).join('');
+  return `<div class="settings-grid">${cards}</div>
+  <div class="section" style="margin-top:20px"><div class="section-body" style="font-size:13px;color:var(--muted);white-space:pre-line">
+    ${t('noteFormulas')}
+  </div></div>
+  <div class="section" style="margin-top:20px">
+    <div class="section-head"><h3>${t('syncTitle')}</h3><span class="tag ${state.sync.enabled?(state.sync.status==='error'?'bad':'ok'):'muted'}">${state.sync.enabled?(state.sync.status==='error'?t('syncStatusError'):t('syncStatusOn')):t('syncStatusOff')}</span></div>
+    <div class="section-body">
+      <div class="form-grid full">
+        <div class="field"><label>${t('syncUrlLabel')}</label><input id="syncUrl" placeholder="https://script.google.com/macros/s/.../exec" value="${state.sync.url||''}"></div>
+        <div class="field"><label>${t('syncSecretLabel')}</label><input id="syncSecret" type="password" value="${state.sync.secret||''}"></div>
+      </div>
+      <label style="display:flex;align-items:center;gap:8px;margin:14px 0;font-size:13.5px;cursor:pointer">
+        <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}>
+        ${t('syncEnableLabel')}
+      </label>
+      <button class="btn primary" id="saveSyncBtn">${t('save')}</button>
+      <button class="btn" id="pullNowBtn" style="margin-left:8px">${t('syncPullNow')}</button>
+      <div style="font-size:12px;color:var(--muted);margin-top:10px">${t('syncHelp')}</div>
+    </div>
+  </div>`;
+}
+
+/* ================= GOOGLE SHEETS REAL-TIME SYNC ================= */
+let syncPollTimer = null;
+
+function rowsForSyncPush(branch, month){
+  const map = state.payroll[`payroll:${branch}:${month}`] || {};
+  const rates = state.rates[branch];
+  const emps = state.employees.filter(e=>e.branch===branch);
+  return emps.map(e=>{
+    const row = map[e.id] || {...EMPTY_ROW};
+    const c = computeRow(row, rates);
+    return {
+      EmpID: e.id, Month: month, Name: e.name, Position: e.position||'',
+      Allowance: row.allowance||0, BaseSalary: row.baseSalary||0,
+      OTHours: row.otHours||0, OTDays: row.otDays||0, Commission: row.commission||0,
+      LeaveDays: row.leaveDays||0, StaffCardTimes: row.staffCardTimes||0, LateMinutes: row.lateMinutes||0,
+      Advance: c.advance, VisaFee: row.visaFee||0, Loan: row.loan||0, EPFSocso: row.epfSocso||0
+    };
+  });
+}
+
+async function syncPushBranch(branch, month){
+  if(!state.sync.enabled || !state.sync.url || !state.sync.secret) return;
+  try{
+    const rows = rowsForSyncPush(branch, month);
+    await fetch(state.sync.url, {
+      method:'POST',
+      body: JSON.stringify({secret:state.sync.secret, branch, action:'writeAll', month, rows})
+    });
+    state.sync.status = 'ok';
+  }catch(e){
+    console.error('sync push failed', e);
+    state.sync.status = 'error';
+  }
+}
+
+async function syncPullBranch(branch, month){
+  if(!state.sync.enabled || !state.sync.url || !state.sync.secret) return;
+  try{
+    const u = new URL(state.sync.url);
+    u.searchParams.set('secret', state.sync.secret);
+    u.searchParams.set('branch', branch);
+    u.searchParams.set('action', 'readAll');
+    u.searchParams.set('month', month);
+    const resp = await fetch(u.toString());
+    const data = await resp.json();
+    if(data.error){ console.error('sync pull error', data.error); state.sync.status='error'; return; }
+    const key = `payroll:${branch}:${month}`;
+    const map = state.payroll[key] || {};
+    (data.rows||[]).forEach(r=>{
+      if(!map[r.EmpID]) map[r.EmpID] = {...EMPTY_ROW};
+      Object.assign(map[r.EmpID], {
+        allowance: Number(r.Allowance)||0, baseSalary: Number(r.BaseSalary)||0,
+        otHours: Number(r.OTHours)||0, otDays: Number(r.OTDays)||0, commission: Number(r.Commission)||0,
+        leaveDays: Number(r.LeaveDays)||0, staffCardTimes: Number(r.StaffCardTimes)||0, lateMinutes: Number(r.LateMinutes)||0,
+        visaFee: Number(r.VisaFee)||0, loan: Number(r.Loan)||0, epfSocso: Number(r.EPFSocso)||0,
+      });
+      // if the sheet's Advance total differs from our weekly breakdown sum, adjust the last week to match
+      const sheetAdv = Number(r.Advance)||0;
+      const curAdv = advanceTotal(map[r.EmpID]);
+      if(Array.isArray(map[r.EmpID].advanceWeeks) && Math.abs(sheetAdv-curAdv)>0.001 && map[r.EmpID].advanceWeeks.length){
+        const diff = round2(sheetAdv - curAdv);
+        const last = map[r.EmpID].advanceWeeks[map[r.EmpID].advanceWeeks.length-1];
+        last.amount = round2((last.amount||0) + diff);
+      }
+    });
+    state.payroll[key] = map;
+    await storageSet(key, map);
+    state.sync.status = 'ok';
+  }catch(e){
+    console.error('sync pull failed', e);
+    state.sync.status = 'error';
+  }
+}
+
+async function syncPushAll(){
+  for(const b of branchList()){ await syncPushBranch(b, state.month); }
+}
+async function syncPullAll(){
+  for(const b of branchList()){ await syncPullBranch(b, state.month); }
+  render();
+}
+
+function startSyncPolling(){
+  stopSyncPolling();
+  if(!state.sync.enabled) return;
+  syncPollTimer = setInterval(()=>{ syncPullAll(); }, 15000);
+}
+function stopSyncPolling(){
+  if(syncPollTimer){ clearInterval(syncPollTimer); syncPollTimer = null; }
+}
+
+async function saveSyncConfig(){
+  const url = document.getElementById('syncUrl').value.trim();
+  const secret = document.getElementById('syncSecret').value.trim();
+  const enabled = document.getElementById('syncEnabled').checked;
+  state.sync = {...state.sync, url, secret, enabled};
+  await storageSet('syncConfig', state.sync);
+  if(enabled){ startSyncPolling(); await syncPushAll(); toast(t('syncSaved')); }
+  else { stopSyncPolling(); toast(t('syncDisabled')); }
+  render();
+}
+
+/* ================= EXPORT TO GOOGLE DRIVE ================= */
+function loadScriptOnce(src){
+  return new Promise((resolve, reject)=>{
+    if(document.querySelector(`script[data-src="${src}"]`)){ resolve(); return; }
+    const s = document.createElement('script');
+    s.src = src; s.dataset.src = src;
+    s.onload = ()=>resolve();
+    s.onerror = ()=>reject(new Error('Failed to load '+src));
+    document.head.appendChild(s);
+  });
+}
+
+function buildWorkbookBase64(month){
+  const wb = XLSX.utils.book_new();
+
+  const staffHeader = ['Name','Branch','Position','Base Salary (RM)','Allowance (RM)','Status','Nickname','Passport No.','Passport Expiry','Visa/Work Permit Expiry','Start Date','Bank / Account'];
+  const staffRows = [staffHeader];
+  state.employees.forEach(e=>{
+    const p = e.profile || {};
+    staffRows.push([
+      e.name, BRANCH_LABEL[e.branch], e.position||'', e.baseSalary||0, e.allowance||0,
+      isResigned(e.status) ? `Resigned${e.resignMonth?' ('+e.resignMonth+')':''}` : 'Active',
+      p.nickname||'', p.passportNo||'', p.passportExpiry||'', p.visaExpiry||'', p.startDate||'',
+      [p.bankName,p.bankAccount].filter(Boolean).join(' / ')
+    ]);
+  });
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(staffRows), 'Staff');
+
+  const header = ['Employee','Position','Allowance','Base Salary','OT (hrs)','OT Amt','OT (days)','OT Amt','Commission',
+    'Total Income','Leave (days)','Leave Amt','Staff Card','SC Amt','Late (min)','Late Amt','Advance','Visa Fee','Loan',
+    'EPF+Socso','Total Deduct','NET'];
+
+  branchList().forEach(b=>{
+    const map = state.payroll[`payroll:${b}:${month}`] || {};
+    const rates = state.rates[b];
+    const emps = state.employees.filter(e=>e.branch===b);
+    const rows = [[`${BRANCH_LABEL[b]} — Payroll ${month} 2026`],[],header];
+    emps.forEach(e=>{
+      const row = map[e.id] || {...EMPTY_ROW};
+      const c = computeRow(row, rates);
+      rows.push([
+        e.name, e.position||'', row.allowance||0, row.baseSalary||0,
+        row.otHours||0, c.otAmtHours, row.otDays||0, c.otAmtDays, row.commission||0,
+        c.totalIncome, row.leaveDays||0, c.leaveAmt, row.staffCardTimes||0, c.scAmt,
+        row.lateMinutes||0, c.lateAmt, c.advance, row.visaFee||0, row.loan||0,
+        row.epfSocso||0, c.totalDeduct, c.netSalary
+      ]);
+    });
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), b);
+  });
+
+  return XLSX.write(wb, {type:'base64', bookType:'xlsx'});
+}
+
+async function exportToDrive(){
+  const btn = document.getElementById('exportDriveBtn');
+  if(btn){ btn.disabled = true; btn.textContent = t('preparingFile'); }
+  try{
+    await loadScriptOnce('https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js');
+    const base64 = buildWorkbookBase64(state.month);
+    const filename = `Yakyim Payroll - ${state.month} 2026`;
+    if(btn) btn.textContent = t('uploadingToDrive');
+    toast(t('uploadingToDrive'));
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1024,
+        messages: [{
+          role: 'user',
+          content: `Call the Google Drive create_file tool right now with exactly these parameters — do not ask for confirmation, do not explain, just call it:
+title: "${filename}"
+contentMimeType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+disableConversionToGoogleType: false
+base64Content: (given below)
+
+base64Content:
+${base64}`
+        }],
+        mcp_servers: [{type:'url', url:'https://drivemcp.googleapis.com/mcp/v1', name:'google-drive'}]
+      })
+    });
+    const data = await resp.json();
+    const content = data.content || [];
+    const toolResult = content.find(b=>b.type==='mcp_tool_result');
+    const isError = toolResult && (toolResult.is_error || (toolResult.content||[]).some(c=>/error/i.test(c.text||'')));
+    if(toolResult && !isError){
+      toast(t('exportedSuccess'));
+    } else {
+      console.error('Drive export response', data);
+      toast(t('exportFailed'));
+    }
+  }catch(e){
+    console.error(e);
+    toast(t('exportFailed'));
+  }finally{
+    if(btn){ btn.disabled = false; btn.textContent = t('exportToDrive'); }
+  }
+}
+
+/* ================= EVENT BINDING ================= */
+function bindGlobalEvents(){
+  document.querySelectorAll('.lang-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.lang = el.dataset.lang; render(); });
+  });
+  document.querySelectorAll('.branch-chip').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.branch = el.dataset.branch; render(); });
+  });
+  document.querySelectorAll('.nav-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.view = el.dataset.view; render(); });
+  });
+
+  const monthSel = document.getElementById('monthSelect');
+  if(monthSel){
+    monthSel.addEventListener('change', async ()=>{
+      state.month = monthSel.value;
+      await ensureMonthLoaded();
+      render();
+    });
+  }
+  const prevM = document.getElementById('prevMonth');
+  const nextM = document.getElementById('nextMonth');
+  const exportBtn = document.getElementById('exportDriveBtn');
+  if(exportBtn) exportBtn.addEventListener('click', exportToDrive);
+  if(prevM) prevM.addEventListener('click', async ()=>{
+    let i = MONTHS.indexOf(state.month);
+    i = (i-1+12)%12; state.month = MONTHS[i];
+    await ensureMonthLoaded(); render();
+  });
+  if(nextM) nextM.addEventListener('click', async ()=>{
+    let i = MONTHS.indexOf(state.month);
+    i = (i+1)%12; state.month = MONTHS[i];
+    await ensureMonthLoaded(); render();
+  });
+
+  /* ---- Staff view ---- */
+  const searchBox = document.getElementById('staffSearch');
+  if(searchBox){
+    searchBox.addEventListener('input', ()=>{ state.staffSearch = searchBox.value; renderStaffOnly(); });
+  }
+  document.querySelectorAll('.staff-row').forEach(row=>{
+    row.addEventListener('click', (ev)=>{
+      if(ev.target.closest('button')) return;
+      state.editingEmp = row.dataset.emp; render();
+    });
+  });
+  document.querySelectorAll('[data-edit]').forEach(btn=>{
+    btn.addEventListener('click', (ev)=>{ ev.stopPropagation(); state.editingEmp = btn.dataset.edit; render(); });
+  });
+  const addBtn = document.getElementById('addEmpBtn');
+  if(addBtn) addBtn.addEventListener('click', ()=>{ state.editingEmp='new'; render(); });
+
+  const empClose = document.getElementById('empModalClose');
+  const empCancel = document.getElementById('empCancel');
+  const empBg = document.getElementById('empModalBg');
+  [empClose, empCancel].forEach(el=> el && el.addEventListener('click', ()=>{ state.editingEmp=null; render(); }));
+  if(empBg) empBg.addEventListener('click', (ev)=>{ if(ev.target===empBg){ state.editingEmp=null; render(); } });
+
+  const empSave = document.getElementById('empSave');
+  if(empSave) empSave.addEventListener('click', saveEmployee);
+  const empDelete = document.getElementById('empDelete');
+  if(empDelete) empDelete.addEventListener('click', deleteEmployee);
+
+  /* ---- Payroll grid ---- */
+  document.querySelectorAll('.cell-input').forEach(inp=>{
+    inp.addEventListener('change', onPayrollCellChange);
+  });
+  document.querySelectorAll('[data-adv-branch]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      state.advanceModal = {branch: btn.dataset.advBranch, empId: btn.dataset.advEmp};
+      render();
+    });
+  });
+  const advClose = document.getElementById('advModalClose');
+  const advCancel = document.getElementById('advCancel');
+  const advBg = document.getElementById('advModalBg');
+  [advClose, advCancel].forEach(el=> el && el.addEventListener('click', ()=>{ state.advanceModal=null; render(); }));
+  if(advBg) advBg.addEventListener('click', (ev)=>{ if(ev.target===advBg){ state.advanceModal=null; render(); } });
+  const advSave = document.getElementById('advSave');
+  if(advSave) advSave.addEventListener('click', saveAdvanceWeeks);
+  document.querySelectorAll('#advRows input').forEach(inp=>{
+    inp.addEventListener('input', onAdvanceRowInput);
+  });
+
+  /* ---- Payslip ---- */
+  const slipSel = document.getElementById('payslipEmpSelect');
+  if(slipSel) slipSel.addEventListener('change', ()=>{ state.payslipEmpId = slipSel.value; render(); });
+  const printBtn = document.getElementById('printSlip');
+  if(printBtn) printBtn.addEventListener('click', ()=> window.print());
+
+  /* ---- Settings ---- */
+  document.querySelectorAll('[data-rate-branch]').forEach(inp=>{
+    inp.addEventListener('change', onRateChange);
+  });
+  const saveSyncBtn = document.getElementById('saveSyncBtn');
+  if(saveSyncBtn) saveSyncBtn.addEventListener('click', saveSyncConfig);
+  const pullNowBtn = document.getElementById('pullNowBtn');
+  if(pullNowBtn) pullNowBtn.addEventListener('click', ()=>{ toast(t('syncPullNow')); syncPullAll(); });
+}
+
+function renderStaffOnly(){
+  const root = document.getElementById('root');
+  const main = root.querySelector('main');
+  main.innerHTML = renderTopbar() + renderView();
+  bindGlobalEvents();
+  document.getElementById('staffSearch').focus();
+  document.getElementById('staffSearch').setSelectionRange(999,999);
+}
+
+async function ensureMonthLoaded(){
+  for(const b of branchList()){
+    await getPayrollMap(b, state.month);
+  }
+}
+
+async function onPayrollCellChange(ev){
+  const el = ev.target;
+  const branch = el.dataset.branch, empId = el.dataset.emp, field = el.dataset.field;
+  const key = `payroll:${branch}:${state.month}`;
+  const map = state.payroll[key];
+  if(!map[empId]) map[empId] = {...EMPTY_ROW};
+  map[empId][field] = parseFloat(el.value)||0;
+  await storageSet(key, map);
+  render();
+  toast(t('saved'));
+  syncPushBranch(branch, state.month);
+}
+
+function onAdvanceRowInput(){
+  // live-update the total shown in the modal without saving yet
+  let total = 0;
+  document.querySelectorAll('#advRows tr').forEach(tr=>{
+    const amtInput = tr.querySelector('input[data-field="amount"]');
+    total += parseFloat(amtInput.value)||0;
+  });
+  const cell = document.getElementById('advTotalCell');
+  if(cell) cell.textContent = fmtMoney(total);
+}
+
+async function saveAdvanceWeeks(){
+  const {branch, empId} = state.advanceModal;
+  const key = `payroll:${branch}:${state.month}`;
+  const map = state.payroll[key];
+  if(!map[empId]) map[empId] = {...EMPTY_ROW};
+  const weeks = [];
+  document.querySelectorAll('#advRows tr').forEach((tr,i)=>{
+    const dateInput = tr.querySelector('input[data-field="date"]');
+    const amtInput = tr.querySelector('input[data-field="amount"]');
+    weeks.push({date: dateInput.value, amount: parseFloat(amtInput.value)||0});
+  });
+  map[empId].advanceWeeks = weeks;
+  await storageSet(key, map);
+  state.advanceModal = null;
+  render();
+  toast(t('advanceSaved'));
+  syncPushBranch(branch, state.month);
+}
+
+async function onRateChange(ev){
+  const el = ev.target;
+  const b = el.dataset.rateBranch, f = el.dataset.rateField;
+  state.rates[b][f] = parseFloat(el.value)||0;
+  await storageSet('rates', state.rates);
+  render();
+  toast(t('rateSaved'));
+}
+
+async function saveEmployee(){
+  const name = document.getElementById('f_name').value.trim();
+  if(!name){ toast(t('pleaseEnterName')); return; }
+  const branch = document.getElementById('f_branch').value;
+  const position = document.getElementById('f_position').value.trim();
+  const baseSalary = parseFloat(document.getElementById('f_base').value)||0;
+  const allowance = parseFloat(document.getElementById('f_allow').value)||0;
+  const status = document.getElementById('f_status').value;
+  const resignMonth = document.getElementById('f_resign').value.trim();
+  const bankRaw = document.getElementById('p_bank').value.trim();
+  let [bankName, bankAccount] = bankRaw.includes('/') ? bankRaw.split('/').map(s=>s.trim()) : [bankRaw, ''];
+
+  const profile = {
+    nickname: document.getElementById('p_nick').value.trim(),
+    passportNo: document.getElementById('p_pass').value.trim(),
+    passportExpiry: document.getElementById('p_passExp').value,
+    visaExpiry: document.getElementById('p_visaExp').value,
+    startDate: document.getElementById('p_start').value,
+    bankName, bankAccount,
+  };
+  const hasProfile = Object.values(profile).some(v=>v);
+
+  if(state.editingEmp === 'new'){
+    const id = 'E' + String(Date.now()).slice(-6);
+    state.employees.push({id, branch, name, position, status, resignMonth, baseSalary, allowance, profile: hasProfile?profile:null});
+  } else {
+    const emp = state.employees.find(e=>e.id===state.editingEmp);
+    Object.assign(emp, {branch, name, position, status, resignMonth, baseSalary, allowance});
+    emp.profile = hasProfile ? {...(emp.profile||{}), ...profile} : emp.profile;
+  }
+  await storageSet('employees', state.employees);
+  state.editingEmp = null;
+  render();
+  toast(t('employeeSaved'));
+}
+
+async function deleteEmployee(){
+  if(!confirm(t('deleteConfirm'))) return;
+  state.employees = state.employees.filter(e=>e.id!==state.editingEmp);
+  await storageSet('employees', state.employees);
+  state.editingEmp = null;
+  render();
+  toast(t('employeeDeleted'));
+}
+
+/* ================= BOOT ================= */
+(async function boot(){
+  await loadState();
+  render();
+  if(state.sync.enabled) startSyncPolling();
+})();
+
+</script>
+</body>
+</html>

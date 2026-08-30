@@ -1083,7 +1083,18 @@ function empRowForSync(e){
 }
 function paySlipRowForSync(empId, month, rec){
   const emp = empById(empId);
-  return {EmpID:empId, Month:month, Name:emp?emp.name:'', Position:emp?emp.position:'', ...rec};
+  return {
+    EmpID:empId, Month:month, Name:emp?emp.name:'', Position:emp?emp.position:'',
+    Allowance:rec.allowance||0, BaseSalary:rec.baseSalary||0,
+    OTHours:rec.otHours||0, OTAmtHours:rec.otAmtHours||0,
+    OTDays:rec.otDays||0, OTAmtDays:rec.otAmtDays||0,
+    Commission:rec.commission||0, TotalIncome:rec.totalIncome||0,
+    LeaveDays:rec.leaveDays||0, LeaveAmt:rec.leaveAmt||0,
+    StaffCardTimes:rec.staffCardTimes||0, SCAmt:rec.scAmt||0,
+    LateMinutes:rec.lateMinutes||0, LateAmt:rec.lateAmt||0,
+    Advance:rec.advance||0, VisaFee:rec.visaFee||0, Loan:rec.loan||0,
+    EPFSocso:rec.epfSocso||0, TotalDeduct:rec.totalDeduct||0, NetSalary:rec.netSalary||0,
+  };
 }
 
 async function pushAllToSheet(){

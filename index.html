@@ -35,6 +35,10 @@ input,select{font-family:inherit;}
 .field label{display:block;font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
 .field input,.field select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font-size:14px;background:#fff;}
 .field input:focus,.field select:focus{outline:2px solid var(--gold);outline-offset:0;border-color:var(--gold);}
+.pwd-wrap{position:relative;}
+.pwd-wrap input{padding-right:42px;}
+.pwd-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:none;background:transparent;width:30px;height:30px;border-radius:6px;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center;}
+.pwd-eye:hover{background:var(--paper);color:var(--ink);}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 16px;border-radius:9px;border:1px solid var(--line);background:var(--paper-2);color:var(--ink);font-size:13.5px;font-weight:600;width:100%;}
 .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff;}
 .btn.primary:hover{background:var(--ink-2);}
@@ -158,6 +162,23 @@ function fmtMoney(n){
   return n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 function round2(n){ return Math.round((Number(n)||0)*100)/100; }
+function pwdField(id, value){
+  value = value || '';
+  return `<div class="pwd-wrap">
+    <input id="${id}" type="password" value="${value}" autocomplete="new-password">
+    <button type="button" class="pwd-eye" data-toggle-for="${id}">👁</button>
+  </div>`;
+}
+function bindPwdToggles(){
+  document.querySelectorAll('.pwd-eye').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const inp = document.getElementById(btn.dataset.toggleFor);
+      if(!inp) return;
+      inp.type = inp.type==='password' ? 'text' : 'password';
+      btn.textContent = inp.type==='password' ? '👁' : '🙈';
+    });
+  });
+}
 function toast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
@@ -180,6 +201,7 @@ let state = {
   currentMonth: null,
   adminMonth: 'Sep',
   sync: {url:'', secret:'', enabled:false},
+  adminSetupDraft: null,
 };
 
 function empById(id){ return state.employees.find(e=>e.id===id); }
@@ -287,7 +309,7 @@ function renderAuthScreen(){
       ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
       ${isLogin ? `
         <div class="field"><label>Username</label><input id="loginUsername" autocomplete="username"></div>
-        <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div>
+        <div class="field"><label>Password</label>${pwdField('loginPassword')}</div>
         <button class="btn primary" id="loginBtn">เข้าสู่ระบบ</button>
         <div class="auth-note">ยังไม่มีบัญชี? <a id="gotoRegister" style="cursor:pointer;text-decoration:underline;font-weight:600">สมัครใหม่ที่นี่</a></div>
       ` : `
@@ -298,8 +320,8 @@ function renderAuthScreen(){
           </select>
         </div>
         <div class="field"><label>ตั้งชื่อผู้ใช้ (Username)</label><input id="regUsername" autocomplete="username"></div>
-        <div class="field"><label>ตั้งรหัสผ่าน (Password)</label><input id="regPassword" type="password" autocomplete="new-password"></div>
-        <div class="field"><label>ยืนยันรหัสผ่าน</label><input id="regPassword2" type="password" autocomplete="new-password"></div>
+        <div class="field"><label>ตั้งรหัสผ่าน (Password)</label>${pwdField('regPassword')}</div>
+        <div class="field"><label>ยืนยันรหัสผ่าน</label>${pwdField('regPassword2')}</div>
         <button class="btn primary" id="registerBtn">สร้างบัญชี</button>
         <div class="auth-note">ถ้าไม่เห็นชื่อของคุณในรายการ หรือมีคนสมัครไปแล้ว ติดต่อ HR</div>
       `}
@@ -309,6 +331,7 @@ function renderAuthScreen(){
 }
 
 function bindAuthEvents(){
+  bindPwdToggles();
   document.querySelectorAll('.auth-tab').forEach(el=>{
     el.addEventListener('click', ()=>{ state.authTab = el.dataset.tab; state.authError=''; render(); });
   });
@@ -506,14 +529,15 @@ function renderProfileView(emp){
   <div class="section">
     <div class="section-head">เปลี่ยนรหัสผ่าน</div>
     <div class="section-body">
-      <div class="field"><label>รหัสผ่านเดิม</label><input id="oldPass" type="password"></div>
-      <div class="field"><label>รหัสผ่านใหม่</label><input id="newPass" type="password"></div>
+      <div class="field"><label>รหัสผ่านเดิม</label>${pwdField('oldPass')}</div>
+      <div class="field"><label>รหัสผ่านใหม่</label>${pwdField('newPass')}</div>
       <button class="btn primary" id="changePassBtn">บันทึกรหัสผ่านใหม่</button>
     </div>
   </div>`;
 }
 
 function bindEmployeeAppEvents(){
+  bindPwdToggles();
   const logoutBtn = document.getElementById('logoutBtn') || document.getElementById('logoutBtn2');
   if(logoutBtn) logoutBtn.addEventListener('click', doLogout);
   const profileBtn = document.getElementById('profileBtn');
@@ -547,24 +571,27 @@ async function changePassword(){
 const ADMIN_SETUP_KEY = 'YAKYIM-OWNER-2026'; // เปลี่ยนรหัสนี้เป็นของคุณเอง (รู้เฉพาะเจ้าของร้าน) ก่อนแจกไฟล์ให้ใครใช้งาน
 
 function renderAdminSetup(){
+  const d = state.adminSetupDraft || {key:'', p1:'', p2:''};
   return `
   <div class="auth-wrap"><div class="auth-card">
     <div class="auth-brand"><div class="mark">Y</div><div><div class="name">Admin Setup</div><div class="sub">ตั้งรหัสผ่านผู้ดูแลระบบครั้งแรก</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>รหัสลับตั้งต้น (Setup Key)</label><input id="adminSetupKey" type="password" placeholder="รับจากเจ้าของร้านเท่านั้น"></div>
-    <div class="field"><label>ตั้งรหัสผ่าน Admin</label><input id="adminPass1" type="password"></div>
-    <div class="field"><label>ยืนยันรหัสผ่าน</label><input id="adminPass2" type="password"></div>
+    <div class="field"><label>รหัสลับตั้งต้น (Setup Key)</label><input id="adminSetupKey" type="text" value="${d.key}" placeholder="รับจากเจ้าของร้านเท่านั้น"></div>
+    <div class="field"><label>ตั้งรหัสผ่าน Admin</label>${pwdField('adminPass1', d.p1)}</div>
+    <div class="field"><label>ยืนยันรหัสผ่าน</label>${pwdField('adminPass2', d.p2)}</div>
     <button class="btn gold" id="setupAdminBtn">ตั้งรหัสผ่าน</button>
     <div class="auth-note">รหัสผ่านนี้จะใช้เข้าหน้าแอดมินเพื่อกรอกเงินเดือนรายเดือนให้พนักงาน — ตั้งครั้งเดียว จำให้ดี</div>
     <div class="auth-foot-link"><a id="backToAuth">‹ กลับหน้าเข้าสู่ระบบพนักงาน</a></div>
   </div></div>`;
 }
 function bindAdminSetupEvents(){
+  bindPwdToggles();
   document.getElementById('setupAdminBtn').addEventListener('click', async ()=>{
     const setupKey = document.getElementById('adminSetupKey').value.trim();
-    if(setupKey !== ADMIN_SETUP_KEY){ state.authError='รหัสลับตั้งต้นไม่ถูกต้อง — ติดต่อเจ้าของระบบ'; render(); return; }
     const p1 = document.getElementById('adminPass1').value;
     const p2 = document.getElementById('adminPass2').value;
+    state.adminSetupDraft = {key:setupKey, p1, p2}; // remember what was typed in case of error
+    if(setupKey !== ADMIN_SETUP_KEY){ state.authError='รหัสลับตั้งต้นไม่ถูกต้อง — ติดต่อเจ้าของระบบ'; render(); return; }
     if(!p1 || p1.length<6){ state.authError='รหัสผ่าน Admin ต้องมีอย่างน้อย 6 ตัวอักษร'; render(); return; }
     if(p1 !== p2){ state.authError='รหัสผ่านยืนยันไม่ตรงกัน'; render(); return; }
     const salt = randomSalt();
@@ -572,11 +599,12 @@ function bindAdminSetupEvents(){
     state.adminAuth = {salt, hash};
     await storageSet('adminAuth', true, state.adminAuth);
     state.authError = '';
+    state.adminSetupDraft = null;
     toast('ตั้งรหัสผ่าน Admin สำเร็จ');
     state.screen = 'admin';
     render();
   });
-  document.getElementById('backToAuth').addEventListener('click', ()=>{ state.screen='auth'; state.authError=''; render(); });
+  document.getElementById('backToAuth').addEventListener('click', ()=>{ state.screen='auth'; state.authError=''; state.adminSetupDraft=null; render(); });
 }
 
 function renderAdminLogin(){
@@ -584,13 +612,14 @@ function renderAdminLogin(){
   <div class="auth-wrap"><div class="auth-card">
     <div class="auth-brand"><div class="mark">Y</div><div><div class="name">Admin Login</div><div class="sub">เข้าสู่ระบบผู้ดูแล</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>รหัสผ่าน Admin</label><input id="adminPassInput" type="password"></div>
+    <div class="field"><label>รหัสผ่าน Admin</label>${pwdField('adminPassInput')}</div>
     <button class="btn gold" id="adminLoginBtn">เข้าสู่ระบบ</button>
     <div class="auth-note"><a id="forgotAdminPass" style="cursor:pointer;text-decoration:underline;font-weight:600;color:var(--ink)">ลืมรหัสผ่าน? รีเซ็ตด้วย Setup Key</a></div>
     <div class="auth-foot-link"><a id="backToAuth2">‹ กลับหน้าเข้าสู่ระบบพนักงาน</a></div>
   </div></div>`;
 }
 function bindAdminLoginEvents(){
+  bindPwdToggles();
   document.getElementById('adminLoginBtn').addEventListener('click', async ()=>{
     const p = document.getElementById('adminPassInput').value;
     const hash = await hashPassword(p, state.adminAuth.salt);
@@ -608,14 +637,15 @@ function renderAdminReset(){
   <div class="auth-wrap"><div class="auth-card">
     <div class="auth-brand"><div class="mark">Y</div><div><div class="name">รีเซ็ตรหัสผ่าน Admin</div><div class="sub">ต้องใช้ Setup Key เดียวกับตอนตั้งค่าครั้งแรก</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>Setup Key</label><input id="resetSetupKey" type="password"></div>
-    <div class="field"><label>รหัสผ่านใหม่</label><input id="resetPass1" type="password"></div>
-    <div class="field"><label>ยืนยันรหัสผ่านใหม่</label><input id="resetPass2" type="password"></div>
+    <div class="field"><label>Setup Key</label><input id="resetSetupKey" type="text"></div>
+    <div class="field"><label>รหัสผ่านใหม่</label>${pwdField('resetPass1')}</div>
+    <div class="field"><label>ยืนยันรหัสผ่านใหม่</label>${pwdField('resetPass2')}</div>
     <button class="btn gold" id="resetAdminBtn">รีเซ็ตรหัสผ่าน</button>
     <div class="auth-foot-link"><a id="backToAdminLogin">‹ กลับหน้า Admin Login</a></div>
   </div></div>`;
 }
 function bindAdminResetEvents(){
+  bindPwdToggles();
   document.getElementById('resetAdminBtn').addEventListener('click', async ()=>{
     const key = document.getElementById('resetSetupKey').value.trim();
     if(key !== ADMIN_SETUP_KEY){ state.authError='Setup Key ไม่ถูกต้อง'; render(); return; }
@@ -719,7 +749,7 @@ function renderAdminApp(){
       <div class="section-head">ซิงค์กับ Google Sheets <span class="admin-badge" style="background:${state.sync.enabled?'var(--green)':'var(--line)'};color:${state.sync.enabled?'#fff':'var(--muted)'}">${state.sync.enabled?'เปิดอยู่':'ปิดอยู่'}</span></div>
       <div class="section-body">
         <div class="field"><label>Apps Script Web App URL</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
-        <div class="field"><label>Secret</label><input id="syncSecret" type="password" value="${state.sync.secret||''}"></div>
+        <div class="field"><label>Secret</label>${pwdField('syncSecret', state.sync.secret||'')}</div>
         <label style="display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;cursor:pointer">
           <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> เปิดใช้งานซิงค์
         </label>
@@ -734,6 +764,7 @@ function renderAdminApp(){
 }
 
 function bindAdminAppEvents(){
+  bindPwdToggles();
   document.getElementById('adminLogoutBtn').addEventListener('click', ()=>{ state.screen='auth'; state.authTab='login'; render(); });
   document.getElementById('adminMonthSelect').addEventListener('change', (ev)=>{ state.adminMonth = ev.target.value; render(); });
   document.querySelectorAll('.cell-input').forEach(inp=>{

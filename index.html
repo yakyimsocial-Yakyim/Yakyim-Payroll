@@ -388,6 +388,7 @@ let state = {
   adminMonth: 'Sep',
   sync: {url:'', secret:'', enabled:false, bakedIn:false},
   adminSetupDraft: null,
+  regDraft: {empId:'', pin:'', username:'', password:'', password2:''},
   lang: 'en',
 };
 
@@ -675,13 +676,13 @@ function renderAuthScreen(){
         <div class="field"><label>${t('selectYourName')}</label>
           <select id="regEmpId">
             <option value="">${t('selectNamePlaceholder')}</option>
-            ${availableRoster.map(e=>`<option value="${e.id}">${e.name} (${e.position||''})</option>`).join('')}
+            ${availableRoster.map(e=>`<option value="${e.id}" ${state.regDraft.empId===e.id?'selected':''}>${e.name} (${e.position||''})</option>`).join('')}
           </select>
         </div>
-        <div class="field"><label>${t('pinLabel')}</label><input id="regPin" inputmode="numeric" placeholder="${t('pinPlaceholder')}"></div>
-        <div class="field"><label>${t('setUsername')}</label><input id="regUsername" autocomplete="username"></div>
-        <div class="field"><label>${t('setPassword')}</label>${pwdField('regPassword')}</div>
-        <div class="field"><label>${t('confirmPassword')}</label>${pwdField('regPassword2')}</div>
+        <div class="field"><label>${t('pinLabel')}</label><input id="regPin" inputmode="numeric" placeholder="${t('pinPlaceholder')}" value="${state.regDraft.pin}"></div>
+        <div class="field"><label>${t('setUsername')}</label><input id="regUsername" autocomplete="username" value="${state.regDraft.username}"></div>
+        <div class="field"><label>${t('setPassword')}</label>${pwdField('regPassword', state.regDraft.password)}</div>
+        <div class="field"><label>${t('confirmPassword')}</label>${pwdField('regPassword2', state.regDraft.password2)}</div>
         <button class="btn primary" id="registerBtn">${t('createAccount')}</button>
         <div class="auth-note">${t('registerNote')}</div>
       `}
@@ -735,11 +736,13 @@ async function doRegister(){
   const username = document.getElementById('regUsername').value.trim();
   const password = document.getElementById('regPassword').value;
   const password2 = document.getElementById('regPassword2').value;
+  // remember what was typed in case of a validation error, so fields aren't wiped on re-render
+  state.regDraft = {empId, pin, username, password, password2};
   if(!empId){ state.authError=t('pleaseSelectName'); render(); return; }
   const emp = empById(empId);
   if(!pin){ state.authError=t('pleaseEnterPin'); render(); return; }
   if(!emp.pin){ state.authError=t('pinNotSet'); render(); return; }
-  if(pin !== emp.pin){ state.authError=t('pinIncorrect'); render(); return; }
+  if(pin !== String(emp.pin).trim()){ state.authError=t('pinIncorrect'); render(); return; }
   if(!username || username.length<3){ state.authError=t('usernameMinLen'); render(); return; }
   if(state.accounts.some(a=>a.username.toLowerCase()===username.toLowerCase())){
     state.authError=t('usernameTaken'); render(); return;
@@ -755,6 +758,7 @@ async function doRegister(){
 
   state.authError = '';
   state.authTab = 'login';
+  state.regDraft = {empId:'', pin:'', username:'', password:'', password2:''};
   toast(t('registerPendingMsg'));
   render();
 }

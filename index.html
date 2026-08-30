@@ -29,6 +29,10 @@ input,select{font-family:inherit;}
 .auth-brand .name{font-family:'Fraunces',serif;font-weight:600;font-size:19px;}
 .auth-brand .sub{font-size:12px;color:var(--muted);}
 .auth-tabs{display:flex;gap:4px;background:var(--paper);border-radius:9px;padding:4px;margin-bottom:20px;}
+.lang-switch{display:flex;gap:4px;margin-bottom:16px;background:var(--paper);border-radius:8px;padding:3px;}
+.lang-btn{flex:1;border:none;background:transparent;color:var(--muted);font-size:12px;font-weight:600;padding:6px 0;border-radius:6px;}
+.lang-btn.active{background:var(--gold);color:var(--ink);}
+.lang-btn:hover:not(.active){background:rgba(0,0,0,0.04);}
 .auth-tab{flex:1;text-align:center;padding:9px 0;border:none;background:transparent;border-radius:7px;font-size:13.5px;font-weight:600;color:var(--muted);}
 .auth-tab.active{background:var(--ink);color:#fff;}
 .field{margin-bottom:14px;}
@@ -107,12 +111,13 @@ td{padding:6px;border-bottom:1px solid var(--line);white-space:nowrap;}
 .toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,0.25);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:100;}
 .toast.show{opacity:1;transform:translateY(0);}
 .empty-state{padding:30px 18px;text-align:center;color:var(--muted);font-size:13px;}
+.pending-badge{display:inline-block;background:var(--red-bg);color:var(--red);font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.4px;}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <div id="toast" class="toast"></div>
-<script id="app-data" type="application/json">{"roster": [{"name": "Nittaya Maungsri (Mai)", "position": "Cashier", "status": "Active", "resignMonth": null}, {"name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "status": "Active", "resignMonth": null}, {"name": "Molchai Bunchim (Moon)", "position": "Head Chef", "status": "Active", "resignMonth": null}, {"name": "Aung Zaw Myo (Song)", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Pwint zar chi win (Puye)", "position": "Waitress", "status": "Active", "resignMonth": null}, {"name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "status": "Active", "resignMonth": null}, {"name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AungThan Oo (Aong)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Than Hlaing", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Panthazin", "position": "Waitress", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Moe malar Aung", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Zin min Naing", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Mi Aye Myint", "position": "Part Time", "status": "Active", "resignMonth": null}], "Jul": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 4.0, "otAmtHours": 32.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3112.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 700.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 95.4, "totalDeduct": 800.4, "netSalary": 2311.6}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2296.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 200.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 68.1, "totalDeduct": 468.1, "netSalary": 1827.9}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 4304.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 2400.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 134.4, "totalDeduct": 3039.4, "netSalary": 1264.6}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1788.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1783.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1904.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1599.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3088.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 500.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 94.1, "totalDeduct": 1104.1, "netSalary": 1983.9}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2288.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 900.0, "visaFee": 210.0, "loan": 149.0, "epfSocso": 68.1, "totalDeduct": 1327.1, "netSalary": 960.9}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2096.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 355.0, "netSalary": 1741.0}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2196.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 50.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 50.0, "netSalary": 2146.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1796.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1491.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1508.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1708.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1708.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 8.0, "otAmtHours": 64.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 64.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 64.0}}, "Aug": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2816.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 2.0, "scAmt": 10.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 1200.0, "visaFee": 460.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1670.0, "netSalary": 1146.0}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 500.0, "netSalary": 1500.0}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 4008.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 2961.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 0.0, "totalDeduct": 3496.0, "netSalary": 512.0}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1516.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1516.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1616.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 350.0, "netSalary": 1266.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2808.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 700.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 0.0, "totalDeduct": 1230.0, "netSalary": 1578.0}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 800.0, "visaFee": 210.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1010.0, "netSalary": 990.0}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1800.0, "leaveDays": 6.0, "leaveAmt": 348.39, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 718.39, "netSalary": 1081.61}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1924.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 400.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 425.0, "netSalary": 1499.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 320.0, "netSalary": 1188.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1500.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 35.0, "netSalary": 1465.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1716.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1711.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 0.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}, "Hung": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 12.0, "otAmtDays": 480.0, "commission": 0.0, "totalIncome": 480.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 480.0}}}</script>
+<script id="app-data" type="application/json">{"roster": [{"name": "Nittaya Maungsri (Mai)", "position": "Cashier", "status": "Active", "resignMonth": null}, {"name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "status": "Active", "resignMonth": null}, {"name": "Molchai Bunchim (Moon)", "position": "Head Chef", "status": "Active", "resignMonth": null}, {"name": "Aung Zaw Myo (Song)", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Pwint zar chi win (Puye)", "position": "Waitress", "status": "Active", "resignMonth": null}, {"name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "status": "Active", "resignMonth": null}, {"name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AungThan Oo (Aong)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Than Hlaing", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Panthazin", "position": "Waitress", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Moe malar Aung", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Zin min Naing", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Mi Aye Myint", "position": "Part Time", "status": "Active", "resignMonth": null}], "Jul": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 4.0, "otAmtHours": 32.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3112.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 700.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 95.4, "totalDeduct": 800.4, "netSalary": 2311.6}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2296.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 200.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 68.1, "totalDeduct": 468.1, "netSalary": 1827.9}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 4304.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 2400.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 134.4, "totalDeduct": 3039.4, "netSalary": 1264.6}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1788.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1783.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1904.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1599.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3088.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 500.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 94.1, "totalDeduct": 1104.1, "netSalary": 1983.9}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2288.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 900.0, "visaFee": 210.0, "loan": 149.0, "epfSocso": 68.1, "totalDeduct": 1327.1, "netSalary": 960.9}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2096.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 355.0, "netSalary": 1741.0}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2196.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 50.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 50.0, "netSalary": 2146.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1796.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1491.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1508.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1708.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1708.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 8.0, "otAmtHours": 64.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 64.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}}, "Aug": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2816.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 2.0, "scAmt": 10.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 1200.0, "visaFee": 460.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1670.0, "netSalary": 1146.0}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 500.0, "netSalary": 1500.0}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 4008.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 2961.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 0.0, "totalDeduct": 3496.0, "netSalary": 512.0}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1516.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1516.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1616.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 350.0, "netSalary": 1266.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2808.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 700.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 0.0, "totalDeduct": 1230.0, "netSalary": 1578.0}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 800.0, "visaFee": 210.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1010.0, "netSalary": 990.0}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1800.0, "leaveDays": 6.0, "leaveAmt": 348.39, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 718.39, "netSalary": 1081.61}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1924.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 400.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 425.0, "netSalary": 1499.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 320.0, "netSalary": 1188.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1500.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 35.0, "netSalary": 1465.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1716.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1711.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 0.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}, "Hung": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 12.0, "otAmtDays": 480.0, "commission": 0.0, "totalIncome": 480.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}}}</script>
 <script>
 /* ===================== YAKYIM TMP — EMPLOYEE PORTAL ===================== */
 const SEED = JSON.parse(document.getElementById('app-data').textContent);
@@ -186,6 +191,175 @@ function toast(msg){
   toast._tm = setTimeout(()=>t.classList.remove('show'), 2000);
 }
 
+/* ---------------- i18n ---------------- */
+const I18N = {
+  en: {
+    portalTitle: 'Yakyim TMP', portalSub: 'Employee Self-Service Portal',
+    login: 'Login', register: 'Register',
+    usernameLabel: 'Username', passwordLabel: 'Password', loginBtn: 'Login',
+    noAccount: "Don't have an account?", registerHere: 'Register here',
+    selectYourName: 'Select your name', selectNamePlaceholder: '— Select employee —',
+    pinLabel: 'PIN from HR', pinPlaceholder: 'Ask HR for your PIN',
+    setUsername: 'Set username', setPassword: 'Set password', confirmPassword: 'Confirm password',
+    createAccount: 'Submit request',
+    registerNote: "If you don't see your name, or it's already taken, contact HR",
+    adminLink: 'For system administrator (Admin)',
+    pleaseEnterBoth: 'Please enter username and password', accountNotFound: 'Account not found',
+    wrongPassword: 'Incorrect password', pleaseSelectName: 'Please select your name',
+    usernameMinLen: 'Username must be at least 3 characters', usernameTaken: 'This username is already taken',
+    passwordMinLen: 'Password must be at least 4 characters', passwordMismatch: "Passwords don't match",
+    accountCreated: 'Account created!',
+    pleaseEnterPin: 'Please enter the PIN given by HR',
+    pinNotSet: 'No PIN has been set for this employee yet. Contact Admin.',
+    pinIncorrect: 'Incorrect PIN',
+    registerPendingMsg: 'Request submitted! Please wait for Admin to approve your account before logging in.',
+    pendingLoginError: 'This account is awaiting Admin approval.',
+    empNotFound: 'Employee record not found. Please contact HR.', backToLogin: 'Back to login',
+    profileBtn: 'Profile', logoutBtn: 'Log out',
+    myPayslips: 'My Payslips', noDataYet: 'No data yet',
+    backToMonths: '‹ Back to months', noDataFound: 'No data found',
+    kitchenSub: 'Thai Kitchen — Payroll Slip', payslipLabel: 'Payslip',
+    employeeLabel: 'Employee', positionLabel: 'Position',
+    income: 'Income (Income)', baseSalary: 'Base salary', allowance: 'Allowance',
+    commissionService: 'Commission / Service Charge', totalIncome: 'Total income',
+    deductions: 'Deductions', leaveLabel: (n)=>`Leave (${n} days)`,
+    staffCardLabel: (n)=>`Staff Card (${n}×)`, lateLabel: (n)=>`Late/Rule (${n} min)`,
+    advanceLabel: 'Advance', visaFeeLabel: 'Visa Fee', loanLabel: 'Loan',
+    epfSocsoLabel: 'EPF + Socso', totalDeductLabel: 'Total deductions', netPaySub: 'Net Pay',
+    myProfile: 'My Profile', fullNameLabel: 'Full name', statusLabel: 'Status', activeStatus: 'Active',
+    changePassword: 'Change Password', oldPassword: 'Old password', newPassword: 'New password',
+    savePassword: 'Save new password',
+    incorrectOldPass: 'Old password is incorrect', accountNotFound2: 'Account not found',
+    passChanged: 'Password changed successfully',
+    adminSetupTitle: 'Admin Setup', adminSetupSub: 'Set up the administrator password for the first time',
+    setupKeyLabel: 'Setup Key', setupKeyPlaceholder: 'Provided by the shop owner only',
+    setAdminPassword: 'Set Admin password', confirmAdminPassword: 'Confirm password', setPasswordBtn: 'Set password',
+    adminSetupNote: 'This password will be used to access the admin page to enter monthly payroll for employees — set it once and remember it well.',
+    backToEmployeeLogin: '‹ Back to employee login',
+    invalidSetupKey: 'Invalid Setup Key — contact the system owner',
+    adminPassMinLen: 'Admin password must be at least 6 characters',
+    setupSuccess: 'Admin password set successfully',
+    adminLoginTitle: 'Admin Login', adminLoginSub: 'Sign in as administrator',
+    adminPasswordLabel: 'Admin password', forgotPassword: 'Forgot password? Reset with Setup Key',
+    adminResetTitle: 'Reset Admin Password', adminResetSub: 'Requires the same Setup Key used during initial setup',
+    resetPasswordBtn: 'Reset password', backToAdminLogin: '‹ Back to Admin Login',
+    invalidSetupKey2: 'Invalid Setup Key', passwordMinLen6: 'Password must be at least 6 characters',
+    resetSuccess: 'Password reset successfully',
+    adminBadge: 'Admin', payrollEntryTitle: 'Yakyim TMP Payroll Entry',
+    enterPayroll: (m)=>`Enter Employee Payroll — ${m} 2026`,
+    col_name: 'Name', col_allowance: 'Allowance', col_baseSalary: 'Base Salary', col_otHrs: 'OT(hrs)',
+    col_otDays: 'OT(days)', col_commission: 'Commission', col_totalIncome: 'Total Income',
+    col_leaveDays: 'Leave(days)', col_sc: 'SC', col_late: 'Late(min)', col_advance: 'Advance',
+    col_visaFee: 'Visa Fee', col_loan: 'Loan', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'Total Deduct', col_net: 'NET',
+    formulaNote: (h,d,s,l)=>`Formula: OT/hr RM${h} · OT/day RM${d} · Leave deduction = base salary÷26×leave days · Staff Card RM${s}/time · Late RM${l}/min · Data auto-saves on every edit`,
+    manageAccounts: (n)=>`Approved employee accounts (${n})`,
+    usernameCol: 'Username', notFound: '(not found)', deleteAccount: 'Delete account (require re-register)',
+    noAccountsYet: 'No employees have registered yet',
+    deleteAccountConfirm: 'Delete this account? The employee will need to register again.',
+    pendingAccountsTitle: (n)=>`Pending approval (${n})`,
+    noPendingAccounts: 'No pending registration requests',
+    approveBtn: 'Approve', rejectBtn: 'Reject',
+    rejectConfirm: 'Reject and delete this registration request?',
+    approvedToast: 'Account approved', rejectedToast: 'Request rejected',
+    pinManageTitle: 'Employee PINs (give these to employees for registration)',
+    pinManageNote: 'Each employee needs this PIN once, to register their own account. Change it any time — it does not affect an already-approved account.',
+    col_pin: 'PIN', pinSaved: 'PIN saved', pinPlaceholderAdmin: 'Not set',
+    syncTitle: 'Sync with Google Sheets', syncOn: 'On', syncOff: 'Off',
+    syncUrlLabel: 'Apps Script Web App URL', syncSecretLabel: 'Secret', syncEnableLabel: 'Enable sync',
+    saveBtn: 'Save', pushNowBtn: 'Push all data now', pullNowBtn: 'Pull data now',
+    syncSaved: 'Sync settings saved', enterUrlSecret: 'Please enter URL and Secret first',
+    sendingData: 'Sending data...', pullingData: 'Pulling data...',
+    pushSuccess: 'Data pushed to Google Sheets successfully', pushFailed: 'Failed to push data',
+    pullError: (e)=>`Error: ${e}`, pullSuccess: 'Data pulled from Google Sheets successfully', pullFailed: 'Failed to pull data',
+    saved: 'Saved',
+  },
+  th: {
+    portalTitle: 'Yakyim TMP', portalSub: 'Employee Self-Service Portal',
+    login: 'เข้าสู่ระบบ', register: 'สมัครใหม่',
+    usernameLabel: 'Username', passwordLabel: 'Password', loginBtn: 'เข้าสู่ระบบ',
+    noAccount: 'ยังไม่มีบัญชี?', registerHere: 'สมัครใหม่ที่นี่',
+    selectYourName: 'เลือกชื่อของคุณ', selectNamePlaceholder: '— เลือกชื่อพนักงาน —',
+    pinLabel: 'PIN จาก HR', pinPlaceholder: 'ขอ PIN จาก HR',
+    setUsername: 'ตั้งชื่อผู้ใช้ (Username)', setPassword: 'ตั้งรหัสผ่าน (Password)', confirmPassword: 'ยืนยันรหัสผ่าน',
+    createAccount: 'ส่งคำขอสมัคร',
+    registerNote: 'ถ้าไม่เห็นชื่อของคุณในรายการ หรือมีคนสมัครไปแล้ว ติดต่อ HR',
+    adminLink: 'สำหรับผู้ดูแลระบบ (Admin)',
+    pleaseEnterBoth: 'กรุณากรอก Username และ Password', accountNotFound: 'ไม่พบบัญชีนี้',
+    wrongPassword: 'รหัสผ่านไม่ถูกต้อง', pleaseSelectName: 'กรุณาเลือกชื่อของคุณ',
+    usernameMinLen: 'Username ต้องมีอย่างน้อย 3 ตัวอักษร', usernameTaken: 'Username นี้ถูกใช้แล้ว',
+    passwordMinLen: 'รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร', passwordMismatch: 'รหัสผ่านยืนยันไม่ตรงกัน',
+    accountCreated: 'สร้างบัญชีสำเร็จ!',
+    pleaseEnterPin: 'กรุณากรอก PIN ที่ได้รับจาก HR',
+    pinNotSet: 'พนักงานคนนี้ยังไม่มีการตั้ง PIN กรุณาติดต่อ Admin',
+    pinIncorrect: 'PIN ไม่ถูกต้อง',
+    registerPendingMsg: 'ส่งคำขอสมัครแล้ว! กรุณารอ Admin กดอนุมัติก่อนจึงจะเข้าสู่ระบบได้',
+    pendingLoginError: 'บัญชีนี้กำลังรอ Admin อนุมัติ',
+    empNotFound: 'ไม่พบข้อมูลพนักงาน กรุณาติดต่อ HR', backToLogin: 'กลับหน้าเข้าสู่ระบบ',
+    profileBtn: 'โปรไฟล์', logoutBtn: 'ออกจากระบบ',
+    myPayslips: 'สลิปเงินเดือนของฉัน', noDataYet: 'ยังไม่มีข้อมูล',
+    backToMonths: '‹ กลับไปหน้ารายเดือน', noDataFound: 'ไม่พบข้อมูล',
+    kitchenSub: 'Thai Kitchen — สลิปเงินเดือน', payslipLabel: 'สลิปเงินเดือน',
+    employeeLabel: 'ชื่อพนักงาน', positionLabel: 'ตำแหน่ง',
+    income: 'รายได้ (Income)', baseSalary: 'เงินเดือนฐาน', allowance: 'Allowance',
+    commissionService: 'Commission / Service Charge', totalIncome: 'รวมรายได้',
+    deductions: 'รายการหัก (Deductions)', leaveLabel: (n)=>`ลา (${n} วัน)`,
+    staffCardLabel: (n)=>`Staff Card (${n} ครั้ง)`, lateLabel: (n)=>`มาสาย/กฎ (${n} นาที)`,
+    advanceLabel: 'เบิกล่วงหน้า', visaFeeLabel: 'ค่าวีซ่า', loanLabel: 'เงินกู้',
+    epfSocsoLabel: 'EPF + Socso', totalDeductLabel: 'รวมรายการหัก', netPaySub: 'Net Pay สุทธิ',
+    myProfile: 'โปรไฟล์ของฉัน', fullNameLabel: 'ชื่อ-นามสกุล', statusLabel: 'สถานะ', activeStatus: 'ทำงานอยู่',
+    changePassword: 'เปลี่ยนรหัสผ่าน', oldPassword: 'รหัสผ่านเดิม', newPassword: 'รหัสผ่านใหม่',
+    savePassword: 'บันทึกรหัสผ่านใหม่',
+    incorrectOldPass: 'รหัสผ่านเดิมไม่ถูกต้อง', accountNotFound2: 'ไม่พบบัญชี',
+    passChanged: 'เปลี่ยนรหัสผ่านสำเร็จ',
+    adminSetupTitle: 'Admin Setup', adminSetupSub: 'ตั้งรหัสผ่านผู้ดูแลระบบครั้งแรก',
+    setupKeyLabel: 'รหัสลับตั้งต้น (Setup Key)', setupKeyPlaceholder: 'รับจากเจ้าของร้านเท่านั้น',
+    setAdminPassword: 'ตั้งรหัสผ่าน Admin', confirmAdminPassword: 'ยืนยันรหัสผ่าน', setPasswordBtn: 'ตั้งรหัสผ่าน',
+    adminSetupNote: 'รหัสผ่านนี้จะใช้เข้าหน้าแอดมินเพื่อกรอกเงินเดือนรายเดือนให้พนักงาน — ตั้งครั้งเดียว จำให้ดี',
+    backToEmployeeLogin: '‹ กลับหน้าเข้าสู่ระบบพนักงาน',
+    invalidSetupKey: 'รหัสลับตั้งต้นไม่ถูกต้อง — ติดต่อเจ้าของระบบ',
+    adminPassMinLen: 'รหัสผ่าน Admin ต้องมีอย่างน้อย 6 ตัวอักษร',
+    setupSuccess: 'ตั้งรหัสผ่าน Admin สำเร็จ',
+    adminLoginTitle: 'Admin Login', adminLoginSub: 'เข้าสู่ระบบผู้ดูแล',
+    adminPasswordLabel: 'รหัสผ่าน Admin', forgotPassword: 'ลืมรหัสผ่าน? รีเซ็ตด้วย Setup Key',
+    adminResetTitle: 'รีเซ็ตรหัสผ่าน Admin', adminResetSub: 'ต้องใช้ Setup Key เดียวกับตอนตั้งค่าครั้งแรก',
+    resetPasswordBtn: 'รีเซ็ตรหัสผ่าน', backToAdminLogin: '‹ กลับหน้า Admin Login',
+    invalidSetupKey2: 'Setup Key ไม่ถูกต้อง', passwordMinLen6: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร',
+    resetSuccess: 'รีเซ็ตรหัสผ่านสำเร็จ',
+    adminBadge: 'Admin', payrollEntryTitle: 'Yakyim TMP Payroll Entry',
+    enterPayroll: (m)=>`กรอกเงินเดือนพนักงาน — ${m} 2026`,
+    col_name: 'ชื่อ', col_allowance: 'Allowance', col_baseSalary: 'เงินเดือนฐาน', col_otHrs: 'OT(ชม)',
+    col_otDays: 'OT(วัน)', col_commission: 'Commission', col_totalIncome: 'รวมรายได้',
+    col_leaveDays: 'ลา(วัน)', col_sc: 'SC', col_late: 'สาย(นาที)', col_advance: 'เบิกล่วงหน้า',
+    col_visaFee: 'ค่าวีซ่า', col_loan: 'เงินกู้', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'รวมหัก', col_net: 'NET',
+    formulaNote: (h,d,s,l)=>`สูตร: OT/ชม RM${h} · OT/วัน RM${d} · หักลา = เงินเดือนฐาน÷26×วันลา · Staff Card RM${s}/ครั้ง · มาสาย RM${l}/นาที · ข้อมูลบันทึกอัตโนมัติทุกครั้งที่แก้ไข`,
+    manageAccounts: (n)=>`บัญชีพนักงานที่อนุมัติแล้ว (${n})`,
+    usernameCol: 'Username', notFound: '(ไม่พบ)', deleteAccount: 'ลบบัญชี (ให้สมัครใหม่)',
+    noAccountsYet: 'ยังไม่มีพนักงานสมัครบัญชี',
+    deleteAccountConfirm: 'ลบบัญชีนี้? พนักงานจะต้องสมัครใหม่',
+    pendingAccountsTitle: (n)=>`รออนุมัติ (${n})`,
+    noPendingAccounts: 'ไม่มีคำขอสมัครที่รออนุมัติ',
+    approveBtn: 'อนุมัติ', rejectBtn: 'ปฏิเสธ',
+    rejectConfirm: 'ปฏิเสธและลบคำขอสมัครนี้?',
+    approvedToast: 'อนุมัติบัญชีแล้ว', rejectedToast: 'ปฏิเสธคำขอแล้ว',
+    pinManageTitle: 'PIN พนักงาน (แจกให้พนักงานใช้ตอนสมัคร)',
+    pinManageNote: 'พนักงานแต่ละคนต้องใช้ PIN นี้เพียงครั้งเดียวตอนสมัครบัญชี เปลี่ยนได้ตลอดเวลา ไม่กระทบบัญชีที่อนุมัติไปแล้ว',
+    col_pin: 'PIN', pinSaved: 'บันทึก PIN แล้ว', pinPlaceholderAdmin: 'ยังไม่ตั้ง',
+    syncTitle: 'ซิงค์กับ Google Sheets', syncOn: 'เปิดอยู่', syncOff: 'ปิดอยู่',
+    syncUrlLabel: 'Apps Script Web App URL', syncSecretLabel: 'Secret', syncEnableLabel: 'เปิดใช้งานซิงค์',
+    saveBtn: 'บันทึก', pushNowBtn: 'ส่งข้อมูลทั้งหมดขึ้นชีตตอนนี้', pullNowBtn: 'ดึงข้อมูลจากชีตตอนนี้',
+    syncSaved: 'บันทึกการตั้งค่าซิงค์แล้ว', enterUrlSecret: 'กรุณาใส่ URL และ Secret ก่อน',
+    sendingData: 'กำลังส่งข้อมูล...', pullingData: 'กำลังดึงข้อมูล...',
+    pushSuccess: 'ส่งข้อมูลขึ้น Google Sheets สำเร็จ', pushFailed: 'ส่งข้อมูลไม่สำเร็จ',
+    pullError: (e)=>`ผิดพลาด: ${e}`, pullSuccess: 'ดึงข้อมูลจาก Google Sheets สำเร็จ', pullFailed: 'ดึงข้อมูลไม่สำเร็จ',
+    saved: 'บันทึกแล้ว',
+  }
+};
+function t(key, ...args){
+  const v = I18N[state.lang][key];
+  if(typeof v === 'function') return v(...args);
+  return v!==undefined ? v : key;
+}
+
 /* ---------------- state ---------------- */
 let state = {
   screen: 'loading',        // loading | auth | app | admin
@@ -194,7 +368,7 @@ let state = {
   session: null,             // {username, empId} once logged in
   adminSession: false,
   employees: [],             // roster with ids
-  accounts: [],              // [{username, salt, hash, empId}]
+  accounts: [],              // [{username, salt, hash, empId, status}]
   payslips: {},               // {empId: {month: record}}
   adminAuth: null,            // {salt, hash} or null (not set up yet)
   currentView: 'months',      // months | payslip | profile
@@ -202,6 +376,7 @@ let state = {
   adminMonth: 'Sep',
   sync: {url:'', secret:'', enabled:false},
   adminSetupDraft: null,
+  lang: 'en',
 };
 
 function empById(id){ return state.employees.find(e=>e.id===id); }
@@ -214,14 +389,22 @@ async function loadAll(){
       name: r.name, position: r.position,
       baseSalary: (SEED.Jul[r.name]||SEED.Aug[r.name]||{}).baseSalary || 0,
       allowance: (SEED.Jul[r.name]||SEED.Aug[r.name]||{}).allowance || 0,
-      status: r.status, resignMonth: r.resignMonth
+      status: r.status, resignMonth: r.resignMonth, pin: ''
     }));
     await storageSet('employees', true, employees);
   }
+  // migrate older saved records that don't have a pin field yet
+  let employeesChanged = false;
+  employees.forEach(e=>{ if(e.pin===undefined){ e.pin=''; employeesChanged=true; } });
+  if(employeesChanged) await storageSet('employees', true, employees);
   state.employees = employees;
 
   let accounts = await storageGet('accounts', true, null);
   if(!accounts){ accounts = []; await storageSet('accounts', true, accounts); }
+  // migrate older saved accounts that predate the approval flow: treat them as already approved
+  let accountsChanged = false;
+  accounts.forEach(a=>{ if(a.status===undefined){ a.status='approved'; accountsChanged=true; } });
+  if(accountsChanged) await storageSet('accounts', true, accounts);
   state.accounts = accounts;
 
   let payslips = await storageGet('payslips', true, null);
@@ -244,11 +427,12 @@ async function loadAll(){
   const sync = await storageGet('syncConfig', true, null);
   if(sync) state.sync = {...state.sync, ...sync};
 
-  // restore session from local (per-browser) storage
+  // restore session from local (per-browser) storage — only if the account is still approved
   const savedSession = await storageGet('session', false, null);
   if(savedSession){
     const acc = state.accounts.find(a=>a.username===savedSession.username);
-    if(acc){ state.session = {username: acc.username, empId: acc.empId}; }
+    if(acc && acc.status==='approved'){ state.session = {username: acc.username, empId: acc.empId}; }
+    else { await storageSet('session', false, null); }
   }
 }
 
@@ -300,38 +484,46 @@ function renderAuthScreen(){
     <div class="auth-card">
       <div class="auth-brand">
         <div class="mark">Y</div>
-        <div><div class="name">Yakyim TMP</div><div class="sub">Employee Self-Service Portal</div></div>
+        <div><div class="name">${t('portalTitle')}</div><div class="sub">${t('portalSub')}</div></div>
+      </div>
+      <div class="lang-switch">
+        <button class="lang-btn ${state.lang==='en'?'active':''}" data-lang="en">EN</button>
+        <button class="lang-btn ${state.lang==='th'?'active':''}" data-lang="th">ไทย</button>
       </div>
       <div class="auth-tabs">
-        <button class="auth-tab ${isLogin?'active':''}" data-tab="login">เข้าสู่ระบบ</button>
-        <button class="auth-tab ${!isLogin?'active':''}" data-tab="register">สมัครใหม่</button>
+        <button class="auth-tab ${isLogin?'active':''}" data-tab="login">${t('login')}</button>
+        <button class="auth-tab ${!isLogin?'active':''}" data-tab="register">${t('register')}</button>
       </div>
       ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
       ${isLogin ? `
-        <div class="field"><label>Username</label><input id="loginUsername" autocomplete="username"></div>
-        <div class="field"><label>Password</label>${pwdField('loginPassword')}</div>
-        <button class="btn primary" id="loginBtn">เข้าสู่ระบบ</button>
-        <div class="auth-note">ยังไม่มีบัญชี? <a id="gotoRegister" style="cursor:pointer;text-decoration:underline;font-weight:600">สมัครใหม่ที่นี่</a></div>
+        <div class="field"><label>${t('usernameLabel')}</label><input id="loginUsername" autocomplete="username"></div>
+        <div class="field"><label>${t('passwordLabel')}</label>${pwdField('loginPassword')}</div>
+        <button class="btn primary" id="loginBtn">${t('loginBtn')}</button>
+        <div class="auth-note">${t('noAccount')} <a id="gotoRegister" style="cursor:pointer;text-decoration:underline;font-weight:600">${t('registerHere')}</a></div>
       ` : `
-        <div class="field"><label>เลือกชื่อของคุณ</label>
+        <div class="field"><label>${t('selectYourName')}</label>
           <select id="regEmpId">
-            <option value="">— เลือกชื่อพนักงาน —</option>
+            <option value="">${t('selectNamePlaceholder')}</option>
             ${availableRoster.map(e=>`<option value="${e.id}">${e.name} (${e.position||''})</option>`).join('')}
           </select>
         </div>
-        <div class="field"><label>ตั้งชื่อผู้ใช้ (Username)</label><input id="regUsername" autocomplete="username"></div>
-        <div class="field"><label>ตั้งรหัสผ่าน (Password)</label>${pwdField('regPassword')}</div>
-        <div class="field"><label>ยืนยันรหัสผ่าน</label>${pwdField('regPassword2')}</div>
-        <button class="btn primary" id="registerBtn">สร้างบัญชี</button>
-        <div class="auth-note">ถ้าไม่เห็นชื่อของคุณในรายการ หรือมีคนสมัครไปแล้ว ติดต่อ HR</div>
+        <div class="field"><label>${t('pinLabel')}</label><input id="regPin" inputmode="numeric" placeholder="${t('pinPlaceholder')}"></div>
+        <div class="field"><label>${t('setUsername')}</label><input id="regUsername" autocomplete="username"></div>
+        <div class="field"><label>${t('setPassword')}</label>${pwdField('regPassword')}</div>
+        <div class="field"><label>${t('confirmPassword')}</label>${pwdField('regPassword2')}</div>
+        <button class="btn primary" id="registerBtn">${t('createAccount')}</button>
+        <div class="auth-note">${t('registerNote')}</div>
       `}
-      <div class="auth-foot-link"><a id="gotoAdmin">สำหรับผู้ดูแลระบบ (Admin)</a></div>
+      <div class="auth-foot-link"><a id="gotoAdmin">${t('adminLink')}</a></div>
     </div>
   </div>`;
 }
 
 function bindAuthEvents(){
   bindPwdToggles();
+  document.querySelectorAll('.lang-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.lang = el.dataset.lang; render(); });
+  });
   document.querySelectorAll('.auth-tab').forEach(el=>{
     el.addEventListener('click', ()=>{ state.authTab = el.dataset.tab; state.authError=''; render(); });
   });
@@ -352,11 +544,12 @@ function bindAuthEvents(){
 async function doLogin(){
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value;
-  if(!username || !password){ state.authError='กรุณากรอก Username และ Password'; render(); return; }
+  if(!username || !password){ state.authError=t('pleaseEnterBoth'); render(); return; }
   const acc = state.accounts.find(a=>a.username.toLowerCase()===username.toLowerCase());
-  if(!acc){ state.authError='ไม่พบบัญชีนี้'; render(); return; }
+  if(!acc){ state.authError=t('accountNotFound'); render(); return; }
   const hash = await hashPassword(password, acc.salt);
-  if(hash !== acc.hash){ state.authError='รหัสผ่านไม่ถูกต้อง'; render(); return; }
+  if(hash !== acc.hash){ state.authError=t('wrongPassword'); render(); return; }
+  if(acc.status !== 'approved'){ state.authError=t('pendingLoginError'); render(); return; }
   state.session = {username: acc.username, empId: acc.empId};
   state.authError = '';
   await storageSet('session', false, state.session);
@@ -367,28 +560,31 @@ async function doLogin(){
 
 async function doRegister(){
   const empId = document.getElementById('regEmpId').value;
+  const pin = document.getElementById('regPin').value.trim();
   const username = document.getElementById('regUsername').value.trim();
   const password = document.getElementById('regPassword').value;
   const password2 = document.getElementById('regPassword2').value;
-  if(!empId){ state.authError='กรุณาเลือกชื่อของคุณ'; render(); return; }
-  if(!username || username.length<3){ state.authError='Username ต้องมีอย่างน้อย 3 ตัวอักษร'; render(); return; }
+  if(!empId){ state.authError=t('pleaseSelectName'); render(); return; }
+  const emp = empById(empId);
+  if(!pin){ state.authError=t('pleaseEnterPin'); render(); return; }
+  if(!emp.pin){ state.authError=t('pinNotSet'); render(); return; }
+  if(pin !== emp.pin){ state.authError=t('pinIncorrect'); render(); return; }
+  if(!username || username.length<3){ state.authError=t('usernameMinLen'); render(); return; }
   if(state.accounts.some(a=>a.username.toLowerCase()===username.toLowerCase())){
-    state.authError='Username นี้ถูกใช้แล้ว'; render(); return;
+    state.authError=t('usernameTaken'); render(); return;
   }
-  if(!password || password.length<4){ state.authError='รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร'; render(); return; }
-  if(password !== password2){ state.authError='รหัสผ่านยืนยันไม่ตรงกัน'; render(); return; }
+  if(!password || password.length<4){ state.authError=t('passwordMinLen'); render(); return; }
+  if(password !== password2){ state.authError=t('passwordMismatch'); render(); return; }
 
   const salt = randomSalt();
   const hash = await hashPassword(password, salt);
-  state.accounts.push({username, salt, hash, empId});
+  state.accounts.push({username, salt, hash, empId, status:'pending'});
   await storageSet('accounts', true, state.accounts);
 
-  state.session = {username, empId};
-  await storageSet('session', false, state.session);
+  // Do NOT log the employee in yet — account needs Admin approval first.
   state.authError = '';
-  toast('สร้างบัญชีสำเร็จ!');
-  state.screen = 'employee';
-  state.currentView = 'months';
+  state.authTab = 'login';
+  toast(t('registerPendingMsg'));
   render();
 }
 
@@ -420,8 +616,8 @@ function renderEmployeeApp(){
   const emp = empById(state.session.empId);
   if(!emp){
     return `<div class="auth-wrap"><div class="auth-card">
-      <p>ไม่พบข้อมูลพนักงาน กรุณาติดต่อ HR</p>
-      <button class="btn primary" id="logoutBtn2">กลับหน้าเข้าสู่ระบบ</button>
+      <p>${t('empNotFound')}</p>
+      <button class="btn primary" id="logoutBtn2">${t('backToLogin')}</button>
     </div></div>`;
   }
   const initials = emp.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
@@ -438,9 +634,13 @@ function renderEmployeeApp(){
         <div class="avatar">${initials}</div>
         <div><div class="nm">${emp.name}</div><div class="ps">${emp.position||''} · Yakyim TMP</div></div>
       </div>
-      <div style="display:flex;gap:8px">
-        <button class="logout-btn" id="profileBtn">โปรไฟล์</button>
-        <button class="logout-btn" id="logoutBtn">ออกจากระบบ</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="lang-switch" style="margin-bottom:0">
+          <button class="lang-btn ${state.lang==='en'?'active':''}" data-lang="en">EN</button>
+          <button class="lang-btn ${state.lang==='th'?'active':''}" data-lang="th">ไทย</button>
+        </div>
+        <button class="logout-btn" id="profileBtn">${t('profileBtn')}</button>
+        <button class="logout-btn" id="logoutBtn">${t('logoutBtn')}</button>
       </div>
     </div>
     ${body}
@@ -453,7 +653,7 @@ function renderMonthsView(emp){
     const rec = recs[m];
     const isAvailable = i >= AVAILABLE_FROM_INDEX && rec;
     if(!isAvailable){
-      return `<div class="month-card locked"><div class="m">${m}</div><div class="net">ยังไม่มีข้อมูล</div></div>`;
+      return `<div class="month-card locked"><div class="m">${m}</div><div class="net">${t('noDataYet')}</div></div>`;
     }
     const c = computeDisplayRecord(rec);
     return `<div class="month-card" data-month="${m}"><div class="m">${m}</div><div class="net">RM ${fmtMoney(c.netSalary)}</div></div>`;
@@ -461,7 +661,7 @@ function renderMonthsView(emp){
 
   return `
   <div class="section">
-    <div class="section-head">สลิปเงินเดือนของฉัน</div>
+    <div class="section-head">${t('myPayslips')}</div>
     <div class="section-body">
       <div class="month-grid">${cards}</div>
     </div>
@@ -470,43 +670,43 @@ function renderMonthsView(emp){
 
 function renderPayslipView(emp){
   const rec = (state.payslips[emp.id]||{})[state.currentMonth];
-  if(!rec) return `<div class="empty-state">ไม่พบข้อมูล</div>`;
+  if(!rec) return `<div class="empty-state">${t('noDataFound')}</div>`;
   const c = computeDisplayRecord(rec);
   return `
-  <div class="back-link" id="backToMonths">‹ กลับไปหน้ารายเดือน</div>
+  <div class="back-link" id="backToMonths">${t('backToMonths')}</div>
   <div class="payslip">
     <div class="payslip-top">
-      <div><h2>Yakyim TMP</h2><div class="sub">Thai Kitchen — Payroll Slip</div></div>
-      <div class="payslip-meta">สลิปเงินเดือน<br><b>${state.currentMonth} 2026</b></div>
+      <div><h2>Yakyim TMP</h2><div class="sub">${t('kitchenSub')}</div></div>
+      <div class="payslip-meta">${t('payslipLabel')}<br><b>${state.currentMonth} 2026</b></div>
     </div>
     <div class="payslip-emp">
-      <div><span>ชื่อพนักงาน</span><b>${emp.name}</b></div>
-      <div><span>ตำแหน่ง</span><b>${emp.position||'-'}</b></div>
+      <div><span>${t('employeeLabel')}</span><b>${emp.name}</b></div>
+      <div><span>${t('positionLabel')}</span><b>${emp.position||'-'}</b></div>
     </div>
     <div class="payslip-grid">
       <div class="payslip-cols income">
-        <h4>รายได้ (Income)</h4>
-        <div class="pl-row"><span>เงินเดือนฐาน</span><span>${fmtMoney(c.baseSalary)}</span></div>
-        <div class="pl-row"><span>Allowance</span><span>${fmtMoney(c.allowance)}</span></div>
-        <div class="pl-row"><span>OT (${c.otHours} ชม.)</span><span>${fmtMoney(c.otAmtHours)}</span></div>
-        ${c.otDays ? `<div class="pl-row"><span>OT (${c.otDays} วัน)</span><span>${fmtMoney(c.otAmtDays)}</span></div>` : ''}
-        <div class="pl-row"><span>Commission / Service Charge</span><span>${fmtMoney(c.commission)}</span></div>
-        <div class="pl-row sum"><span>รวมรายได้</span><span>${fmtMoney(c.totalIncome)}</span></div>
+        <h4>${t('income')}</h4>
+        <div class="pl-row"><span>${t('baseSalary')}</span><span>${fmtMoney(c.baseSalary)}</span></div>
+        <div class="pl-row"><span>${t('allowance')}</span><span>${fmtMoney(c.allowance)}</span></div>
+        <div class="pl-row"><span>OT (${c.otHours})</span><span>${fmtMoney(c.otAmtHours)}</span></div>
+        ${c.otDays ? `<div class="pl-row"><span>OT (${c.otDays})</span><span>${fmtMoney(c.otAmtDays)}</span></div>` : ''}
+        <div class="pl-row"><span>${t('commissionService')}</span><span>${fmtMoney(c.commission)}</span></div>
+        <div class="pl-row sum"><span>${t('totalIncome')}</span><span>${fmtMoney(c.totalIncome)}</span></div>
       </div>
       <div class="payslip-cols deduct">
-        <h4>รายการหัก (Deductions)</h4>
-        <div class="pl-row"><span>ลา (${c.leaveDays} วัน)</span><span>${fmtMoney(c.leaveAmt)}</span></div>
-        <div class="pl-row"><span>Staff Card (${c.staffCardTimes} ครั้ง)</span><span>${fmtMoney(c.scAmt)}</span></div>
-        <div class="pl-row"><span>มาสาย/กฎ (${c.lateMinutes} นาที)</span><span>${fmtMoney(c.lateAmt)}</span></div>
-        <div class="pl-row"><span>เบิกล่วงหน้า</span><span>${fmtMoney(c.advance)}</span></div>
-        <div class="pl-row"><span>ค่าวีซ่า</span><span>${fmtMoney(c.visaFee)}</span></div>
-        <div class="pl-row"><span>เงินกู้</span><span>${fmtMoney(c.loan)}</span></div>
-        <div class="pl-row"><span>EPF + Socso</span><span>${fmtMoney(c.epfSocso)}</span></div>
-        <div class="pl-row sum"><span>รวมรายการหัก</span><span>${fmtMoney(c.totalDeduct)}</span></div>
+        <h4>${t('deductions')}</h4>
+        <div class="pl-row"><span>${t('leaveLabel', c.leaveDays)}</span><span>${fmtMoney(c.leaveAmt)}</span></div>
+        <div class="pl-row"><span>${t('staffCardLabel', c.staffCardTimes)}</span><span>${fmtMoney(c.scAmt)}</span></div>
+        <div class="pl-row"><span>${t('lateLabel', c.lateMinutes)}</span><span>${fmtMoney(c.lateAmt)}</span></div>
+        <div class="pl-row"><span>${t('advanceLabel')}</span><span>${fmtMoney(c.advance)}</span></div>
+        <div class="pl-row"><span>${t('visaFeeLabel')}</span><span>${fmtMoney(c.visaFee)}</span></div>
+        <div class="pl-row"><span>${t('loanLabel')}</span><span>${fmtMoney(c.loan)}</span></div>
+        <div class="pl-row"><span>${t('epfSocsoLabel')}</span><span>${fmtMoney(c.epfSocso)}</span></div>
+        <div class="pl-row sum"><span>${t('totalDeductLabel')}</span><span>${fmtMoney(c.totalDeduct)}</span></div>
       </div>
     </div>
     <div class="payslip-net">
-      <div class="l">Net Pay สุทธิ</div>
+      <div class="l">${t('netPaySub')}</div>
       <div class="n">RM ${fmtMoney(c.netSalary)}</div>
     </div>
   </div>`;
@@ -514,30 +714,33 @@ function renderPayslipView(emp){
 
 function renderProfileView(emp){
   return `
-  <div class="back-link" id="backToMonths">‹ กลับไปหน้ารายเดือน</div>
+  <div class="back-link" id="backToMonths">${t('backToMonths')}</div>
   <div class="section">
-    <div class="section-head">โปรไฟล์ของฉัน</div>
+    <div class="section-head">${t('myProfile')}</div>
     <div class="section-body">
       <div class="profile-grid">
-        <div><span>ชื่อ-นามสกุล</span>${emp.name}</div>
-        <div><span>ตำแหน่ง</span>${emp.position||'-'}</div>
-        <div><span>เงินเดือนฐาน</span>RM ${fmtMoney(emp.baseSalary)}</div>
-        <div><span>สถานะ</span>${emp.status||'ทำงานอยู่'}</div>
+        <div><span>${t('fullNameLabel')}</span>${emp.name}</div>
+        <div><span>${t('positionLabel')}</span>${emp.position||'-'}</div>
+        <div><span>${t('baseSalary')}</span>RM ${fmtMoney(emp.baseSalary)}</div>
+        <div><span>${t('statusLabel')}</span>${emp.status||t('activeStatus')}</div>
       </div>
     </div>
   </div>
   <div class="section">
-    <div class="section-head">เปลี่ยนรหัสผ่าน</div>
+    <div class="section-head">${t('changePassword')}</div>
     <div class="section-body">
-      <div class="field"><label>รหัสผ่านเดิม</label>${pwdField('oldPass')}</div>
-      <div class="field"><label>รหัสผ่านใหม่</label>${pwdField('newPass')}</div>
-      <button class="btn primary" id="changePassBtn">บันทึกรหัสผ่านใหม่</button>
+      <div class="field"><label>${t('oldPassword')}</label>${pwdField('oldPass')}</div>
+      <div class="field"><label>${t('newPassword')}</label>${pwdField('newPass')}</div>
+      <button class="btn primary" id="changePassBtn">${t('savePassword')}</button>
     </div>
   </div>`;
 }
 
 function bindEmployeeAppEvents(){
   bindPwdToggles();
+  document.querySelectorAll('.lang-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.lang = el.dataset.lang; render(); });
+  });
   const logoutBtn = document.getElementById('logoutBtn') || document.getElementById('logoutBtn2');
   if(logoutBtn) logoutBtn.addEventListener('click', doLogout);
   const profileBtn = document.getElementById('profileBtn');
@@ -555,14 +758,14 @@ async function changePassword(){
   const oldPass = document.getElementById('oldPass').value;
   const newPass = document.getElementById('newPass').value;
   const acc = state.accounts.find(a=>a.username===state.session.username);
-  if(!acc){ toast('ไม่พบบัญชี'); return; }
+  if(!acc){ toast(t('accountNotFound2')); return; }
   const oldHash = await hashPassword(oldPass, acc.salt);
-  if(oldHash !== acc.hash){ toast('รหัสผ่านเดิมไม่ถูกต้อง'); return; }
-  if(!newPass || newPass.length<4){ toast('รหัสผ่านใหม่ต้องมีอย่างน้อย 4 ตัวอักษร'); return; }
+  if(oldHash !== acc.hash){ toast(t('incorrectOldPass')); return; }
+  if(!newPass || newPass.length<4){ toast(t('passwordMinLen')); return; }
   acc.salt = randomSalt();
   acc.hash = await hashPassword(newPass, acc.salt);
   await storageSet('accounts', true, state.accounts);
-  toast('เปลี่ยนรหัสผ่านสำเร็จ');
+  toast(t('passChanged'));
   document.getElementById('oldPass').value='';
   document.getElementById('newPass').value='';
 }
@@ -574,14 +777,14 @@ function renderAdminSetup(){
   const d = state.adminSetupDraft || {key:'', p1:'', p2:''};
   return `
   <div class="auth-wrap"><div class="auth-card">
-    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">Admin Setup</div><div class="sub">ตั้งรหัสผ่านผู้ดูแลระบบครั้งแรก</div></div></div>
+    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">${t('adminSetupTitle')}</div><div class="sub">${t('adminSetupSub')}</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>รหัสลับตั้งต้น (Setup Key)</label><input id="adminSetupKey" type="text" value="${d.key}" placeholder="รับจากเจ้าของร้านเท่านั้น"></div>
-    <div class="field"><label>ตั้งรหัสผ่าน Admin</label>${pwdField('adminPass1', d.p1)}</div>
-    <div class="field"><label>ยืนยันรหัสผ่าน</label>${pwdField('adminPass2', d.p2)}</div>
-    <button class="btn gold" id="setupAdminBtn">ตั้งรหัสผ่าน</button>
-    <div class="auth-note">รหัสผ่านนี้จะใช้เข้าหน้าแอดมินเพื่อกรอกเงินเดือนรายเดือนให้พนักงาน — ตั้งครั้งเดียว จำให้ดี</div>
-    <div class="auth-foot-link"><a id="backToAuth">‹ กลับหน้าเข้าสู่ระบบพนักงาน</a></div>
+    <div class="field"><label>${t('setupKeyLabel')}</label><input id="adminSetupKey" type="text" value="${d.key}" placeholder="${t('setupKeyPlaceholder')}"></div>
+    <div class="field"><label>${t('setAdminPassword')}</label>${pwdField('adminPass1', d.p1)}</div>
+    <div class="field"><label>${t('confirmAdminPassword')}</label>${pwdField('adminPass2', d.p2)}</div>
+    <button class="btn gold" id="setupAdminBtn">${t('setPasswordBtn')}</button>
+    <div class="auth-note">${t('adminSetupNote')}</div>
+    <div class="auth-foot-link"><a id="backToAuth">${t('backToEmployeeLogin')}</a></div>
   </div></div>`;
 }
 function bindAdminSetupEvents(){
@@ -591,16 +794,16 @@ function bindAdminSetupEvents(){
     const p1 = document.getElementById('adminPass1').value;
     const p2 = document.getElementById('adminPass2').value;
     state.adminSetupDraft = {key:setupKey, p1, p2}; // remember what was typed in case of error
-    if(setupKey !== ADMIN_SETUP_KEY){ state.authError='รหัสลับตั้งต้นไม่ถูกต้อง — ติดต่อเจ้าของระบบ'; render(); return; }
-    if(!p1 || p1.length<6){ state.authError='รหัสผ่าน Admin ต้องมีอย่างน้อย 6 ตัวอักษร'; render(); return; }
-    if(p1 !== p2){ state.authError='รหัสผ่านยืนยันไม่ตรงกัน'; render(); return; }
+    if(setupKey !== ADMIN_SETUP_KEY){ state.authError=t('invalidSetupKey'); render(); return; }
+    if(!p1 || p1.length<6){ state.authError=t('adminPassMinLen'); render(); return; }
+    if(p1 !== p2){ state.authError=t('passwordMismatch'); render(); return; }
     const salt = randomSalt();
     const hash = await hashPassword(p1, salt);
     state.adminAuth = {salt, hash};
     await storageSet('adminAuth', true, state.adminAuth);
     state.authError = '';
     state.adminSetupDraft = null;
-    toast('ตั้งรหัสผ่าน Admin สำเร็จ');
+    toast(t('setupSuccess'));
     state.screen = 'admin';
     render();
   });
@@ -610,12 +813,12 @@ function bindAdminSetupEvents(){
 function renderAdminLogin(){
   return `
   <div class="auth-wrap"><div class="auth-card">
-    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">Admin Login</div><div class="sub">เข้าสู่ระบบผู้ดูแล</div></div></div>
+    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">${t('adminLoginTitle')}</div><div class="sub">${t('adminLoginSub')}</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>รหัสผ่าน Admin</label>${pwdField('adminPassInput')}</div>
-    <button class="btn gold" id="adminLoginBtn">เข้าสู่ระบบ</button>
-    <div class="auth-note"><a id="forgotAdminPass" style="cursor:pointer;text-decoration:underline;font-weight:600;color:var(--ink)">ลืมรหัสผ่าน? รีเซ็ตด้วย Setup Key</a></div>
-    <div class="auth-foot-link"><a id="backToAuth2">‹ กลับหน้าเข้าสู่ระบบพนักงาน</a></div>
+    <div class="field"><label>${t('adminPasswordLabel')}</label>${pwdField('adminPassInput')}</div>
+    <button class="btn gold" id="adminLoginBtn">${t('loginBtn')}</button>
+    <div class="auth-note"><a id="forgotAdminPass" style="cursor:pointer;text-decoration:underline;font-weight:600;color:var(--ink)">${t('forgotPassword')}</a></div>
+    <div class="auth-foot-link"><a id="backToAuth2">${t('backToEmployeeLogin')}</a></div>
   </div></div>`;
 }
 function bindAdminLoginEvents(){
@@ -623,7 +826,7 @@ function bindAdminLoginEvents(){
   document.getElementById('adminLoginBtn').addEventListener('click', async ()=>{
     const p = document.getElementById('adminPassInput').value;
     const hash = await hashPassword(p, state.adminAuth.salt);
-    if(hash !== state.adminAuth.hash){ state.authError='รหัสผ่านไม่ถูกต้อง'; render(); return; }
+    if(hash !== state.adminAuth.hash){ state.authError=t('wrongPassword'); render(); return; }
     state.authError=''; state.screen='admin'; render();
   });
   document.getElementById('backToAuth2').addEventListener('click', ()=>{ state.screen='auth'; state.authError=''; render(); });
@@ -635,29 +838,29 @@ function bindAdminLoginEvents(){
 function renderAdminReset(){
   return `
   <div class="auth-wrap"><div class="auth-card">
-    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">รีเซ็ตรหัสผ่าน Admin</div><div class="sub">ต้องใช้ Setup Key เดียวกับตอนตั้งค่าครั้งแรก</div></div></div>
+    <div class="auth-brand"><div class="mark">Y</div><div><div class="name">${t('adminResetTitle')}</div><div class="sub">${t('adminResetSub')}</div></div></div>
     ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ''}
-    <div class="field"><label>Setup Key</label><input id="resetSetupKey" type="text"></div>
-    <div class="field"><label>รหัสผ่านใหม่</label>${pwdField('resetPass1')}</div>
-    <div class="field"><label>ยืนยันรหัสผ่านใหม่</label>${pwdField('resetPass2')}</div>
-    <button class="btn gold" id="resetAdminBtn">รีเซ็ตรหัสผ่าน</button>
-    <div class="auth-foot-link"><a id="backToAdminLogin">‹ กลับหน้า Admin Login</a></div>
+    <div class="field"><label>${t('setupKeyLabel')}</label><input id="resetSetupKey" type="text"></div>
+    <div class="field"><label>${t('newPassword')}</label>${pwdField('resetPass1')}</div>
+    <div class="field"><label>${t('confirmPassword')}</label>${pwdField('resetPass2')}</div>
+    <button class="btn gold" id="resetAdminBtn">${t('resetPasswordBtn')}</button>
+    <div class="auth-foot-link"><a id="backToAdminLogin">${t('backToAdminLogin')}</a></div>
   </div></div>`;
 }
 function bindAdminResetEvents(){
   bindPwdToggles();
   document.getElementById('resetAdminBtn').addEventListener('click', async ()=>{
     const key = document.getElementById('resetSetupKey').value.trim();
-    if(key !== ADMIN_SETUP_KEY){ state.authError='Setup Key ไม่ถูกต้อง'; render(); return; }
+    if(key !== ADMIN_SETUP_KEY){ state.authError=t('invalidSetupKey2'); render(); return; }
     const p1 = document.getElementById('resetPass1').value;
     const p2 = document.getElementById('resetPass2').value;
-    if(!p1 || p1.length<6){ state.authError='รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'; render(); return; }
-    if(p1 !== p2){ state.authError='รหัสผ่านยืนยันไม่ตรงกัน'; render(); return; }
+    if(!p1 || p1.length<6){ state.authError=t('passwordMinLen6'); render(); return; }
+    if(p1 !== p2){ state.authError=t('passwordMismatch'); render(); return; }
     const salt = randomSalt();
     const hash = await hashPassword(p1, salt);
     state.adminAuth = {salt, hash};
     await storageSet('adminAuth', true, state.adminAuth);
-    state.authError=''; toast('รีเซ็ตรหัสผ่านสำเร็จ');
+    state.authError=''; toast(t('resetSuccess'));
     state.screen='admin'; render();
   });
   document.getElementById('backToAdminLogin').addEventListener('click', ()=>{ state.authError=''; state.screen='admin-login'; render(); });
@@ -709,54 +912,97 @@ function renderAdminApp(){
     </tr>`;
   }).join('');
 
+  const pendingAccounts = state.accounts.filter(a=>a.status==='pending');
+  const approvedAccounts = state.accounts.filter(a=>a.status==='approved');
+
   return `
   <div class="app">
     <div class="topbar">
-      <div class="who"><div class="avatar">A</div><div><div class="nm">Admin<span class="admin-badge">Admin</span></div><div class="ps">Yakyim TMP Payroll Entry</div></div></div>
+      <div class="who"><div class="avatar">A</div><div><div class="nm">Admin<span class="admin-badge">${t('adminBadge')}</span></div><div class="ps">${t('payrollEntryTitle')}</div></div></div>
       <div style="display:flex;gap:8px;align-items:center">
+        <div class="lang-switch" style="margin-bottom:0">
+          <button class="lang-btn ${state.lang==='en'?'active':''}" data-lang="en">EN</button>
+          <button class="lang-btn ${state.lang==='th'?'active':''}" data-lang="th">ไทย</button>
+        </div>
         <select id="adminMonthSelect">${MONTHS.map(m=>`<option value="${m}" ${m===month?'selected':''}>${m} 2026</option>`).join('')}</select>
-        <button class="logout-btn" id="adminLogoutBtn">ออกจากระบบ</button>
+        <button class="logout-btn" id="adminLogoutBtn">${t('logoutBtn')}</button>
       </div>
     </div>
+
     <div class="section">
-      <div class="section-head">กรอกเงินเดือนพนักงาน — ${month} 2026</div>
+      <div class="section-head">${t('pendingAccountsTitle', pendingAccounts.length)}</div>
+      <div class="section-body tbl-wrap">
+        <table>
+          <thead><tr><th>${t('employeeLabel')}</th><th>${t('usernameCol')}</th><th></th></tr></thead>
+          <tbody>${pendingAccounts.map(a=>{
+            const e = empById(a.empId);
+            return `<tr>
+              <td>${e?e.name:t('notFound')}</td>
+              <td class="mono">${a.username}</td>
+              <td style="display:flex;gap:6px">
+                <button class="btn sm gold" data-approve-acc="${a.username}">${t('approveBtn')}</button>
+                <button class="btn sm" data-reject-acc="${a.username}">${t('rejectBtn')}</button>
+              </td>
+            </tr>`;
+          }).join('') || `<tr><td colspan="3"><div class="empty-state">${t('noPendingAccounts')}</div></td></tr>`}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">${t('enterPayroll', month)}</div>
       <div class="section-body tbl-wrap">
         <table>
           <thead><tr>
-            <th>ชื่อ</th><th>Allowance</th><th>เงินเดือนฐาน</th><th>OT(ชม)</th><th>OT(วัน)</th><th>Commission</th><th>รวมรายได้</th>
-            <th>ลา(วัน)</th><th>SC</th><th>สาย(นาที)</th><th>เบิกล่วงหน้า</th><th>ค่าวีซ่า</th><th>เงินกู้</th><th>EPF+Socso</th><th>รวมหัก</th><th>NET</th>
+            <th>${t('col_name')}</th><th>${t('col_allowance')}</th><th>${t('col_baseSalary')}</th><th>${t('col_otHrs')}</th><th>${t('col_otDays')}</th><th>${t('col_commission')}</th><th>${t('col_totalIncome')}</th>
+            <th>${t('col_leaveDays')}</th><th>${t('col_sc')}</th><th>${t('col_late')}</th><th>${t('col_advance')}</th><th>${t('col_visaFee')}</th><th>${t('col_loan')}</th><th>${t('col_epfSocso')}</th><th>${t('col_totalDeduct')}</th><th>${t('col_net')}</th>
           </tr></thead>
           <tbody>${rows}</tbody>
         </table>
       </div>
     </div>
     <div class="section"><div class="section-body" style="font-size:12.5px;color:var(--muted)">
-      สูตร: OT/ชม RM${OT_RATE_HR} · OT/วัน RM${OT_RATE_DAY} · หักลา = เงินเดือนฐาน÷26×วันลา · Staff Card RM${SC_RATE}/ครั้ง · มาสาย RM${LATE_RATE}/นาที · ข้อมูลบันทึกอัตโนมัติทุกครั้งที่แก้ไข
+      ${t('formulaNote', OT_RATE_HR, OT_RATE_DAY, SC_RATE, LATE_RATE)}
     </div></div>
+
     <div class="section">
-      <div class="section-head">จัดการบัญชีพนักงานที่สมัครแล้ว (${state.accounts.length})</div>
+      <div class="section-head">${t('pinManageTitle')}</div>
+      <div class="section-body tbl-wrap">
+        <div style="font-size:12px;color:var(--muted);margin-bottom:10px">${t('pinManageNote')}</div>
+        <table>
+          <thead><tr><th>${t('employeeLabel')}</th><th>${t('col_pin')}</th></tr></thead>
+          <tbody>${emps.map(e=>`<tr>
+            <td>${e.name}<div style="font-size:11px;color:var(--muted)">${e.position||''}</div></td>
+            <td><input class="cell-input" style="width:90px;text-align:left" type="text" maxlength="12" data-pin-emp="${e.id}" value="${e.pin||''}" placeholder="${t('pinPlaceholderAdmin')}"></td>
+          </tr>`).join('')}</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">${t('manageAccounts', approvedAccounts.length)}</div>
       <div class="section-body tbl-wrap">
         <table>
-          <thead><tr><th>ชื่อพนักงาน</th><th>Username</th><th></th></tr></thead>
-          <tbody>${state.accounts.map(a=>{
+          <thead><tr><th>${t('employeeLabel')}</th><th>${t('usernameCol')}</th><th></th></tr></thead>
+          <tbody>${approvedAccounts.map(a=>{
             const e = empById(a.empId);
-            return `<tr><td>${e?e.name:'(ไม่พบ)'}</td><td class="mono">${a.username}</td><td><button class="btn sm" data-reset-acc="${a.username}">ลบบัญชี (ให้สมัครใหม่)</button></td></tr>`;
-          }).join('') || `<tr><td colspan="3"><div class="empty-state">ยังไม่มีพนักงานสมัครบัญชี</div></td></tr>`}</tbody>
+            return `<tr><td>${e?e.name:t('notFound')}</td><td class="mono">${a.username}</td><td><button class="btn sm" data-reset-acc="${a.username}">${t('deleteAccount')}</button></td></tr>`;
+          }).join('') || `<tr><td colspan="3"><div class="empty-state">${t('noAccountsYet')}</div></td></tr>`}</tbody>
         </table>
       </div>
     </div>
     <div class="section">
-      <div class="section-head">ซิงค์กับ Google Sheets <span class="admin-badge" style="background:${state.sync.enabled?'var(--green)':'var(--line)'};color:${state.sync.enabled?'#fff':'var(--muted)'}">${state.sync.enabled?'เปิดอยู่':'ปิดอยู่'}</span></div>
+      <div class="section-head">${t('syncTitle')} <span class="admin-badge" style="background:${state.sync.enabled?'var(--green)':'var(--line)'};color:${state.sync.enabled?'#fff':'var(--muted)'}">${state.sync.enabled?t('syncOn'):t('syncOff')}</span></div>
       <div class="section-body">
-        <div class="field"><label>Apps Script Web App URL</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
-        <div class="field"><label>Secret</label>${pwdField('syncSecret', state.sync.secret||'')}</div>
+        <div class="field"><label>${t('syncUrlLabel')}</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
+        <div class="field"><label>${t('syncSecretLabel')}</label>${pwdField('syncSecret', state.sync.secret||'')}</div>
         <label style="display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;cursor:pointer">
-          <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> เปิดใช้งานซิงค์
+          <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> ${t('syncEnableLabel')}
         </label>
         <div style="display:flex;gap:8px">
-          <button class="btn primary" id="saveSyncBtn">บันทึก</button>
-          <button class="btn" id="pushNowBtn">ส่งข้อมูลทั้งหมดขึ้นชีตตอนนี้</button>
-          <button class="btn" id="pullNowBtn">ดึงข้อมูลจากชีตตอนนี้</button>
+          <button class="btn primary" id="saveSyncBtn">${t('saveBtn')}</button>
+          <button class="btn" id="pushNowBtn">${t('pushNowBtn')}</button>
+          <button class="btn" id="pullNowBtn">${t('pullNowBtn')}</button>
         </div>
       </div>
     </div>
@@ -765,22 +1011,61 @@ function renderAdminApp(){
 
 function bindAdminAppEvents(){
   bindPwdToggles();
+  document.querySelectorAll('.lang-btn').forEach(el=>{
+    el.addEventListener('click', ()=>{ state.lang = el.dataset.lang; render(); });
+  });
   document.getElementById('adminLogoutBtn').addEventListener('click', ()=>{ state.screen='auth'; state.authTab='login'; render(); });
   document.getElementById('adminMonthSelect').addEventListener('change', (ev)=>{ state.adminMonth = ev.target.value; render(); });
-  document.querySelectorAll('.cell-input').forEach(inp=>{
+  document.querySelectorAll('.cell-input[data-emp]').forEach(inp=>{
     inp.addEventListener('change', onAdminCellChange);
+  });
+  document.querySelectorAll('[data-pin-emp]').forEach(inp=>{
+    inp.addEventListener('change', onAdminPinChange);
+  });
+  document.querySelectorAll('[data-approve-acc]').forEach(btn=>{
+    btn.addEventListener('click', ()=>approveAccount(btn.dataset.approveAcc));
+  });
+  document.querySelectorAll('[data-reject-acc]').forEach(btn=>{
+    btn.addEventListener('click', ()=>rejectAccount(btn.dataset.rejectAcc));
   });
   document.querySelectorAll('[data-reset-acc]').forEach(btn=>{
     btn.addEventListener('click', async ()=>{
-      if(!confirm('ลบบัญชีนี้? พนักงานจะต้องสมัครใหม่')) return;
+      if(!confirm(t('deleteAccountConfirm'))) return;
       state.accounts = state.accounts.filter(a=>a.username!==btn.dataset.resetAcc);
       await storageSet('accounts', true, state.accounts);
       render();
     });
   });
   document.getElementById('saveSyncBtn').addEventListener('click', saveSyncConfig);
-  document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast('กำลังส่งข้อมูล...'); pushAllToSheet(); });
-  document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast('กำลังดึงข้อมูล...'); pullAllFromSheet(); });
+  document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast(t('sendingData')); pushAllToSheet(); });
+  document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast(t('pullingData')); pullAllFromSheet(); });
+}
+
+async function approveAccount(username){
+  const acc = state.accounts.find(a=>a.username===username);
+  if(!acc) return;
+  acc.status = 'approved';
+  await storageSet('accounts', true, state.accounts);
+  toast(t('approvedToast'));
+  render();
+}
+
+async function rejectAccount(username){
+  if(!confirm(t('rejectConfirm'))) return;
+  state.accounts = state.accounts.filter(a=>a.username!==username);
+  await storageSet('accounts', true, state.accounts);
+  toast(t('rejectedToast'));
+  render();
+}
+
+async function onAdminPinChange(ev){
+  const el = ev.target;
+  const empId = el.dataset.pinEmp;
+  const emp = empById(empId);
+  if(!emp) return;
+  emp.pin = el.value.trim();
+  await storageSet('employees', true, state.employees);
+  toast(t('pinSaved'));
 }
 
 async function saveSyncConfig(){
@@ -789,7 +1074,7 @@ async function saveSyncConfig(){
   const enabled = document.getElementById('syncEnabled').checked;
   state.sync = {url, secret, enabled};
   await storageSet('syncConfig', true, state.sync);
-  toast('บันทึกการตั้งค่าซิงค์แล้ว');
+  toast(t('syncSaved'));
   render();
 }
 
@@ -802,7 +1087,7 @@ function paySlipRowForSync(empId, month, rec){
 }
 
 async function pushAllToSheet(){
-  if(!state.sync.url || !state.sync.secret){ toast('กรุณาใส่ URL และ Secret ก่อน'); return; }
+  if(!state.sync.url || !state.sync.secret){ toast(t('enterUrlSecret')); return; }
   try{
     await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})});
     const payRows = [];
@@ -812,19 +1097,19 @@ async function pushAllToSheet(){
       });
     });
     await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
-    toast('ส่งข้อมูลขึ้น Google Sheets สำเร็จ');
-  }catch(e){ console.error(e); toast('ส่งข้อมูลไม่สำเร็จ'); }
+    toast(t('pushSuccess'));
+  }catch(e){ console.error(e); toast(t('pushFailed')); }
 }
 
 async function pullAllFromSheet(){
-  if(!state.sync.url || !state.sync.secret){ toast('กรุณาใส่ URL และ Secret ก่อน'); return; }
+  if(!state.sync.url || !state.sync.secret){ toast(t('enterUrlSecret')); return; }
   try{
     const u1 = new URL(state.sync.url);
     u1.searchParams.set('secret', state.sync.secret);
     u1.searchParams.set('action', 'readPayslips');
     const resp = await fetch(u1.toString());
     const data = await resp.json();
-    if(data.error){ toast('ผิดพลาด: '+data.error); return; }
+    if(data.error){ toast(t('pullError', data.error)); return; }
     (data.rows||[]).forEach(r=>{
       if(!state.payslips[r.EmpID]) state.payslips[r.EmpID] = {};
       state.payslips[r.EmpID][r.Month] = {
@@ -840,9 +1125,9 @@ async function pullAllFromSheet(){
       };
     });
     await storageSet('payslips', true, state.payslips);
-    toast('ดึงข้อมูลจาก Google Sheets สำเร็จ');
+    toast(t('pullSuccess'));
     render();
-  }catch(e){ console.error(e); toast('ดึงข้อมูลไม่สำเร็จ'); }
+  }catch(e){ console.error(e); toast(t('pullFailed')); }
 }
 
 async function onAdminCellChange(ev){
@@ -865,7 +1150,7 @@ async function onAdminCellChange(ev){
   state.payslips[empId][month] = full;
   await storageSet('payslips', true, state.payslips);
   render();
-  toast('บันทึกแล้ว');
+  toast(t('saved'));
   if(state.sync.enabled && state.sync.url && state.sync.secret){
     fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, full)]})}).catch(e=>console.error(e));
   }

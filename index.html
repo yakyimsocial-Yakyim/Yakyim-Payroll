@@ -179,6 +179,7 @@ let state = {
   currentView: 'months',      // months | payslip | profile
   currentMonth: null,
   adminMonth: 'Sep',
+  sync: {url:'', secret:'', enabled:false},
 };
 
 function empById(id){ return state.employees.find(e=>e.id===id); }
@@ -217,6 +218,9 @@ async function loadAll(){
 
   let adminAuth = await storageGet('adminAuth', true, null);
   state.adminAuth = adminAuth;
+
+  const sync = await storageGet('syncConfig', true, null);
+  if(sync) state.sync = {...state.sync, ...sync};
 
   // restore session from local (per-browser) storage
   const savedSession = await storageGet('session', false, null);
@@ -557,7 +561,7 @@ function renderAdminSetup(){
 }
 function bindAdminSetupEvents(){
   document.getElementById('setupAdminBtn').addEventListener('click', async ()=>{
-    const setupKey = document.getElementById('adminSetupKey').value;
+    const setupKey = document.getElementById('adminSetupKey').value.trim();
     if(setupKey !== ADMIN_SETUP_KEY){ state.authError='รหัสลับตั้งต้นไม่ถูกต้อง — ติดต่อเจ้าของระบบ'; render(); return; }
     const p1 = document.getElementById('adminPass1').value;
     const p2 = document.getElementById('adminPass2').value;
@@ -613,7 +617,7 @@ function renderAdminReset(){
 }
 function bindAdminResetEvents(){
   document.getElementById('resetAdminBtn').addEventListener('click', async ()=>{
-    const key = document.getElementById('resetSetupKey').value;
+    const key = document.getElementById('resetSetupKey').value.trim();
     if(key !== ADMIN_SETUP_KEY){ state.authError='Setup Key ไม่ถูกต้อง'; render(); return; }
     const p1 = document.getElementById('resetPass1').value;
     const p2 = document.getElementById('resetPass2').value;
@@ -711,6 +715,21 @@ function renderAdminApp(){
         </table>
       </div>
     </div>
+    <div class="section">
+      <div class="section-head">ซิงค์กับ Google Sheets <span class="admin-badge" style="background:${state.sync.enabled?'var(--green)':'var(--line)'};color:${state.sync.enabled?'#fff':'var(--muted)'}">${state.sync.enabled?'เปิดอยู่':'ปิดอยู่'}</span></div>
+      <div class="section-body">
+        <div class="field"><label>Apps Script Web App URL</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
+        <div class="field"><label>Secret</label><input id="syncSecret" type="password" value="${state.sync.secret||''}"></div>
+        <label style="display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;cursor:pointer">
+          <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> เปิดใช้งานซิงค์
+        </label>
+        <div style="display:flex;gap:8px">
+          <button class="btn primary" id="saveSyncBtn">บันทึก</button>
+          <button class="btn" id="pushNowBtn">ส่งข้อมูลทั้งหมดขึ้นชีตตอนนี้</button>
+          <button class="btn" id="pullNowBtn">ดึงข้อมูลจากชีตตอนนี้</button>
+        </div>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -728,6 +747,71 @@ function bindAdminAppEvents(){
       render();
     });
   });
+  document.getElementById('saveSyncBtn').addEventListener('click', saveSyncConfig);
+  document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast('กำลังส่งข้อมูล...'); pushAllToSheet(); });
+  document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast('กำลังดึงข้อมูล...'); pullAllFromSheet(); });
+}
+
+async function saveSyncConfig(){
+  const url = document.getElementById('syncUrl').value.trim();
+  const secret = document.getElementById('syncSecret').value.trim();
+  const enabled = document.getElementById('syncEnabled').checked;
+  state.sync = {url, secret, enabled};
+  await storageSet('syncConfig', true, state.sync);
+  toast('บันทึกการตั้งค่าซิงค์แล้ว');
+  render();
+}
+
+function empRowForSync(e){
+  return {EmpID:e.id, Name:e.name, Position:e.position||'', BaseSalary:e.baseSalary||0, Allowance:e.allowance||0, Status:e.status||'Active', ResignMonth:e.resignMonth||''};
+}
+function paySlipRowForSync(empId, month, rec){
+  const emp = empById(empId);
+  return {EmpID:empId, Month:month, Name:emp?emp.name:'', Position:emp?emp.position:'', ...rec};
+}
+
+async function pushAllToSheet(){
+  if(!state.sync.url || !state.sync.secret){ toast('กรุณาใส่ URL และ Secret ก่อน'); return; }
+  try{
+    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})});
+    const payRows = [];
+    Object.keys(state.payslips).forEach(empId=>{
+      Object.keys(state.payslips[empId]).forEach(month=>{
+        payRows.push(paySlipRowForSync(empId, month, state.payslips[empId][month]));
+      });
+    });
+    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
+    toast('ส่งข้อมูลขึ้น Google Sheets สำเร็จ');
+  }catch(e){ console.error(e); toast('ส่งข้อมูลไม่สำเร็จ'); }
+}
+
+async function pullAllFromSheet(){
+  if(!state.sync.url || !state.sync.secret){ toast('กรุณาใส่ URL และ Secret ก่อน'); return; }
+  try{
+    const u1 = new URL(state.sync.url);
+    u1.searchParams.set('secret', state.sync.secret);
+    u1.searchParams.set('action', 'readPayslips');
+    const resp = await fetch(u1.toString());
+    const data = await resp.json();
+    if(data.error){ toast('ผิดพลาด: '+data.error); return; }
+    (data.rows||[]).forEach(r=>{
+      if(!state.payslips[r.EmpID]) state.payslips[r.EmpID] = {};
+      state.payslips[r.EmpID][r.Month] = {
+        allowance:Number(r.Allowance)||0, baseSalary:Number(r.BaseSalary)||0,
+        otHours:Number(r.OTHours)||0, otAmtHours:Number(r.OTAmtHours)||0,
+        otDays:Number(r.OTDays)||0, otAmtDays:Number(r.OTAmtDays)||0,
+        commission:Number(r.Commission)||0, totalIncome:Number(r.TotalIncome)||0,
+        leaveDays:Number(r.LeaveDays)||0, leaveAmt:Number(r.LeaveAmt)||0,
+        staffCardTimes:Number(r.StaffCardTimes)||0, scAmt:Number(r.SCAmt)||0,
+        lateMinutes:Number(r.LateMinutes)||0, lateAmt:Number(r.LateAmt)||0,
+        advance:Number(r.Advance)||0, visaFee:Number(r.VisaFee)||0, loan:Number(r.Loan)||0,
+        epfSocso:Number(r.EPFSocso)||0, totalDeduct:Number(r.TotalDeduct)||0, netSalary:Number(r.NetSalary)||0,
+      };
+    });
+    await storageSet('payslips', true, state.payslips);
+    toast('ดึงข้อมูลจาก Google Sheets สำเร็จ');
+    render();
+  }catch(e){ console.error(e); toast('ดึงข้อมูลไม่สำเร็จ'); }
 }
 
 async function onAdminCellChange(ev){
@@ -751,6 +835,9 @@ async function onAdminCellChange(ev){
   await storageSet('payslips', true, state.payslips);
   render();
   toast('บันทึกแล้ว');
+  if(state.sync.enabled && state.sync.url && state.sync.secret){
+    fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, full)]})}).catch(e=>console.error(e));
+  }
 }
 
 /* ================= BOOT ================= */

@@ -111,19 +111,27 @@ td{padding:6px;border-bottom:1px solid var(--line);white-space:nowrap;}
 .toast{position:fixed;bottom:22px;right:22px;background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:13px;box-shadow:0 6px 20px rgba(0,0,0,0.25);opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none;z-index:100;}
 .toast.show{opacity:1;transform:translateY(0);}
 .empty-state{padding:30px 18px;text-align:center;color:var(--muted);font-size:13px;}
-.pending-badge{display:inline-block;background:var(--red-bg);color:var(--red);font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.4px;}
 </style>
 </head>
 <body>
 <div id="root"></div>
 <div id="toast" class="toast"></div>
-<script id="app-data" type="application/json">{"roster": [{"name": "Nittaya Maungsri (Mai)", "position": "Cashier", "status": "Active", "resignMonth": null}, {"name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "status": "Active", "resignMonth": null}, {"name": "Molchai Bunchim (Moon)", "position": "Head Chef", "status": "Active", "resignMonth": null}, {"name": "Aung Zaw Myo (Song)", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Pwint zar chi win (Puye)", "position": "Waitress", "status": "Active", "resignMonth": null}, {"name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "status": "Active", "resignMonth": null}, {"name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AungThan Oo (Aong)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Than Hlaing", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Panthazin", "position": "Waitress", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Moe malar Aung", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Zin min Naing", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Mi Aye Myint", "position": "Part Time", "status": "Active", "resignMonth": null}], "Jul": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 4.0, "otAmtHours": 32.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3112.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 700.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 95.4, "totalDeduct": 800.4, "netSalary": 2311.6}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2296.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 200.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 68.1, "totalDeduct": 468.1, "netSalary": 1827.9}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 4304.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 2400.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 134.4, "totalDeduct": 3039.4, "netSalary": 1264.6}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1788.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1783.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1904.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1599.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3088.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 500.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 94.1, "totalDeduct": 1104.1, "netSalary": 1983.9}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2288.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 900.0, "visaFee": 210.0, "loan": 149.0, "epfSocso": 68.1, "totalDeduct": 1327.1, "netSalary": 960.9}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2096.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 355.0, "netSalary": 1741.0}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2196.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 50.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 50.0, "netSalary": 2146.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1796.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1491.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1508.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1708.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1708.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 8.0, "otAmtHours": 64.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 64.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}}, "Aug": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2816.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 2.0, "scAmt": 10.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 1200.0, "visaFee": 460.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1670.0, "netSalary": 1146.0}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 500.0, "netSalary": 1500.0}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 4008.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 2961.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 0.0, "totalDeduct": 3496.0, "netSalary": 512.0}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1516.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1516.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1616.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 350.0, "netSalary": 1266.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2808.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 700.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 0.0, "totalDeduct": 1230.0, "netSalary": 1578.0}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 800.0, "visaFee": 210.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1010.0, "netSalary": 990.0}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1800.0, "leaveDays": 6.0, "leaveAmt": 348.39, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 718.39, "netSalary": 1081.61}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1924.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 400.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 425.0, "netSalary": 1499.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 320.0, "netSalary": 1188.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1500.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 35.0, "netSalary": 1465.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1716.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1711.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 0.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}, "Hung": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 12.0, "otAmtDays": 480.0, "commission": 0.0, "totalIncome": 480.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}}}</script>
+<script id="app-data" type="application/json">{"roster": [{"name": "Nittaya Maungsri (Mai)", "position": "Cashier", "status": "Active", "resignMonth": null}, {"name": "Kannaphat Sroemsombun (Kan)", "position": "Bartender", "status": "Active", "resignMonth": null}, {"name": "Molchai Bunchim (Moon)", "position": "Head Chef", "status": "Active", "resignMonth": null}, {"name": "Aung Zaw Myo (Song)", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Pwint zar chi win (Puye)", "position": "Waitress", "status": "Active", "resignMonth": null}, {"name": "Thongchai Pattakhan (Aum)", "position": "Chef Assistant", "status": "Active", "resignMonth": null}, {"name": "Piyavadee Pramote (Cherry)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AYE NAING (Naiing)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "AungThan Oo (Aong)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Kyaw Soe Naing (Ma mo chey)", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Than Hlaing", "position": "Kitchen Helper", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Panthazin", "position": "Waitress", "status": "ลาออก (Resigned)", "resignMonth": "Jul"}, {"name": "Moe malar Aung", "position": "Kitchen Helper", "status": "Active", "resignMonth": null}, {"name": "Zin min Naing", "position": "Waiter", "status": "Active", "resignMonth": null}, {"name": "Mi Aye Myint", "position": "Part Time", "status": "Active", "resignMonth": null}], "Jul": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 4.0, "otAmtHours": 32.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3112.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 700.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 95.4, "totalDeduct": 800.4, "netSalary": 2311.6}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2296.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 200.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 68.1, "totalDeduct": 468.1, "netSalary": 1827.9}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 4304.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 2400.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 134.4, "totalDeduct": 3039.4, "netSalary": 1264.6}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1788.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1783.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1904.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1599.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 3088.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 500.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 94.1, "totalDeduct": 1104.1, "netSalary": 1983.9}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2288.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 900.0, "visaFee": 210.0, "loan": 149.0, "epfSocso": 68.1, "totalDeduct": 1327.1, "netSalary": 960.9}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2096.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 355.0, "netSalary": 1741.0}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 2196.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 50.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 50.0, "netSalary": 2146.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 280.0, "totalIncome": 1796.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 305.0, "netSalary": 1491.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1508.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1708.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1708.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 8.0, "otAmtHours": 64.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 64.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 64.0}}, "Aug": {"Nittaya Maungsri (Mai)": {"position": "Cashier", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2816.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 2.0, "scAmt": 10.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 1200.0, "visaFee": 460.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1670.0, "netSalary": 1146.0}, "Kannaphat Sroemsombun (Kan)": {"position": "Bartender", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 300.0, "visaFee": 200.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 500.0, "netSalary": 1500.0}, "Molchai Bunchim (Moon)": {"position": "Head Chef", "allowance": 0.0, "baseSalary": 4000.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 4008.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 2961.0, "visaFee": 0.0, "loan": 500.0, "epfSocso": 0.0, "totalDeduct": 3496.0, "netSalary": 512.0}, "Aung Zaw Myo (Song)": {"position": "Waiter", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1516.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 1516.0}, "Pwint zar chi win (Puye)": {"position": "Waitress", "allowance": 0.0, "baseSalary": 1600.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1616.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 350.0, "netSalary": 1266.0}, "Thongchai Pattakhan (Aum)": {"position": "Chef Assistant", "allowance": 0.0, "baseSalary": 2800.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2808.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 700.0, "visaFee": 210.0, "loan": 300.0, "epfSocso": 0.0, "totalDeduct": 1230.0, "netSalary": 1578.0}, "Piyavadee Pramote (Cherry)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 2000.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 2000.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 800.0, "visaFee": 210.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 1010.0, "netSalary": 990.0}, "AYE NAING (Naiing)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1800.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1800.0, "leaveDays": 6.0, "leaveAmt": 348.39, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 350.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 718.39, "netSalary": 1081.61}, "Aung Than Oo (Aong)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1900.0, "otHours": 3.0, "otAmtHours": 24.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1924.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 400.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 425.0, "netSalary": 1499.0}, "Kyaw Soe Naing (Ma mo chey)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 1.0, "otAmtHours": 8.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1508.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 300.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 320.0, "netSalary": 1188.0}, "Moe malar Aung (Mala)": {"position": "Kitchen Helper", "allowance": 0.0, "baseSalary": 1500.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1500.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 3.0, "scAmt": 15.0, "lateMinutes": 0.0, "lateAmt": 20.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 35.0, "netSalary": 1465.0}, "Zin min Naing (Zei Zei)": {"position": "Waiter", "allowance": 200.0, "baseSalary": 1500.0, "otHours": 2.0, "otAmtHours": 16.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 1716.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 1.0, "scAmt": 5.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 5.0, "netSalary": 1711.0}, "Mi Aye Myint (Cham)": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 0.0, "otAmtDays": 0.0, "commission": 0.0, "totalIncome": 0.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 0.0}, "Hung": {"position": "Part Time", "allowance": 0.0, "baseSalary": 0.0, "otHours": 0.0, "otAmtHours": 0.0, "otDays": 12.0, "otAmtDays": 480.0, "commission": 0.0, "totalIncome": 480.0, "leaveDays": 0.0, "leaveAmt": 0.0, "staffCardTimes": 0.0, "scAmt": 0.0, "lateMinutes": 0.0, "lateAmt": 0.0, "advance": 0.0, "visaFee": 0.0, "loan": 0.0, "epfSocso": 0.0, "totalDeduct": 0.0, "netSalary": 480.0}}}</script>
 <script>
 /* ===================== YAKYIM TMP — EMPLOYEE PORTAL ===================== */
 const SEED = JSON.parse(document.getElementById('app-data').textContent);
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const AVAILABLE_FROM_INDEX = MONTHS.indexOf('Jul'); // Jul 2026 onward
 const OT_RATE_HR = 8, OT_RATE_DAY = 40, SC_RATE = 5, LATE_RATE = 5;
+
+/* ============ HARDCODED SYNC DEFAULTS ============
+   Fill these in once after you deploy the Apps Script, then re-save this
+   HTML file. Every device that opens this file will then sync to the same
+   Google Sheet automatically — no per-device setup needed.
+   Leave both blank to keep sync fully manual (configured per-device in Admin > Settings).
+*/
+const DEFAULT_SYNC_URL = '';
+const DEFAULT_SYNC_SECRET = '';
 
 const HAS_CLAUDE_STORAGE = typeof window.storage !== 'undefined' && typeof window.storage.get === 'function';
 
@@ -272,6 +280,8 @@ const I18N = {
     pushSuccess: 'Data pushed to Google Sheets successfully', pushFailed: 'Failed to push data',
     pullError: (e)=>`Error: ${e}`, pullSuccess: 'Data pulled from Google Sheets successfully', pullFailed: 'Failed to pull data',
     saved: 'Saved',
+    syncBakedIn: 'This copy is pre-configured to sync with a shared Google Sheet.',
+    syncBakedInLocked: '(Set in code — cannot be changed here for security)',
   },
   th: {
     portalTitle: 'Yakyim TMP', portalSub: 'Employee Self-Service Portal',
@@ -352,6 +362,8 @@ const I18N = {
     pushSuccess: 'ส่งข้อมูลขึ้น Google Sheets สำเร็จ', pushFailed: 'ส่งข้อมูลไม่สำเร็จ',
     pullError: (e)=>`ผิดพลาด: ${e}`, pullSuccess: 'ดึงข้อมูลจาก Google Sheets สำเร็จ', pullFailed: 'ดึงข้อมูลไม่สำเร็จ',
     saved: 'บันทึกแล้ว',
+    syncBakedIn: 'ไฟล์นี้ตั้งค่าซิงค์กับ Google Sheets กลางไว้ล่วงหน้าแล้ว',
+    syncBakedInLocked: '(กำหนดไว้ในโค้ด แก้จากหน้านี้ไม่ได้ เพื่อความปลอดภัย)',
   }
 };
 function t(key, ...args){
@@ -374,14 +386,173 @@ let state = {
   currentView: 'months',      // months | payslip | profile
   currentMonth: null,
   adminMonth: 'Sep',
-  sync: {url:'', secret:'', enabled:false},
+  sync: {url:'', secret:'', enabled:false, bakedIn:false},
   adminSetupDraft: null,
   lang: 'en',
 };
 
 function empById(id){ return state.employees.find(e=>e.id===id); }
+function syncReady(){ return !!(state.sync.url && state.sync.secret); }
+
+/* ================= GOOGLE SHEETS SYNC (accounts / employees+PIN / adminAuth / payslips) ================= */
+function empRowForSync(e){
+  return {EmpID:e.id, Name:e.name, Position:e.position||'', BaseSalary:e.baseSalary||0, Allowance:e.allowance||0, Status:e.status||'Active', ResignMonth:e.resignMonth||'', Pin:e.pin||''};
+}
+function paySlipRowForSync(empId, month, rec){
+  const emp = empById(empId);
+  return {
+    EmpID:empId, Month:month, Name:emp?emp.name:'', Position:emp?emp.position:'',
+    Allowance:rec.allowance||0, BaseSalary:rec.baseSalary||0,
+    OTHours:rec.otHours||0, OTAmtHours:rec.otAmtHours||0,
+    OTDays:rec.otDays||0, OTAmtDays:rec.otAmtDays||0,
+    Commission:rec.commission||0, TotalIncome:rec.totalIncome||0,
+    LeaveDays:rec.leaveDays||0, LeaveAmt:rec.leaveAmt||0,
+    StaffCardTimes:rec.staffCardTimes||0, SCAmt:rec.scAmt||0,
+    LateMinutes:rec.lateMinutes||0, LateAmt:rec.lateAmt||0,
+    Advance:rec.advance||0, VisaFee:rec.visaFee||0, Loan:rec.loan||0,
+    EPFSocso:rec.epfSocso||0, TotalDeduct:rec.totalDeduct||0, NetSalary:rec.netSalary||0,
+  };
+}
+function accountRowForSync(a){
+  return {Username:a.username, Salt:a.salt, Hash:a.hash, EmpID:a.empId, Status:a.status, UpdatedAt:new Date().toISOString()};
+}
+function adminAuthRowForSync(){
+  return [{Id:'ADMIN', Salt:state.adminAuth.salt, Hash:state.adminAuth.hash, UpdatedAt:new Date().toISOString()}];
+}
+
+async function syncPushEmployees(){
+  if(!syncReady()) return;
+  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})}); }
+  catch(e){ console.error('push employees failed', e); }
+}
+async function syncPushAccounts(){
+  if(!syncReady()) return;
+  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAccounts', rows: state.accounts.map(accountRowForSync)})}); }
+  catch(e){ console.error('push accounts failed', e); }
+}
+async function syncPushAdminAuth(){
+  if(!syncReady() || !state.adminAuth) return;
+  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAdminAuth', rows: adminAuthRowForSync()})}); }
+  catch(e){ console.error('push adminAuth failed', e); }
+}
+async function syncPushPayslip(empId, month, rec){
+  if(!syncReady()) return;
+  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, rec)]})}); }
+  catch(e){ console.error('push payslip failed', e); }
+}
+async function syncPushAllPayslips(){
+  if(!syncReady()) return;
+  try{
+    const payRows = [];
+    Object.keys(state.payslips).forEach(empId=>{
+      Object.keys(state.payslips[empId]).forEach(month=>{
+        payRows.push(paySlipRowForSync(empId, month, state.payslips[empId][month]));
+      });
+    });
+    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
+  }catch(e){ console.error('push payslips failed', e); }
+}
+
+// Pulls Employees(+Pin), Accounts, AdminAuth in one round trip. Called on every app boot
+// (when sync is configured) so any device sees the same login accounts / PINs / admin password.
+async function syncPullCore(){
+  if(!syncReady()) return false;
+  try{
+    const u = new URL(state.sync.url);
+    u.searchParams.set('secret', state.sync.secret);
+    u.searchParams.set('action', 'readAll');
+    const resp = await fetch(u.toString());
+    const data = await resp.json();
+    if(data.error){ console.error('sync pull error', data.error); return false; }
+
+    if(Array.isArray(data.employees) && data.employees.length){
+      data.employees.forEach(r=>{
+        let emp = state.employees.find(e=>e.id===r.EmpID);
+        if(!emp){
+          emp = {id:r.EmpID, name:r.Name, position:r.Position, baseSalary:Number(r.BaseSalary)||0, allowance:Number(r.Allowance)||0, status:r.Status||'', resignMonth:r.ResignMonth||'', pin:r.Pin||''};
+          state.employees.push(emp);
+        } else {
+          emp.name = r.Name || emp.name;
+          emp.position = r.Position || emp.position;
+          emp.baseSalary = Number(r.BaseSalary)||emp.baseSalary;
+          emp.allowance = Number(r.Allowance)||emp.allowance;
+          emp.status = r.Status||emp.status;
+          emp.resignMonth = r.ResignMonth||emp.resignMonth;
+          emp.pin = r.Pin||emp.pin;
+        }
+      });
+      await storageSet('employees', true, state.employees);
+    }
+
+    if(Array.isArray(data.accounts)){
+      state.accounts = data.accounts.map(r=>({username:r.Username, salt:r.Salt, hash:r.Hash, empId:r.EmpID, status:r.Status||'approved'}));
+      await storageSet('accounts', true, state.accounts);
+    }
+
+    if(Array.isArray(data.adminAuth) && data.adminAuth.length){
+      const row = data.adminAuth[0];
+      if(row.Salt && row.Hash){
+        state.adminAuth = {salt:row.Salt, hash:row.Hash};
+        await storageSet('adminAuth', true, state.adminAuth);
+      }
+    }
+    return true;
+  }catch(e){ console.error('sync pull core failed', e); return false; }
+}
+
+async function pushAllToSheet(){
+  if(!syncReady()){ toast(t('enterUrlSecret')); return; }
+  try{
+    await syncPushEmployees();
+    await syncPushAccounts();
+    if(state.adminAuth) await syncPushAdminAuth();
+    await syncPushAllPayslips();
+    toast(t('pushSuccess'));
+  }catch(e){ console.error(e); toast(t('pushFailed')); }
+}
+
+async function pullAllFromSheet(){
+  if(!syncReady()){ toast(t('enterUrlSecret')); return; }
+  const ok = await syncPullCore();
+  // also refresh payslips
+  try{
+    const u1 = new URL(state.sync.url);
+    u1.searchParams.set('secret', state.sync.secret);
+    u1.searchParams.set('action', 'readPayslips');
+    const resp = await fetch(u1.toString());
+    const data = await resp.json();
+    if(!data.error){
+      (data.rows||[]).forEach(r=>{
+        if(!state.payslips[r.EmpID]) state.payslips[r.EmpID] = {};
+        state.payslips[r.EmpID][r.Month] = {
+          allowance:Number(r.Allowance)||0, baseSalary:Number(r.BaseSalary)||0,
+          otHours:Number(r.OTHours)||0, otAmtHours:Number(r.OTAmtHours)||0,
+          otDays:Number(r.OTDays)||0, otAmtDays:Number(r.OTAmtDays)||0,
+          commission:Number(r.Commission)||0, totalIncome:Number(r.TotalIncome)||0,
+          leaveDays:Number(r.LeaveDays)||0, leaveAmt:Number(r.LeaveAmt)||0,
+          staffCardTimes:Number(r.StaffCardTimes)||0, scAmt:Number(r.SCAmt)||0,
+          lateMinutes:Number(r.LateMinutes)||0, lateAmt:Number(r.LateAmt)||0,
+          advance:Number(r.Advance)||0, visaFee:Number(r.VisaFee)||0, loan:Number(r.Loan)||0,
+          epfSocso:Number(r.EPFSocso)||0, totalDeduct:Number(r.TotalDeduct)||0, netSalary:Number(r.NetSalary)||0,
+        };
+      });
+      await storageSet('payslips', true, state.payslips);
+    }
+  }catch(e){ console.error(e); }
+  toast(ok ? t('pullSuccess') : t('pullFailed'));
+  render();
+}
 
 async function loadAll(){
+  // 1) Sync config: hardcoded defaults win (so every device auto-syncs); otherwise use per-device saved config.
+  if(DEFAULT_SYNC_URL && DEFAULT_SYNC_SECRET){
+    state.sync = {url:DEFAULT_SYNC_URL, secret:DEFAULT_SYNC_SECRET, enabled:true, bakedIn:true};
+  } else {
+    const sync = await storageGet('syncConfig', true, null);
+    if(sync) state.sync = {...state.sync, ...sync, bakedIn:false};
+  }
+
+  // 2) Load whatever is cached locally first (fast, works offline)
   let employees = await storageGet('employees', true, null);
   if(!employees){
     employees = SEED.roster.map((r,i)=>({
@@ -393,7 +564,6 @@ async function loadAll(){
     }));
     await storageSet('employees', true, employees);
   }
-  // migrate older saved records that don't have a pin field yet
   let employeesChanged = false;
   employees.forEach(e=>{ if(e.pin===undefined){ e.pin=''; employeesChanged=true; } });
   if(employeesChanged) await storageSet('employees', true, employees);
@@ -401,7 +571,6 @@ async function loadAll(){
 
   let accounts = await storageGet('accounts', true, null);
   if(!accounts){ accounts = []; await storageSet('accounts', true, accounts); }
-  // migrate older saved accounts that predate the approval flow: treat them as already approved
   let accountsChanged = false;
   accounts.forEach(a=>{ if(a.status===undefined){ a.status='approved'; accountsChanged=true; } });
   if(accountsChanged) await storageSet('accounts', true, accounts);
@@ -424,10 +593,13 @@ async function loadAll(){
   let adminAuth = await storageGet('adminAuth', true, null);
   state.adminAuth = adminAuth;
 
-  const sync = await storageGet('syncConfig', true, null);
-  if(sync) state.sync = {...state.sync, ...sync};
+  // 3) If sync is configured, pull the authoritative shared state (employees+pin, accounts, adminAuth)
+  //    from Google Sheets right now so this device matches every other device immediately.
+  if(syncReady()){
+    await syncPullCore();
+  }
 
-  // restore session from local (per-browser) storage — only if the account is still approved
+  // 4) Restore session from local (per-browser) storage — only if the account is still approved
   const savedSession = await storageGet('session', false, null);
   if(savedSession){
     const acc = state.accounts.find(a=>a.username===savedSession.username);
@@ -468,7 +640,6 @@ function render(){
     bindAdminAppEvents();
     return;
   }
-  // logged-in employee app
   root.innerHTML = renderEmployeeApp();
   bindEmployeeAppEvents();
 }
@@ -580,8 +751,8 @@ async function doRegister(){
   const hash = await hashPassword(password, salt);
   state.accounts.push({username, salt, hash, empId, status:'pending'});
   await storageSet('accounts', true, state.accounts);
+  await syncPushAccounts();
 
-  // Do NOT log the employee in yet — account needs Admin approval first.
   state.authError = '';
   state.authTab = 'login';
   toast(t('registerPendingMsg'));
@@ -598,7 +769,6 @@ async function doLogout(){
 
 /* ================= EMPLOYEE APP ================= */
 function computeDisplayRecord(rec){
-  // Historical (Jul/Aug) records are stored as final snapshots already; just return as-is with fallback fields.
   return {
     allowance: rec.allowance||0, baseSalary: rec.baseSalary||0,
     otHours: rec.otHours||0, otAmtHours: rec.otAmtHours||0,
@@ -765,6 +935,7 @@ async function changePassword(){
   acc.salt = randomSalt();
   acc.hash = await hashPassword(newPass, acc.salt);
   await storageSet('accounts', true, state.accounts);
+  await syncPushAccounts();
   toast(t('passChanged'));
   document.getElementById('oldPass').value='';
   document.getElementById('newPass').value='';
@@ -793,7 +964,7 @@ function bindAdminSetupEvents(){
     const setupKey = document.getElementById('adminSetupKey').value.trim();
     const p1 = document.getElementById('adminPass1').value;
     const p2 = document.getElementById('adminPass2').value;
-    state.adminSetupDraft = {key:setupKey, p1, p2}; // remember what was typed in case of error
+    state.adminSetupDraft = {key:setupKey, p1, p2};
     if(setupKey !== ADMIN_SETUP_KEY){ state.authError=t('invalidSetupKey'); render(); return; }
     if(!p1 || p1.length<6){ state.authError=t('adminPassMinLen'); render(); return; }
     if(p1 !== p2){ state.authError=t('passwordMismatch'); render(); return; }
@@ -801,6 +972,7 @@ function bindAdminSetupEvents(){
     const hash = await hashPassword(p1, salt);
     state.adminAuth = {salt, hash};
     await storageSet('adminAuth', true, state.adminAuth);
+    await syncPushAdminAuth();
     state.authError = '';
     state.adminSetupDraft = null;
     toast(t('setupSuccess'));
@@ -860,6 +1032,7 @@ function bindAdminResetEvents(){
     const hash = await hashPassword(p1, salt);
     state.adminAuth = {salt, hash};
     await storageSet('adminAuth', true, state.adminAuth);
+    await syncPushAdminAuth();
     state.authError=''; toast(t('resetSuccess'));
     state.screen='admin'; render();
   });
@@ -994,13 +1167,17 @@ function renderAdminApp(){
     <div class="section">
       <div class="section-head">${t('syncTitle')} <span class="admin-badge" style="background:${state.sync.enabled?'var(--green)':'var(--line)'};color:${state.sync.enabled?'#fff':'var(--muted)'}">${state.sync.enabled?t('syncOn'):t('syncOff')}</span></div>
       <div class="section-body">
-        <div class="field"><label>${t('syncUrlLabel')}</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
-        <div class="field"><label>${t('syncSecretLabel')}</label>${pwdField('syncSecret', state.sync.secret||'')}</div>
-        <label style="display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;cursor:pointer">
-          <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> ${t('syncEnableLabel')}
-        </label>
-        <div style="display:flex;gap:8px">
-          <button class="btn primary" id="saveSyncBtn">${t('saveBtn')}</button>
+        ${state.sync.bakedIn ? `
+          <div style="font-size:12.5px;color:var(--muted);margin-bottom:12px">${t('syncBakedIn')} <span style="font-style:italic">${t('syncBakedInLocked')}</span></div>
+        ` : `
+          <div class="field"><label>${t('syncUrlLabel')}</label><input id="syncUrl" value="${state.sync.url||''}" placeholder="https://script.google.com/macros/s/.../exec"></div>
+          <div class="field"><label>${t('syncSecretLabel')}</label>${pwdField('syncSecret', state.sync.secret||'')}</div>
+          <label style="display:flex;align-items:center;gap:8px;margin:10px 0;font-size:13px;cursor:pointer">
+            <input id="syncEnabled" type="checkbox" style="width:16px;height:16px" ${state.sync.enabled?'checked':''}> ${t('syncEnableLabel')}
+          </label>
+          <button class="btn primary" id="saveSyncBtn" style="width:auto;margin-right:8px">${t('saveBtn')}</button>
+        `}
+        <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn" id="pushNowBtn">${t('pushNowBtn')}</button>
           <button class="btn" id="pullNowBtn">${t('pullNowBtn')}</button>
         </div>
@@ -1033,10 +1210,12 @@ function bindAdminAppEvents(){
       if(!confirm(t('deleteAccountConfirm'))) return;
       state.accounts = state.accounts.filter(a=>a.username!==btn.dataset.resetAcc);
       await storageSet('accounts', true, state.accounts);
+      await syncPushAccounts();
       render();
     });
   });
-  document.getElementById('saveSyncBtn').addEventListener('click', saveSyncConfig);
+  const saveSyncBtn = document.getElementById('saveSyncBtn');
+  if(saveSyncBtn) saveSyncBtn.addEventListener('click', saveSyncConfig);
   document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast(t('sendingData')); pushAllToSheet(); });
   document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast(t('pullingData')); pullAllFromSheet(); });
 }
@@ -1046,6 +1225,7 @@ async function approveAccount(username){
   if(!acc) return;
   acc.status = 'approved';
   await storageSet('accounts', true, state.accounts);
+  await syncPushAccounts();
   toast(t('approvedToast'));
   render();
 }
@@ -1054,6 +1234,7 @@ async function rejectAccount(username){
   if(!confirm(t('rejectConfirm'))) return;
   state.accounts = state.accounts.filter(a=>a.username!==username);
   await storageSet('accounts', true, state.accounts);
+  await syncPushAccounts();
   toast(t('rejectedToast'));
   render();
 }
@@ -1065,6 +1246,7 @@ async function onAdminPinChange(ev){
   if(!emp) return;
   emp.pin = el.value.trim();
   await storageSet('employees', true, state.employees);
+  await syncPushEmployees();
   toast(t('pinSaved'));
 }
 
@@ -1072,73 +1254,10 @@ async function saveSyncConfig(){
   const url = document.getElementById('syncUrl').value.trim();
   const secret = document.getElementById('syncSecret').value.trim();
   const enabled = document.getElementById('syncEnabled').checked;
-  state.sync = {url, secret, enabled};
+  state.sync = {url, secret, enabled, bakedIn:false};
   await storageSet('syncConfig', true, state.sync);
   toast(t('syncSaved'));
   render();
-}
-
-function empRowForSync(e){
-  return {EmpID:e.id, Name:e.name, Position:e.position||'', BaseSalary:e.baseSalary||0, Allowance:e.allowance||0, Status:e.status||'Active', ResignMonth:e.resignMonth||''};
-}
-function paySlipRowForSync(empId, month, rec){
-  const emp = empById(empId);
-  return {
-    EmpID:empId, Month:month, Name:emp?emp.name:'', Position:emp?emp.position:'',
-    Allowance:rec.allowance||0, BaseSalary:rec.baseSalary||0,
-    OTHours:rec.otHours||0, OTAmtHours:rec.otAmtHours||0,
-    OTDays:rec.otDays||0, OTAmtDays:rec.otAmtDays||0,
-    Commission:rec.commission||0, TotalIncome:rec.totalIncome||0,
-    LeaveDays:rec.leaveDays||0, LeaveAmt:rec.leaveAmt||0,
-    StaffCardTimes:rec.staffCardTimes||0, SCAmt:rec.scAmt||0,
-    LateMinutes:rec.lateMinutes||0, LateAmt:rec.lateAmt||0,
-    Advance:rec.advance||0, VisaFee:rec.visaFee||0, Loan:rec.loan||0,
-    EPFSocso:rec.epfSocso||0, TotalDeduct:rec.totalDeduct||0, NetSalary:rec.netSalary||0,
-  };
-}
-
-async function pushAllToSheet(){
-  if(!state.sync.url || !state.sync.secret){ toast(t('enterUrlSecret')); return; }
-  try{
-    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})});
-    const payRows = [];
-    Object.keys(state.payslips).forEach(empId=>{
-      Object.keys(state.payslips[empId]).forEach(month=>{
-        payRows.push(paySlipRowForSync(empId, month, state.payslips[empId][month]));
-      });
-    });
-    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
-    toast(t('pushSuccess'));
-  }catch(e){ console.error(e); toast(t('pushFailed')); }
-}
-
-async function pullAllFromSheet(){
-  if(!state.sync.url || !state.sync.secret){ toast(t('enterUrlSecret')); return; }
-  try{
-    const u1 = new URL(state.sync.url);
-    u1.searchParams.set('secret', state.sync.secret);
-    u1.searchParams.set('action', 'readPayslips');
-    const resp = await fetch(u1.toString());
-    const data = await resp.json();
-    if(data.error){ toast(t('pullError', data.error)); return; }
-    (data.rows||[]).forEach(r=>{
-      if(!state.payslips[r.EmpID]) state.payslips[r.EmpID] = {};
-      state.payslips[r.EmpID][r.Month] = {
-        allowance:Number(r.Allowance)||0, baseSalary:Number(r.BaseSalary)||0,
-        otHours:Number(r.OTHours)||0, otAmtHours:Number(r.OTAmtHours)||0,
-        otDays:Number(r.OTDays)||0, otAmtDays:Number(r.OTAmtDays)||0,
-        commission:Number(r.Commission)||0, totalIncome:Number(r.TotalIncome)||0,
-        leaveDays:Number(r.LeaveDays)||0, leaveAmt:Number(r.LeaveAmt)||0,
-        staffCardTimes:Number(r.StaffCardTimes)||0, scAmt:Number(r.SCAmt)||0,
-        lateMinutes:Number(r.LateMinutes)||0, lateAmt:Number(r.LateAmt)||0,
-        advance:Number(r.Advance)||0, visaFee:Number(r.VisaFee)||0, loan:Number(r.Loan)||0,
-        epfSocso:Number(r.EPFSocso)||0, totalDeduct:Number(r.TotalDeduct)||0, netSalary:Number(r.NetSalary)||0,
-      };
-    });
-    await storageSet('payslips', true, state.payslips);
-    toast(t('pullSuccess'));
-    render();
-  }catch(e){ console.error(e); toast(t('pullFailed')); }
 }
 
 async function onAdminCellChange(ev){
@@ -1148,7 +1267,6 @@ async function onAdminCellChange(ev){
   const emp = empById(empId);
   if(!state.payslips[empId]) state.payslips[empId] = {};
   if(!state.payslips[empId][month]){
-    // initialize with sensible defaults (base salary/allowance from employee record) before applying the edit
     state.payslips[empId][month] = {
       allowance: emp.allowance||0, baseSalary: emp.baseSalary||0,
       otHours:0, otDays:0, commission:0, leaveDays:0, staffCardTimes:0, lateMinutes:0,
@@ -1156,15 +1274,12 @@ async function onAdminCellChange(ev){
     };
   }
   state.payslips[empId][month][field] = parseFloat(el.value)||0;
-  // recompute derived fields and store full snapshot
   const full = computeAdminRow(state.payslips[empId][month]);
   state.payslips[empId][month] = full;
   await storageSet('payslips', true, state.payslips);
   render();
   toast(t('saved'));
-  if(state.sync.enabled && state.sync.url && state.sync.secret){
-    fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, full)]})}).catch(e=>console.error(e));
-  }
+  syncPushPayslip(empId, month, full);
 }
 
 /* ================= BOOT ================= */

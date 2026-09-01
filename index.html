@@ -417,7 +417,7 @@ function syncReady(){ return !!(state.sync.url && state.sync.secret); }
    YYKJ (new employees, tagged with their branch) and refreshes payslip data
    from the latest master export — for every device, regardless of prior state,
    and pushes the result to the shared Google Sheet so it stays authoritative. */
-const DATA_VERSION = 4;
+const DATA_VERSION = 3;
 async function applyDataMigrationIfNeeded(){
   const appliedVersion = await storageGet('dataVersion', true, 0);
   if(appliedVersion >= DATA_VERSION) return false;

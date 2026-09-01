@@ -134,6 +134,9 @@ const SEED = JSON.parse(document.getElementById('app-data').textContent);
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const AVAILABLE_FROM_INDEX = MONTHS.indexOf('Jul'); // Jul 2026 onward
 const OT_RATE_HR = 8, OT_RATE_DAY = 40, SC_RATE = 5, LATE_RATE = 5;
+// days in each 2026 calendar month — the original spreadsheets divide the leave deduction by the
+// actual number of days in that month (e.g. Aug = 31), not a fixed 26, so we match that here.
+const MONTH_DAYS_2026 = {Jan:31,Feb:28,Mar:31,Apr:30,May:31,Jun:30,Jul:31,Aug:31,Sep:30,Oct:31,Nov:30,Dec:31};
 const BRANCHES = ['Lite','TMP','YYKJ'];
 const BRANCH_LABEL = {Lite:'Yakyim Lite', TMP:'Yakyim TMP', YYKJ:'Yakyim YYKJ'};
 
@@ -273,7 +276,7 @@ const I18N = {
     col_otDays: 'OT(days)', col_commission: 'Commission', col_totalIncome: 'Total Income',
     col_leaveDays: 'Leave(days)', col_sc: 'SC', col_ruleViolation: 'Rule Viol.', col_late: 'Late(min)', col_advance: 'Advance',
     col_visaFee: 'Visa Fee', col_loan: 'Loan', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'Total Deduct', col_net: 'NET',
-    formulaNote: (h,d,s,l)=>`Formula: OT/hr RM${h} · OT/day RM${d} · Leave deduction = base salary÷26×leave days · Staff Card RM${s}/time · Late RM${l}/min · Data auto-saves on every edit`,
+    formulaNote: (h,d,s,l)=>`Formula: OT/hr RM${h} · OT/day RM${d} · Leave deduction = base salary÷days-in-month×leave days · Staff Card RM${s}/time · Late RM${l}/min · Data auto-saves on every edit`,
     manageAccounts: (n)=>`Approved employee accounts (${n})`,
     usernameCol: 'Username', branchCol: 'Branch', notFound: '(not found)', deleteAccount: 'Delete account (require re-register)',
     noAccountsYet: 'No employees have registered yet',
@@ -356,7 +359,7 @@ const I18N = {
     col_otDays: 'OT(วัน)', col_commission: 'Commission', col_totalIncome: 'รวมรายได้',
     col_leaveDays: 'ลา(วัน)', col_sc: 'SC', col_ruleViolation: 'ทำผิดกฎ', col_late: 'สาย(นาที)', col_advance: 'เบิกล่วงหน้า',
     col_visaFee: 'ค่าวีซ่า', col_loan: 'เงินกู้', col_epfSocso: 'EPF+Socso', col_totalDeduct: 'รวมหัก', col_net: 'NET',
-    formulaNote: (h,d,s,l)=>`สูตร: OT/ชม RM${h} · OT/วัน RM${d} · หักลา = เงินเดือนฐาน÷26×วันลา · Staff Card RM${s}/ครั้ง · มาสาย RM${l}/นาที · ข้อมูลบันทึกอัตโนมัติทุกครั้งที่แก้ไข`,
+    formulaNote: (h,d,s,l)=>`สูตร: OT/ชม RM${h} · OT/วัน RM${d} · หักลา = เงินเดือนฐาน÷จำนวนวันในเดือน×วันลา · Staff Card RM${s}/ครั้ง · มาสาย RM${l}/นาที · ข้อมูลบันทึกอัตโนมัติทุกครั้งที่แก้ไข`,
     manageAccounts: (n)=>`บัญชีพนักงานที่อนุมัติแล้ว (${n})`,
     usernameCol: 'Username', branchCol: 'สาขา', notFound: '(ไม่พบ)', deleteAccount: 'ลบบัญชี (ให้สมัครใหม่)',
     noAccountsYet: 'ยังไม่มีพนักงานสมัครบัญชี',
@@ -1150,11 +1153,12 @@ function bindAdminResetEvents(){
 }
 
 /* ================= ADMIN APP ================= */
-function computeAdminRow(row){
+function computeAdminRow(row, month){
   const otAmtHours = round2((row.otHours||0)*OT_RATE_HR);
   const otAmtDays = round2((row.otDays||0)*OT_RATE_DAY);
   const totalIncome = round2((row.allowance||0)+(row.baseSalary||0)+otAmtHours+otAmtDays+(row.commission||0));
-  const leaveAmt = row.baseSalary>0 ? round2((row.leaveDays||0)*(row.baseSalary/26)) : 0;
+  const daysInMonth = MONTH_DAYS_2026[month] || 30;
+  const leaveAmt = row.baseSalary>0 ? round2((row.leaveDays||0)*(row.baseSalary/daysInMonth)) : 0;
   const scAmt = round2((row.staffCardTimes||0)*SC_RATE);
   const lateAmt = round2((row.lateMinutes||0)*LATE_RATE);
   const totalDeduct = round2(leaveAmt+scAmt+(row.ruleViolation||0)+lateAmt+(row.advance||0)+(row.visaFee||0)+(row.loan||0)+(row.epfSocso||0));
@@ -1171,7 +1175,7 @@ function renderPayrollTable(branchEmps, month){
       leaveDays: existing.leaveDays||0, staffCardTimes: existing.staffCardTimes||0, ruleViolation: existing.ruleViolation||0, lateMinutes: existing.lateMinutes||0,
       advance: existing.advance||0, visaFee: existing.visaFee||0, loan: existing.loan||0, epfSocso: existing.epfSocso||0,
     };
-    const c = computeAdminRow(row);
+    const c = computeAdminRow(row, month);
     const inp = (field,val,w) => `<input class="cell-input" style="${w?'width:'+w+'px':''}" type="number" step="0.01" data-emp="${e.id}" data-field="${field}" value="${val}">`;
     return `<tr>
       <td>${e.name}<div style="font-size:11px;color:var(--muted)">${e.position||''}</div></td>
@@ -1415,7 +1419,7 @@ async function onAdminCellChange(ev){
     };
   }
   state.payslips[empId][month][field] = parseFloat(el.value)||0;
-  const full = computeAdminRow(state.payslips[empId][month]);
+  const full = computeAdminRow(state.payslips[empId][month], month);
   state.payslips[empId][month] = full;
   await storageSet('payslips', true, state.payslips);
   render();

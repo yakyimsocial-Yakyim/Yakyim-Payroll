@@ -1361,28 +1361,39 @@ function renderAdminApp(){
 }
 
 function bindAdminAppEvents(){
-  bindPwdToggles();
-  document.querySelectorAll('.lang-btn').forEach(el=>{
+  // Each binding is wrapped separately so that if any ONE fails (e.g. an element that only
+  // exists in certain view states), it can never block the rest from being attached — this
+  // is exactly the kind of bug that made Approve/Reject silently stop responding before.
+  const safe = (fn, label) => { try{ fn(); }catch(e){ console.error('bind failed:', label, e); } };
+
+  safe(()=>bindPwdToggles(), 'pwdToggles');
+  safe(()=>document.querySelectorAll('.lang-btn').forEach(el=>{
     el.addEventListener('click', ()=>{ state.lang = el.dataset.lang; render(); });
-  });
-  document.getElementById('adminLogoutBtn').addEventListener('click', async ()=>{ state.screen='auth'; state.authTab='login'; await storageSet('adminSession', false, false); render(); });
-  document.getElementById('adminMonthSelect').addEventListener('change', (ev)=>{ state.adminMonth = ev.target.value; render(); });
-  document.querySelectorAll('[data-admin-branch]').forEach(btn=>{
+  }), 'langBtn');
+  safe(()=>{
+    const el = document.getElementById('adminLogoutBtn');
+    if(el) el.addEventListener('click', async ()=>{ state.screen='auth'; state.authTab='login'; await storageSet('adminSession', false, false); render(); });
+  }, 'adminLogoutBtn');
+  safe(()=>{
+    const el = document.getElementById('adminMonthSelect');
+    if(el) el.addEventListener('change', (ev)=>{ state.adminMonth = ev.target.value; render(); });
+  }, 'adminMonthSelect');
+  safe(()=>document.querySelectorAll('[data-admin-branch]').forEach(btn=>{
     btn.addEventListener('click', ()=>{ state.adminBranch = btn.dataset.adminBranch; render(); });
-  });
-  document.querySelectorAll('.cell-input[data-emp]').forEach(inp=>{
+  }), 'adminBranchTabs');
+  safe(()=>document.querySelectorAll('.cell-input[data-emp]').forEach(inp=>{
     inp.addEventListener('change', onAdminCellChange);
-  });
-  document.querySelectorAll('[data-pin-emp]').forEach(inp=>{
+  }), 'cellInputs');
+  safe(()=>document.querySelectorAll('[data-pin-emp]').forEach(inp=>{
     inp.addEventListener('change', onAdminPinChange);
-  });
-  document.querySelectorAll('[data-approve-acc]').forEach(btn=>{
+  }), 'pinInputs');
+  safe(()=>document.querySelectorAll('[data-approve-acc]').forEach(btn=>{
     btn.addEventListener('click', ()=>approveAccount(btn.dataset.approveAcc));
-  });
-  document.querySelectorAll('[data-reject-acc]').forEach(btn=>{
+  }), 'approveButtons');
+  safe(()=>document.querySelectorAll('[data-reject-acc]').forEach(btn=>{
     btn.addEventListener('click', ()=>rejectAccount(btn.dataset.rejectAcc));
-  });
-  document.querySelectorAll('[data-reset-acc]').forEach(btn=>{
+  }), 'rejectButtons');
+  safe(()=>document.querySelectorAll('[data-reset-acc]').forEach(btn=>{
     btn.addEventListener('click', async ()=>{
       if(!confirm(t('deleteAccountConfirm'))) return;
       state.accounts = state.accounts.filter(a=>a.username!==btn.dataset.resetAcc);
@@ -1390,22 +1401,38 @@ function bindAdminAppEvents(){
       await syncPushAccounts();
       render();
     });
-  });
-  const saveSyncBtn = document.getElementById('saveSyncBtn');
-  if(saveSyncBtn) saveSyncBtn.addEventListener('click', saveSyncConfig);
-  document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast(t('sendingData')); pushAllToSheet(); });
-  document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast(t('pullingData')); pullAllFromSheet(); });
-  document.getElementById('resetLocalBtn').addEventListener('click', resetLocalData);
+  }), 'resetButtons');
+  safe(()=>{
+    const saveSyncBtn = document.getElementById('saveSyncBtn');
+    if(saveSyncBtn) saveSyncBtn.addEventListener('click', saveSyncConfig);
+  }, 'saveSyncBtn');
+  safe(()=>{
+    const el = document.getElementById('pushNowBtn');
+    if(el) el.addEventListener('click', ()=>{ toast(t('sendingData')); pushAllToSheet(); });
+  }, 'pushNowBtn');
+  safe(()=>{
+    const el = document.getElementById('pullNowBtn');
+    if(el) el.addEventListener('click', ()=>{ toast(t('pullingData')); pullAllFromSheet(); });
+  }, 'pullNowBtn');
+  safe(()=>{
+    const el = document.getElementById('resetLocalBtn');
+    if(el) el.addEventListener('click', resetLocalData);
+  }, 'resetLocalBtn');
 }
 
 async function approveAccount(username){
-  const acc = state.accounts.find(a=>a.username===username);
-  if(!acc) return;
-  acc.status = 'approved';
-  await storageSet('accounts', true, state.accounts);
-  await syncPushAccounts();
-  toast(t('approvedToast'));
-  render();
+  try{
+    const acc = state.accounts.find(a=>a.username===username);
+    if(!acc) return;
+    acc.status = 'approved';
+    await storageSet('accounts', true, state.accounts);
+    await syncPushAccounts();
+    toast(t('approvedToast'));
+    render();
+  }catch(e){
+    console.error('approveAccount failed', e);
+    toast('Error: '+e.message);
+  }
 }
 
 async function rejectAccount(username){

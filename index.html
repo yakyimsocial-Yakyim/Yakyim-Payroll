@@ -570,7 +570,7 @@ async function syncPullCore(){
       data.employees.filter(looksValid).forEach(r=>{
         let emp = state.employees.find(e=>e.id===r.EmpID);
         if(!emp){
-          emp = {id:r.EmpID, name:r.Name, branch:r.Branch||'', position:r.Position, baseSalary:Number(r.BaseSalary)||0, allowance:Number(r.Allowance)||0, status:r.Status||'', resignMonth:r.ResignMonth||'', pin:r.Pin||''};
+          emp = {id:r.EmpID, name:r.Name, branch:r.Branch||'', position:r.Position, baseSalary:Number(r.BaseSalary)||0, allowance:Number(r.Allowance)||0, status:r.Status||'', resignMonth:r.ResignMonth||'', pin:r.Pin?String(r.Pin):''};
           state.employees.push(emp);
         } else {
           emp.name = r.Name || emp.name;
@@ -580,14 +580,14 @@ async function syncPullCore(){
           emp.allowance = Number(r.Allowance)||emp.allowance;
           emp.status = r.Status||emp.status;
           emp.resignMonth = r.ResignMonth||emp.resignMonth;
-          emp.pin = r.Pin||emp.pin;
+          emp.pin = r.Pin ? String(r.Pin) : emp.pin;
         }
       });
       await storageSet('employees', true, state.employees);
     }
 
     if(Array.isArray(data.accounts)){
-      state.accounts = data.accounts.map(r=>({username:r.Username, salt:r.Salt, hash:r.Hash, empId:r.EmpID, status:r.Status||'approved'}));
+      state.accounts = data.accounts.map(r=>({username:String(r.Username), salt:String(r.Salt), hash:String(r.Hash), empId:String(r.EmpID), status:r.Status||'approved'}));
       await storageSet('accounts', true, state.accounts);
     }
 
@@ -715,7 +715,7 @@ async function loadAll(){
   // 4) Restore session from local (per-browser) storage — only if the account is still approved
   const savedSession = await storageGet('session', false, null);
   if(savedSession){
-    const acc = state.accounts.find(a=>a.username===savedSession.username);
+    const acc = state.accounts.find(a=>String(a.username)===String(savedSession.username));
     if(acc && acc.status==='approved'){ state.session = {username: acc.username, empId: acc.empId}; }
     else { await storageSet('session', false, null); }
   }
@@ -859,7 +859,7 @@ async function doLogin(){
   const username = document.getElementById('loginUsername').value.trim();
   const password = document.getElementById('loginPassword').value;
   if(!username || !password){ state.authError=t('pleaseEnterBoth'); render(); return; }
-  const acc = state.accounts.find(a=>a.username.toLowerCase()===username.toLowerCase());
+  const acc = state.accounts.find(a=>String(a.username).toLowerCase()===String(username).toLowerCase());
   if(!acc){ state.authError=t('accountNotFound'); render(); return; }
   const hash = await hashPassword(password, acc.salt);
   if(hash !== acc.hash){ state.authError=t('wrongPassword'); render(); return; }
@@ -886,7 +886,7 @@ async function doRegister(){
   if(!emp.pin){ state.authError=t('pinNotSet'); render(); return; }
   if(pin !== String(emp.pin).trim()){ state.authError=t('pinIncorrect'); render(); return; }
   if(!username || username.length<3){ state.authError=t('usernameMinLen'); render(); return; }
-  if(state.accounts.some(a=>a.username.toLowerCase()===username.toLowerCase())){
+  if(state.accounts.some(a=>String(a.username).toLowerCase()===String(username).toLowerCase())){
     state.authError=t('usernameTaken'); render(); return;
   }
   if(!password || password.length<4){ state.authError=t('passwordMinLen'); render(); return; }
@@ -1075,7 +1075,7 @@ function bindEmployeeAppEvents(){
 async function changePassword(){
   const oldPass = document.getElementById('oldPass').value;
   const newPass = document.getElementById('newPass').value;
-  const acc = state.accounts.find(a=>a.username===state.session.username);
+  const acc = state.accounts.find(a=>String(a.username)===String(state.session.username));
   if(!acc){ toast(t('accountNotFound2')); return; }
   const oldHash = await hashPassword(oldPass, acc.salt);
   if(oldHash !== acc.hash){ toast(t('incorrectOldPass')); return; }
@@ -1404,13 +1404,8 @@ function bindAdminAppEvents(){
     inp.addEventListener('change', onAdminPinChange);
   }), 'pinInputs');
   safe(()=>{
-    const btns = document.querySelectorAll('[data-approve-acc]');
-    console.log('[debug] approve buttons found:', btns.length);
-    btns.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        console.log('[debug] Approve clicked for', btn.dataset.approveAcc);
-        approveAccount(btn.dataset.approveAcc);
-      });
+    document.querySelectorAll('[data-approve-acc]').forEach(btn=>{
+      btn.addEventListener('click', ()=>approveAccount(btn.dataset.approveAcc));
     });
   }, 'approveButtons');
   safe(()=>document.querySelectorAll('[data-reject-acc]').forEach(btn=>{
@@ -1419,7 +1414,7 @@ function bindAdminAppEvents(){
   safe(()=>document.querySelectorAll('[data-reset-acc]').forEach(btn=>{
     btn.addEventListener('click', async ()=>{
       if(!confirm(t('deleteAccountConfirm'))) return;
-      state.accounts = state.accounts.filter(a=>a.username!==btn.dataset.resetAcc);
+      state.accounts = state.accounts.filter(a=>String(a.username)!==String(btn.dataset.resetAcc));
       await storageSet('accounts', true, state.accounts);
       await syncPushAccounts();
       render();
@@ -1444,29 +1439,23 @@ function bindAdminAppEvents(){
 }
 
 async function approveAccount(username){
-  console.log('[debug] approveAccount() called with', username);
   try{
-    const acc = state.accounts.find(a=>a.username===username);
-    console.log('[debug] found account:', acc);
-    if(!acc){ console.log('[debug] no matching account, aborting'); return; }
+    const acc = state.accounts.find(a=>String(a.username)===String(username));
+    if(!acc) return;
     acc.status = 'approved';
-    console.log('[debug] saving to local storage...');
     await storageSet('accounts', true, state.accounts);
-    console.log('[debug] local storage saved. pushing to sheet...');
     await syncPushAccounts();
-    console.log('[debug] sheet push done. showing toast + re-render.');
     toast(t('approvedToast'));
     render();
-    console.log('[debug] approveAccount() finished successfully');
   }catch(e){
-    console.error('[debug] approveAccount failed with exception:', e);
+    console.error('approveAccount failed', e);
     toast('Error: '+e.message);
   }
 }
 
 async function rejectAccount(username){
   if(!confirm(t('rejectConfirm'))) return;
-  state.accounts = state.accounts.filter(a=>a.username!==username);
+  state.accounts = state.accounts.filter(a=>String(a.username)!==String(username));
   await storageSet('accounts', true, state.accounts);
   await syncPushAccounts();
   toast(t('rejectedToast'));

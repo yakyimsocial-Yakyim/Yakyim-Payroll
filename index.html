@@ -189,6 +189,22 @@ async function hashPassword(password, salt){
   return sha256Hex(salt + ':' + password);
 }
 
+// fetch() has no timeout by default — if the Apps Script backend is slow/stuck, an unbounded
+// await would make the whole UI look "frozen" with no error at all. This aborts and throws a
+// clear error after `ms`, so callers always get a definite result one way or another.
+async function fetchWithTimeout(url, options, ms=8000){
+  const controller = new AbortController();
+  const timer = setTimeout(()=>controller.abort(), ms);
+  try{
+    return await fetch(url, {...(options||{}), signal: controller.signal});
+  }catch(e){
+    if(e.name === 'AbortError') throw new Error('Request timed out after '+(ms/1000)+'s');
+    throw e;
+  }finally{
+    clearTimeout(timer);
+  }
+}
+
 function fmtMoney(n){
   n = Number(n)||0;
   return n.toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -500,22 +516,22 @@ function adminAuthRowForSync(){
 
 async function syncPushEmployees(){
   if(!syncReady()) return;
-  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})}); }
+  try{ await fetchWithTimeout(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeEmployees', rows: state.employees.map(empRowForSync)})}); }
   catch(e){ console.error('push employees failed', e); }
 }
 async function syncPushAccounts(){
   if(!syncReady()) return;
-  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAccounts', rows: state.accounts.map(accountRowForSync)})}); }
+  try{ await fetchWithTimeout(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAccounts', rows: state.accounts.map(accountRowForSync)})}); }
   catch(e){ console.error('push accounts failed', e); }
 }
 async function syncPushAdminAuth(){
   if(!syncReady() || !state.adminAuth) return;
-  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAdminAuth', rows: adminAuthRowForSync()})}); }
+  try{ await fetchWithTimeout(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writeAdminAuth', rows: adminAuthRowForSync()})}); }
   catch(e){ console.error('push adminAuth failed', e); }
 }
 async function syncPushPayslip(empId, month, rec){
   if(!syncReady()) return;
-  try{ await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, rec)]})}); }
+  try{ await fetchWithTimeout(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows:[paySlipRowForSync(empId, month, rec)]})}); }
   catch(e){ console.error('push payslip failed', e); }
 }
 async function syncPushAllPayslips(){
@@ -527,7 +543,7 @@ async function syncPushAllPayslips(){
         payRows.push(paySlipRowForSync(empId, month, state.payslips[empId][month]));
       });
     });
-    await fetch(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
+    await fetchWithTimeout(state.sync.url, {method:'POST', body: JSON.stringify({secret:state.sync.secret, action:'writePayslips', rows: payRows})});
   }catch(e){ console.error('push payslips failed', e); }
 }
 
@@ -539,7 +555,7 @@ async function syncPullCore(){
     const u = new URL(state.sync.url);
     u.searchParams.set('secret', state.sync.secret);
     u.searchParams.set('action', 'readAll');
-    const resp = await fetch(u.toString());
+    const resp = await fetchWithTimeout(u.toString());
     const data = await resp.json();
     if(data.error){ console.error('sync pull error', data.error); return false; }
 
@@ -605,7 +621,7 @@ async function pullAllFromSheet(){
     const u1 = new URL(state.sync.url);
     u1.searchParams.set('secret', state.sync.secret);
     u1.searchParams.set('action', 'readPayslips');
-    const resp = await fetch(u1.toString());
+    const resp = await fetchWithTimeout(u1.toString());
     const data = await resp.json();
     if(!data.error){
       (data.rows||[]).forEach(r=>{
@@ -1387,9 +1403,16 @@ function bindAdminAppEvents(){
   safe(()=>document.querySelectorAll('[data-pin-emp]').forEach(inp=>{
     inp.addEventListener('change', onAdminPinChange);
   }), 'pinInputs');
-  safe(()=>document.querySelectorAll('[data-approve-acc]').forEach(btn=>{
-    btn.addEventListener('click', ()=>approveAccount(btn.dataset.approveAcc));
-  }), 'approveButtons');
+  safe(()=>{
+    const btns = document.querySelectorAll('[data-approve-acc]');
+    console.log('[debug] approve buttons found:', btns.length);
+    btns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        console.log('[debug] Approve clicked for', btn.dataset.approveAcc);
+        approveAccount(btn.dataset.approveAcc);
+      });
+    });
+  }, 'approveButtons');
   safe(()=>document.querySelectorAll('[data-reject-acc]').forEach(btn=>{
     btn.addEventListener('click', ()=>rejectAccount(btn.dataset.rejectAcc));
   }), 'rejectButtons');
@@ -1421,16 +1444,22 @@ function bindAdminAppEvents(){
 }
 
 async function approveAccount(username){
+  console.log('[debug] approveAccount() called with', username);
   try{
     const acc = state.accounts.find(a=>a.username===username);
-    if(!acc) return;
+    console.log('[debug] found account:', acc);
+    if(!acc){ console.log('[debug] no matching account, aborting'); return; }
     acc.status = 'approved';
+    console.log('[debug] saving to local storage...');
     await storageSet('accounts', true, state.accounts);
+    console.log('[debug] local storage saved. pushing to sheet...');
     await syncPushAccounts();
+    console.log('[debug] sheet push done. showing toast + re-render.');
     toast(t('approvedToast'));
     render();
+    console.log('[debug] approveAccount() finished successfully');
   }catch(e){
-    console.error('approveAccount failed', e);
+    console.error('[debug] approveAccount failed with exception:', e);
     toast('Error: '+e.message);
   }
 }

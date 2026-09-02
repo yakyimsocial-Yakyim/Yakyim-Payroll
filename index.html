@@ -292,6 +292,9 @@ const I18N = {
     syncTitle: 'Sync with Google Sheets', syncOn: 'On', syncOff: 'Off',
     syncUrlLabel: 'Apps Script Web App URL', syncSecretLabel: 'Secret', syncEnableLabel: 'Enable sync',
     saveBtn: 'Save', pushNowBtn: 'Push all data now', pullNowBtn: 'Pull data now',
+    resetLocalBtn: '⚠ Reset local data on this device',
+    resetLocalNote: 'If this device shows garbled/wrong data that syncing doesn\'t fix, use this to wipe this device\'s local cache and reload fresh from the built-in data + Google Sheets. This does not delete anything from Google Sheets.',
+    resetLocalConfirm: 'This will erase all locally cached data on THIS device (employee list, accounts, payslips, admin login) and reload the page. It does not affect Google Sheets. Continue?',
     syncSaved: 'Sync settings saved', enterUrlSecret: 'Please enter URL and Secret first',
     sendingData: 'Sending data...', pullingData: 'Pulling data...',
     pushSuccess: 'Data pushed to Google Sheets successfully', pushFailed: 'Failed to push data',
@@ -375,6 +378,9 @@ const I18N = {
     syncTitle: 'ซิงค์กับ Google Sheets', syncOn: 'เปิดอยู่', syncOff: 'ปิดอยู่',
     syncUrlLabel: 'Apps Script Web App URL', syncSecretLabel: 'Secret', syncEnableLabel: 'เปิดใช้งานซิงค์',
     saveBtn: 'บันทึก', pushNowBtn: 'ส่งข้อมูลทั้งหมดขึ้นชีตตอนนี้', pullNowBtn: 'ดึงข้อมูลจากชีตตอนนี้',
+    resetLocalBtn: '⚠ ล้างข้อมูลในเครื่องนี้',
+    resetLocalNote: 'ถ้าเครื่องนี้แสดงข้อมูลเพี้ยน/ผิดปกติ แม้ sync แล้วก็ไม่หาย ใช้ปุ่มนี้ล้างแคชในเครื่องนี้แล้วโหลดข้อมูลใหม่จากค่าเริ่มต้น + Google Sheets ไม่กระทบข้อมูลใน Google Sheets เลย',
+    resetLocalConfirm: 'จะลบข้อมูลที่แคชไว้ในเครื่องนี้ทั้งหมด (รายชื่อพนักงาน, บัญชี, เงินเดือน, ล็อกอิน Admin) แล้วโหลดหน้าใหม่ ไม่กระทบ Google Sheets ต้องการดำเนินการต่อไหม?',
     syncSaved: 'บันทึกการตั้งค่าซิงค์แล้ว', enterUrlSecret: 'กรุณาใส่ URL และ Secret ก่อน',
     sendingData: 'กำลังส่งข้อมูล...', pullingData: 'กำลังดึงข้อมูล...',
     pushSuccess: 'ส่งข้อมูลขึ้น Google Sheets สำเร็จ', pushFailed: 'ส่งข้อมูลไม่สำเร็จ',
@@ -535,7 +541,14 @@ async function syncPullCore(){
     if(data.error){ console.error('sync pull error', data.error); return false; }
 
     if(Array.isArray(data.employees) && data.employees.length){
-      data.employees.forEach(r=>{
+      // guard against corrupted rows (e.g. columns shifted in the Sheet): a real employee's
+      // Name should not be purely numeric or blank. Skip anything that looks broken rather
+      // than let it overwrite a good local record.
+      const looksValid = (r) => {
+        const name = String(r.Name||'').trim();
+        return name.length > 0 && !/^[\d.,\s]+$/.test(name);
+      };
+      data.employees.filter(looksValid).forEach(r=>{
         let emp = state.employees.find(e=>e.id===r.EmpID);
         if(!emp){
           emp = {id:r.EmpID, name:r.Name, branch:r.Branch||'', position:r.Position, baseSalary:Number(r.BaseSalary)||0, allowance:Number(r.Allowance)||0, status:r.Status||'', resignMonth:r.ResignMonth||'', pin:r.Pin||''};
@@ -1322,7 +1335,9 @@ function renderAdminApp(){
         <div style="display:flex;gap:8px;margin-top:10px">
           <button class="btn" id="pushNowBtn">${t('pushNowBtn')}</button>
           <button class="btn" id="pullNowBtn">${t('pullNowBtn')}</button>
+          <button class="btn danger" id="resetLocalBtn">${t('resetLocalBtn')}</button>
         </div>
+        <div style="font-size:11.5px;color:var(--muted);margin-top:8px">${t('resetLocalNote')}</div>
       </div>
     </div>
   </div>`;
@@ -1363,6 +1378,7 @@ function bindAdminAppEvents(){
   if(saveSyncBtn) saveSyncBtn.addEventListener('click', saveSyncConfig);
   document.getElementById('pushNowBtn').addEventListener('click', ()=>{ toast(t('sendingData')); pushAllToSheet(); });
   document.getElementById('pullNowBtn').addEventListener('click', ()=>{ toast(t('pullingData')); pullAllFromSheet(); });
+  document.getElementById('resetLocalBtn').addEventListener('click', resetLocalData);
 }
 
 async function approveAccount(username){
@@ -1393,6 +1409,25 @@ async function onAdminPinChange(ev){
   await storageSet('employees', true, state.employees);
   await syncPushEmployees();
   toast(t('pinSaved'));
+}
+
+async function resetLocalData(){
+  if(!confirm(t('resetLocalConfirm'))) return;
+  const keys = ['employees','accounts','payslips','adminAuth','dataVersion','syncConfig'];
+  for(const k of keys){
+    if(HAS_CLAUDE_STORAGE){
+      try{ await window.storage.delete(k, true); }catch(e){}
+    } else {
+      localStorage.removeItem('yakyim-shared:'+k);
+    }
+  }
+  // also clear the per-device session (not shared)
+  if(HAS_CLAUDE_STORAGE){
+    try{ await window.storage.delete('session', false); }catch(e){}
+  } else {
+    localStorage.removeItem('yakyim-p:session');
+  }
+  location.reload();
 }
 
 async function saveSyncConfig(){
